@@ -1,0 +1,22 @@
+.globe-container{
+    margin-top: 0;
+}
+
+.map-link{
+    font-weight: 600;
+    color: white;
+    transition: transform 0.2s ease;
+    transform-origin: left center;   
+}
+
+.link{
+    text-decoration: none;
+}
+
+.map-link:hover {
+  transform: scale(1.07);  
+}
+
+.text-container{
+    background: transparent;
+}

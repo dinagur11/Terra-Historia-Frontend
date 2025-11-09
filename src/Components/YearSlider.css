@@ -1,0 +1,35 @@
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;               /* spacing between input and slider */
+  background: transparent; /* invisible background */
+  border: none;
+  width: 390px;
+}
+
+/* Make the input smaller and tidy */
+.slider-container input {
+  width: 68px;
+  text-align: center;
+  background: transparent;
+  border: 1px solid #ccc;     /* optional: subtle border */
+  border-radius: 4px;
+  color: var(--accent-color);    
+  background: transparent;          
+}
+
+.slider-container .MuiSlider-root {
+  flex: 1;
+}
+
+.slider-container .MuiSlider-thumb {
+  background-color: #fff;
+}
+
+.input-slider .MuiSlider-track {
+  background-color: var(--accent-color); /* pick a color from your palette */
+}
+
+.input-slider .MuiSlider-rail {
+  opacity: 0.3;
+}

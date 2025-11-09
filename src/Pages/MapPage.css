@@ -1,0 +1,12 @@
+
+.year-overlay {
+  position: absolute;
+  bottom: 30px;
+  left: 25px;
+  z-index: 10;                  
+  width: 400px;                 
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.55);  
+  backdrop-filter: blur(4px);          /* optional: glassy look */
+}
