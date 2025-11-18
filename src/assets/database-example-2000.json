@@ -1,43 +1,63 @@
 [
   {
-    "name": "Human Genome Project Draft Completion",
-    "date": "June 26, 2000",
-    "location": "Washington, D.C., USA",
-    "coordinates": {
-      "lat": 38.9072,
-      "lng": -77.0369
-    },
-    "summary": "The Human Genome Project announced the completion of a working draft of the human genome. This milestone marked a major step in understanding human DNA and paved the way for enormous advances in medicine and biotechnology."
-  },
-  {
     "name": "Vladimir Putin Elected President of Russia",
     "date": "March 26, 2000",
     "location": "Moscow, Russia",
     "coordinates": {
       "lat": 55.7558,
-      "lng": 37.6176
+      "lng": 37.6173
     },
-    "summary": "Vladimir Putin won his first presidential election, officially becoming the President of Russia. His presidency marked the beginning of a new era in Russian domestic and foreign policy, significantly shaping global geopolitics."
+    "summary": "Vladimir Putin won his first presidential election, marking the beginning of a new political era in Russia. His leadership would reshape Russian domestic and foreign policy for decades."
   },
   {
-    "name": "Concorde Crash",
+    "name": "Concorde Air France Flight 4590 Crash",
     "date": "July 25, 2000",
     "location": "Gonesse, France",
     "coordinates": {
-      "lat": 48.9867,
-      "lng": 2.4475
+      "lat": 48.9870,
+      "lng": 2.4608
     },
-    "summary": "Air France Flight 4590, a Concorde supersonic jet, crashed shortly after takeoff from Paris Charles de Gaulle Airport. The disaster killed all passengers and crew and ultimately contributed to the retirement of the Concorde fleet."
+    "summary": "A Concorde jet crashed shortly after takeoff from Paris, killing all onboard and several on the ground. The accident led to safety concerns and contributed to Concorde's retirement."
   },
   {
-    "name": "HMS *Queen Elizabeth* Millennium Dome Opening",
-    "date": "January 1, 2000",
-    "location": "London, United Kingdom",
+    "name": "Sydney Summer Olympics",
+    "date": "September 15-October 1, 2000",
+    "location": "Sydney, Australia",
     "coordinates": {
-      "lat": 51.5007,
-      "lng": -0.0032
+      "lat": -33.8688,
+      "lng": 151.2093
     },
-    "summary": "The Millennium Dome, one of the largest domed structures in the world, officially opened to the public as part of the United Kingdom's millennium celebrations. Though controversial, it symbolized the start of the new millennium with exhibitions showcasing technology, culture, and innovation."
+    "summary": "Sydney hosted the 2000 Summer Olympics, widely regarded as one of the best-organized Games. The event highlighted Australia's culture and athletic excellence on the world stage."
+  },
+  {
+    "name": "Millennium Summit of the United Nations",
+    "date": "September 6-8, 2000",
+    "location": "New York City, USA",
+    "coordinates": {
+      "lat": 40.7489,
+      "lng": -73.9680
+    },
+    "summary": "World leaders gathered for the largest summit in UN history to address global poverty, conflict, and development. The conference produced the Millennium Development Goals."
+  },
+  {
+    "name": "Ehime Maru-USS Greeneville Collision",
+    "date": "February 9, 2000",
+    "location": "Off O'ahu, Hawaii, USA",
+    "coordinates": {
+      "lat": 21.3000,
+      "lng": -157.8167
+    },
+    "summary": "A U.S. submarine struck and sank a Japanese training vessel during an emergency surfacing drill. The event strained U.S.–Japan relations and led to changes in naval procedures."
+  },
+  {
+    "name": "2000 United States Presidential Election",
+    "date": "November 7, 2000",
+    "location": "United States",
+    "coordinates": {
+      "lat": 38.8977,
+      "lng": -77.0365
+    },
+    "summary": "The election between George W. Bush and Al Gore became one of the most disputed in U.S. history. A Supreme Court ruling ultimately resolved recount disputes in Florida."
   },
   {
     "name": "Second Intifada Begins",
@@ -47,6 +67,76 @@
       "lat": 31.7683,
       "lng": 35.2137
     },
-    "summary": "The Second Intifada began after Ariel Sharon's visit to the Temple Mount/Haram al-Sharif, triggering widespread unrest. The uprising led to years of intensified Israeli–Palestinian conflict, resulting in significant casualties and long-lasting political consequences."
+    "summary": "Following a visit by Ariel Sharon to the Temple Mount, widespread unrest erupted across Palestinian territories. The violence dramatically affected Israeli-Palestinian relations."
+  },
+  {
+    "name": "Dot-Com Bubble Peaks",
+    "date": "March 10, 2000",
+    "location": "New York City, USA",
+    "coordinates": {
+      "lat": 40.7060,
+      "lng": -74.0086
+    },
+    "summary": "Technology stock valuations reached their highest levels at the height of the dot-com boom. The bubble soon burst, leading to widespread financial losses."
+  },
+  {
+    "name": "'I Love You' Computer Virus Outbreak",
+    "date": "May 4, 2000",
+    "location": "Manila, Philippines",
+    "coordinates": {
+      "lat": 14.5995,
+      "lng": 120.9842
+    },
+    "summary": "The 'I Love You' worm spread rapidly through email systems worldwide, infecting millions of computers. It caused billions in damages and exposed major cybersecurity vulnerabilities."
+  },
+  {
+    "name": "Kim Dae-jung Awarded Nobel Peace Prize",
+    "date": "October 13, 2000",
+    "location": "Oslo, Norway",
+    "coordinates": {
+      "lat": 59.9139,
+      "lng": 10.7522
+    },
+    "summary": "South Korean President Kim Dae-jung was honored for promoting democracy and pursuing peace with North Korea. His Sunshine Policy aimed to reduce tensions on the Korean Peninsula."
+  },
+  {
+    "name": "Sierra Leone Civil War Ceasefire",
+    "date": "November 10, 2000",
+    "location": "Freetown, Sierra Leone",
+    "coordinates": {
+      "lat": 8.4657,
+      "lng": -13.2317
+    },
+    "summary": "A ceasefire agreement brought hope for an end to Sierra Leone's brutal civil war. The deal helped pave the way for peacekeeping and reconstruction efforts."
+  },
+  {
+    "name": "ISS Receives First Long-Term Crew",
+    "date": "November 2, 2000",
+    "location": "International Space Station (Low Earth Orbit)",
+    "coordinates": {
+      "lat": 0.0,
+      "lng": 0.0
+    },
+    "summary": "Expedition 1 docked with the International Space Station, beginning continuous human habitation in orbit. This marked a major milestone in global scientific cooperation."
+  },
+  {
+    "name": "Taba Summit Peace Negotiations",
+    "date": "January 21-27, 2000",
+    "location": "Taba, Egypt",
+    "coordinates": {
+      "lat": 29.4920,
+      "lng": 34.8969
+    },
+    "summary": "Israeli and Palestinian negotiators met in Taba for intensive peace discussions. Though no final agreement was reached, the talks made substantial progress on core issues."
+  },
+  {
+    "name": "Portuguese Transfer of Macau to China Finalized Politically",
+    "date": "January 1, 2000",
+    "location": "Macau, China",
+    "coordinates": {
+      "lat": 22.1987,
+      "lng": 113.5439
+    },
+    "summary": "After the 1999 handover, China completed the first formal year of administering Macau as a Special Administrative Region. The event symbolized China's expanding governance over former colonial territories."
   }
 ]
