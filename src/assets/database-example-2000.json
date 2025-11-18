@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Human Genome Project Draft Completion",
+    "date": "June 26, 2000",
+    "location": "Washington, D.C., USA",
+    "coordinates": {
+      "lat": 38.9072,
+      "lng": -77.0369
+    },
+    "summary": "The Human Genome Project announced the completion of a working draft of the human genome. This milestone marked a major step in understanding human DNA and paved the way for enormous advances in medicine and biotechnology."
+  },
+  {
+    "name": "Vladimir Putin Elected President of Russia",
+    "date": "March 26, 2000",
+    "location": "Moscow, Russia",
+    "coordinates": {
+      "lat": 55.7558,
+      "lng": 37.6176
+    },
+    "summary": "Vladimir Putin won his first presidential election, officially becoming the President of Russia. His presidency marked the beginning of a new era in Russian domestic and foreign policy, significantly shaping global geopolitics."
+  },
+  {
+    "name": "Concorde Crash",
+    "date": "July 25, 2000",
+    "location": "Gonesse, France",
+    "coordinates": {
+      "lat": 48.9867,
+      "lng": 2.4475
+    },
+    "summary": "Air France Flight 4590, a Concorde supersonic jet, crashed shortly after takeoff from Paris Charles de Gaulle Airport. The disaster killed all passengers and crew and ultimately contributed to the retirement of the Concorde fleet."
+  },
+  {
+    "name": "HMS *Queen Elizabeth* Millennium Dome Opening",
+    "date": "January 1, 2000",
+    "location": "London, United Kingdom",
+    "coordinates": {
+      "lat": 51.5007,
+      "lng": -0.0032
+    },
+    "summary": "The Millennium Dome, one of the largest domed structures in the world, officially opened to the public as part of the United Kingdom's millennium celebrations. Though controversial, it symbolized the start of the new millennium with exhibitions showcasing technology, culture, and innovation."
+  },
+  {
+    "name": "Second Intifada Begins",
+    "date": "September 28, 2000",
+    "location": "Jerusalem, Israel",
+    "coordinates": {
+      "lat": 31.7683,
+      "lng": 35.2137
+    },
+    "summary": "The Second Intifada began after Ariel Sharon's visit to the Temple Mount/Haram al-Sharif, triggering widespread unrest. The uprising led to years of intensified Israeli–Palestinian conflict, resulting in significant casualties and long-lasting political consequences."
+  }
+]

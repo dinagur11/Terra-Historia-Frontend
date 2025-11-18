@@ -10,3 +10,9 @@
   background: rgba(255,255,255,0.55);  
   backdrop-filter: blur(4px);          /* optional: glassy look */
 }
+
+.side-panel {
+  position: relative;           /* create stacking context */
+  height: 100vh;
+  width: 75%;
+}

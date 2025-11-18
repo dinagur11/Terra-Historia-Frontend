@@ -1,10 +1,9 @@
 .map-wrap {
-  position: relative;           /* create stacking context */
+  position: relative;           
   height: 100vh;
   width: 75%;
 }
 
-/* many map libs set the canvas absolute; ensure it's below the overlay */
 .map-wrap canvas {
   position: absolute;
   inset: 0;
@@ -12,4 +11,14 @@
 }
 
 
+.event-marker {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff4d4d;
+  border: 1px solid white;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  z-index: 1000; /* keep above map layers */
+  cursor: pointer;
+}
 

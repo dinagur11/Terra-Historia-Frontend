@@ -2,15 +2,65 @@ import React, { useEffect, useRef } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
 import "./OHMMap.css";
+import events2025 from "../assets/database-example-2025.json"
+import events2000 from "../assets/database-example-2000.json"
 
 window.mapboxgl = maplibregl; // required by the OHM dates plugin
 
-export default function OHMMap({ yearProp = new Date().getFullYear() }) {
+
+function getEvents(year, map,markersRef) {
+  const y = Number(year);
+  let events = null;
+
+  if (y === 2025) {
+    events = events2025;
+  } else if (y === 2000) {
+    events = events2000;
+  } else {
+    return;
+  }
+
+  if (!Array.isArray(events)) {
+    console.error("Events JSON is not an array:", events);
+    return;
+  }
+
+  events.forEach(evnt => {
+    if (!evnt.coordinates) return;
+    const { lat, lng } = evnt.coordinates;
+    if (typeof lat !== "number" || typeof lng !== "number") {
+      console.warn("Invalid coordinates for event:", evnt);
+      return;
+    }
+
+    const el = document.createElement("div");
+    el.className = "event-marker";
+    el.title = evnt.name;
+    const marker = new maplibregl.Marker({ element: el })
+      .setLngLat([lng, lat])
+      .addTo(map);
+    markersRef.current.push(marker);
+  });
+}
+
+
+function clearMarkers(markersRef) {
+  markersRef.current.forEach(marker => marker.remove());
+  markersRef.current = [];
+}
+
+
+export default function OHMMap({ yearProp = new Date().getFullYear()}) {
   const mapEl = useRef(null);
   const mapRef = useRef(null);
-  const yearRef = useRef(yearProp);          // <- live year ref
+  const yearRef = useRef(yearProp);
+  let MarkersRef = useRef([]);
 
-  // keep the ref current so listeners always see latest year
+  const applyDate = (map) => {
+    map.filterByDate(`${yearRef.current}-01-01`);
+    map.triggerRepaint();
+  };
+
   useEffect(() => {
     yearRef.current = yearProp;
   }, [yearProp]);
@@ -29,18 +79,13 @@ export default function OHMMap({ yearProp = new Date().getFullYear() }) {
           "https://unpkg.com/@openhistoricalmap/map-styles@latest/dist/historical/historical.json",
         center: [10, 20],
         zoom: 2,
+        minZoom: 1.2,
         attributionControl: {
           customAttribution:
             '<a href="https://www.openhistoricalmap.org/">OpenHistoricalMap</a>',
         },
       });
       mapRef.current = map;
-
-      const applyDate = () => {
-        // always use the *current* year
-        map.filterByDate(`${yearRef.current}-01-01`);
-        map.triggerRepaint?.();
-      };
 
       const forceEnglishLabels = () => {
         const style = map.getStyle?.();
@@ -58,16 +103,18 @@ export default function OHMMap({ yearProp = new Date().getFullYear() }) {
         }
       };
 
-      // When style data is ready (initial load or any style refresh),
-      // re-apply both the labels and the current date.
+      //called whenever new data is needed (zooming, moving)
       map.on("styledata", () => {
-        applyDate();
+        applyDate(map);
         forceEnglishLabels();
+        //getEvents(year, map);
       });
 
+      //called once
       map.on("load", () => {
         forceEnglishLabels();
-        applyDate(); // also apply once here for safety
+        applyDate(map); 
+        getEvents(yearRef.current, map, MarkersRef);
       });
     })();
 
@@ -78,22 +125,13 @@ export default function OHMMap({ yearProp = new Date().getFullYear() }) {
     };
   }, []);
 
-  // on prop change, apply immediately (if style is ready) or once after it is
+  // on prop change
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
-
-    const applyDate = () => map.filterByDate(`${yearProp}-01-01`);
-
-    if (map.isStyleLoaded?.() === false) {
-      const once = () => {
-        applyDate();
-        map.off("styledata", once);
-      };
-      map.on("styledata", once);
-      return;
-    }
-    applyDate();
+    applyDate(map);
+    clearMarkers(MarkersRef);
+    getEvents(yearRef.current, map, MarkersRef);
   }, [yearProp]);
 
   return <div ref={mapEl} className="map-wrap" />;

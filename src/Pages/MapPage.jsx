@@ -1,10 +1,13 @@
 import OHMMap from "../Components/OHMMap"
 import "./MapPage.css"
 import YearSlider from '../Components/YearSlider';
+import SidePanel from "../Components/SidaPanel";
 import { useState, useEffect } from "react";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const MIN_YEAR = -1000;
+
+
 
 export default function MapPage(){
   const defaultYear = new Date().getFullYear();
@@ -60,5 +63,6 @@ export default function MapPage(){
         />
       </div>
     </div>
+    <div className="side-panel"><SidePanel yearProp={year}/></div>
   </div>);
 }

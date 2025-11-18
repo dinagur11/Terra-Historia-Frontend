@@ -1,0 +1,52 @@
+[
+  {
+    "name": "2025 The Hague NATO Summit",
+    "date": "June 24–25, 2025",
+    "location": "The Hague, Netherlands",
+    "coordinates": {
+      "lat": 52.0705,
+      "lng": 4.3007
+    },
+    "summary": "Leaders of the NATO alliance met in The Hague to reaffirm commitments and set new defence-spending targets, marking a key moment in transatlantic security policy. The summit underscored the ongoing strategic pivot in Europe amid shifting global power dynamics. :contentReference[oaicite:1]{index=1}"
+  },
+  {
+    "name": "2025 Kamchatka Peninsula Megathrust Earthquake",
+    "date": "July 29–30, 2025",
+    "location": "Off the east coast of the Kamchatka Peninsula, Russia",
+    "coordinates": {
+      "lat": 53.0,
+      "lng": 158.0
+    },
+    "summary": "A magnitude ~8.8 megathrust earthquake struck off Russia’s far-eastern Kamchatka region, one of the strongest quakes recorded in recent decades. Though damage was moderate relative to magnitude, it triggered tsunami alarms across the Pacific and highlighted seismic risk in the ‘Ring of Fire’. :contentReference[oaicite:2]{index=2}"
+  },
+  {
+    "name": "2025 30th UN Climate Change Conference (COP 30)",
+    "date": "November 10–21, 2025",
+    "location": "Belém, Pará, Brazil",
+    "coordinates": {
+      "lat": -1.4216,
+      "lng": -48.4561
+    },
+    "summary": "The COP 30 climate summit brought together governments, scientists and activists to negotiate next-phase global climate policy, focusing on mitigation, adaptation and loss & damage frameworks. Held in Belém, it emphasised the Amazon and tropical ecosystems in climate diplomacy. :contentReference[oaicite:4]{index=4}"
+  },
+  {
+    "name": "2025 South Africa Eastern Cape Floods",
+    "date": "June 10–18, 2025",
+    "location": "Eastern Cape Province, South Africa",
+    "coordinates": {
+      "lat": -31.5833,
+      "lng": 28.7833
+    },
+    "summary": "Severe torrential rains and floods in South Africa’s Eastern Cape region killed over 100 people and displaced thousands, marking one of the country’s worst climate-driven disasters in recent years. The event underscored the growing human cost of extreme weather in a changing climate. :contentReference[oaicite:5]{index=5}"
+  },
+  {
+    "name": "2025 Italy General Strikes & Protests for Gaza",
+    "date": "September 22–October 3, 2025",
+    "location": "Multiple cities, Italy (e.g., Milan, Rome)",
+    "coordinates": {
+      "lat": 41.9028,
+      "lng": 12.4964
+    },
+    "summary": "Massive nationwide general strikes and protests erupted across Italy as hundreds of thousands mobilised against the country’s arms shipments to Israel and its stance in the Gaza war. The events signified a major moment of civil mobilisation and labour activism in Europe. :contentReference[oaicite:6]{index=6}"
+  }
+]

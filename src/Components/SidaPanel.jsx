@@ -1,7 +1,9 @@
 // Example: Query OpenAI API for historical events with coordinates
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
+
+/*
 async function getHistoricalEvents(year) {
   const apiKey = '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'; // Replace with your actual API key
   
@@ -68,34 +70,14 @@ async function getHistoricalEvents(year) {
         console.error('Error querying OpenAI API:', error);
         throw error;
     }
-}
+}*/
 
 export default function SidePanel(yearProp){
-    const [events, setEvents] = useState([]);
-    console.log(`Fetching events for ${year}...`);
-    useEffect(()=>{
-        async function displayEvents(){
-            const events = await getHistoricalEvents(yearProp);
-            setEvents(events);
-        }
-        displayEvents();
-    })
-    events.forEach((event) => {
-        console.log(` ${event.name}`);
-        console.log(`   Date: ${event.date}`);
-        console.log(`   Location: ${event.location}`);
-        console.log(`   Coordinates: ${event.coordinates.lat}, ${event.coordinates.lng}`);
-        console.log(`   Summary: ${event.summary}`);
-    });
 
 }
-    // Example usage
-    async function main() {
+    /*async function main() {
     try {
-        const year = 1969;
         console.log(`Fetching events for ${year}...`);
-        
-        
         
         console.log(`\nFound ${events.length} events:\n`);
         events.forEach((event, index) => {
@@ -110,4 +92,4 @@ export default function SidePanel(yearProp){
     } catch (error) {
         console.error('Failed to fetch events:', error.message);
     }
-}
+}*/
