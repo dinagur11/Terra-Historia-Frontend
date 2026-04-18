@@ -107,3 +107,33 @@
 .maplibregl-popup-tip {
   display: none !important;
 }
+
+.events-panel {
+  position: relative;
+  height: 100%;
+}
+
+.home-button {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.home-button:hover {
+  background: rgba(0, 0, 0, 0.85);
+  transform: scale(1.05);
+}

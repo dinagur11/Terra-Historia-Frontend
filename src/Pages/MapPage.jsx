@@ -1,7 +1,7 @@
-import OHMMap from "../Components/OHMMap"
+import OHMMap from "../Components/Map/OHMMap"
 import "./MapPage.css"
-import YearSlider from '../Components/YearSlider';
-import SidePanel from "../Components/SidaPanel";
+import YearSlider from '../Components/Map/YearSlider';
+import SidePanel from "../Components/Map/SidaPanel";
 import { useState, useEffect } from "react";
 
 const CURRENT_YEAR = new Date().getFullYear();

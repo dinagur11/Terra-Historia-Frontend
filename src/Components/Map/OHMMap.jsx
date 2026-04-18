@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
 import "./OHMMap.css";
-import events2025 from "../assets/database-example-2025.json"
-import events2000 from "../assets/database-example-2000.json"
+import events2025 from "../../assets/database-example-2025.json"
+import events2000 from "../../assets/database-example-2000.json"
 import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";   
+import { Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 window.mapboxgl = maplibregl; // required by the OHM dates plugin
 
@@ -206,6 +208,9 @@ export default function OHMMap({ yearProp = new Date().getFullYear()}) {
             ))}
           </ul>
         )}
+        <Link to="/" className="home-button" title="Home">
+          <Home size={22} />
+        </Link>
       </aside>
     </div>);
 }

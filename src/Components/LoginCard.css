@@ -1,0 +1,231 @@
+/* LoginCard.css */
+
+:root{
+  --panel-bg: rgba(7, 14, 28, 0.92);
+  --panel-bg-2: rgba(10, 20, 40, 0.92);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.65);
+  --line: rgba(255,255,255,0.12);
+
+  --accent: #397b75ff;
+  --accent-2: #5d9a9aff;
+  --danger: rgba(255, 120, 120, 0.9);
+
+  --radius: 18px;
+  --shadow: 0 18px 50px rgba(0,0,0,0.45);
+}
+
+/* ===== Card container ===== */
+.login-card{
+  width: min(420px, 92vw);
+  background: linear-gradient(180deg, var(--panel-bg), var(--panel-bg-2));
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+
+  padding: 26px 28px 22px 28px;
+  color: var(--text);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-sizing: border-box;
+}
+
+/* Title */
+.sign-in-txt{
+  margin: 0 0 16px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+/* ===== Inputs ===== */
+.input-group{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Email input - full width, naturally centered in parent */
+.input-mail{
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.input-mail::placeholder{
+  color: rgba(255,255,255,0.55);
+}
+
+.input-mail:focus{
+  border-color: rgba(93,154,154,0.65);
+  box-shadow: 0 0 0 4px rgba(93,154,154,0.18);
+}
+
+/* Remember + forgot */
+.pass-remember{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 2px;
+  width: 100%;
+}
+
+.pass-remember label{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  user-select: none;
+}
+
+.pass-remember input[type="checkbox"]{
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.pass-reset{
+  text-decoration: none;
+  color: var(--accent-2);
+  font-size: 13px;
+}
+
+.pass-reset p{
+  margin: 0;
+}
+
+.pass-reset:hover{
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ===== Primary button ===== */
+.next-btn{
+  margin-top: 16px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 12px;
+
+  background: linear-gradient(90deg, rgba(57,123,117,0.95), rgba(93,154,154,0.95));
+  color: rgba(255,255,255,0.95);
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+
+  box-shadow: 0 10px 25px rgba(57,123,117,0.25);
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.next-btn:hover{
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(57,123,117,0.32);
+}
+
+.next-btn:active{
+  transform: translateY(0px);
+  box-shadow: 0 10px 22px rgba(57,123,117,0.22);
+}
+
+/* ===== Divider ===== */
+.divider{
+  position: relative;
+  margin: 18px 0 14px;
+  height: 1px;
+  background: var(--line);
+}
+
+.or-text{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0 10px;
+  background: rgba(7, 14, 28, 0.92);
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ===== Social buttons ===== */
+.social-login{
+  margin-top: 6px;
+}
+
+.social-buttons{
+  display: flex;
+  gap: 10px;
+}
+
+.social-login-btn{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  cursor: pointer;
+
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.social-login-btn img{
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  padding: 2px;
+}
+
+.social-login-btn:hover{
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(93,154,154,0.40);
+  transform: translateY(-1px);
+}
+
+.social-login-btn:active{
+  transform: translateY(0px);
+}
+
+/* ===== Register link ===== */
+.register{
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.register p{
+  margin: 0;
+}
+
+.register:hover{
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 420px){
+  .sign-in-txt{ font-size: 24px; }
+  .social-buttons{ flex-direction: column; }
+}
