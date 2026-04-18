@@ -1,0 +1,320 @@
+[
+  {
+    "id": "united-states",
+    "name": "United States",
+    "aliases": ["United States", "United States of America", "USA", "US", "America"],
+    "leaders": [
+      {
+        "name": "George Washington",
+        "born": "1732-02-22",
+        "died": "1799-12-14",
+        "causeOfDeath": "Severe throat infection",
+        "summary": "Washington led the Continental Army to victory in the American Revolutionary War and became the first president of the United States. He set key constitutional precedents for the presidency and helped stabilize the new republic in its fragile early years.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/George_Washington",
+          "wikidata": "https://www.wikidata.org/wiki/Q23"
+        }
+      },
+      {
+        "name": "Thomas Jefferson",
+        "born": "1743-04-13",
+        "died": "1826-07-04",
+        "causeOfDeath": "Uremia and digestive illness",
+        "summary": "Jefferson authored the Declaration of Independence and oversaw the Louisiana Purchase, which doubled the size of the United States. He was central to shaping the country’s republican political ideals and early institutions.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Thomas_Jefferson",
+          "wikidata": "https://www.wikidata.org/wiki/Q11813"
+        }
+      },
+      {
+        "name": "Abraham Lincoln",
+        "born": "1809-02-12",
+        "died": "1865-04-15",
+        "causeOfDeath": "Assassination by gunshot",
+        "summary": "Lincoln preserved the Union during the American Civil War and played a decisive role in ending slavery in the United States. His leadership transformed the federal government and redefined the nation’s moral and political direction.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Abraham_Lincoln",
+          "wikidata": "https://www.wikidata.org/wiki/Q91"
+        }
+      },
+      {
+        "name": "Theodore Roosevelt",
+        "born": "1858-10-27",
+        "died": "1919-01-06",
+        "causeOfDeath": "Pulmonary embolism",
+        "summary": "Roosevelt expanded presidential power, pushed major Progressive reforms, and strengthened antitrust enforcement. He also reshaped U.S. foreign policy and left a major conservation legacy through national parks and protected lands.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Theodore_Roosevelt",
+          "wikidata": "https://www.wikidata.org/wiki/Q3521"
+        }
+      },
+      {
+        "name": "Franklin D. Roosevelt",
+        "born": "1882-01-30",
+        "died": "1945-04-12",
+        "causeOfDeath": "Cerebral hemorrhage",
+        "summary": "Roosevelt led the United States through the Great Depression and most of World War II. His New Deal permanently expanded the federal government’s role in economic and social life, while his wartime leadership helped shape the modern world order.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Franklin_D._Roosevelt",
+          "wikidata": "https://www.wikidata.org/wiki/Q9696"
+        }
+      }
+    ]
+  },
+  {
+    "id": "roman-republic",
+    "name": "Roman Republic",
+    "aliases": ["Roman Republic", "Rome", "Roman state", "Res publica Romana"],
+    "yearFounded": -509,
+    "yearEnded": -27,
+    "leaders": [
+      {
+        "name": "Scipio Africanus",
+        "born": "236 BCE",
+        "died": "183 BCE",
+        "causeOfDeath": "Unknown",
+        "summary": "Scipio was the Roman general who defeated Hannibal at the Battle of Zama and secured Roman victory in the Second Punic War. His success established Rome as the dominant power in the western Mediterranean.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Scipio_Africanus",
+          "wikidata": "https://www.wikidata.org/wiki/Q188247"
+        }
+      },
+      {
+        "name": "Gaius Marius",
+        "born": "157 BCE",
+        "died": "86 BCE",
+        "causeOfDeath": "Illness",
+        "summary": "Marius transformed the Roman army by opening recruitment to the landless poor and reorganizing military structure. His reforms increased Rome’s military capacity but also helped tie armies more closely to individual commanders.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Gaius_Marius",
+          "wikidata": "https://www.wikidata.org/wiki/Q312660"
+        }
+      },
+      {
+        "name": "Lucius Cornelius Sulla",
+        "born": "138 BCE",
+        "died": "78 BCE",
+        "causeOfDeath": "Illness",
+        "summary": "Sulla marched on Rome, became dictator, and attempted to restore senatorial dominance after years of political turmoil. His example of seizing power by force had a lasting and destabilizing impact on republican politics.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Sulla",
+          "wikidata": "https://www.wikidata.org/wiki/Q104735"
+        }
+      },
+      {
+        "name": "Pompey",
+        "born": "106 BCE",
+        "died": "48 BCE",
+        "causeOfDeath": "Assassination",
+        "summary": "Pompey won major campaigns in the East, suppressed piracy, and became one of the most powerful men in the late Republic. His rivalry with Julius Caesar was central to the collapse of the republican system.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Pompey",
+          "wikidata": "https://www.wikidata.org/wiki/Q182818"
+        }
+      },
+      {
+        "name": "Julius Caesar",
+        "born": "100 BCE",
+        "died": "44 BCE",
+        "causeOfDeath": "Assassination by stabbing",
+        "summary": "Caesar conquered Gaul, defeated his rivals in civil war, and concentrated unprecedented power in his own hands. His rise and assassination marked the terminal crisis of the Roman Republic and paved the way for empire.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Julius_Caesar",
+          "wikidata": "https://www.wikidata.org/wiki/Q1048"
+        }
+      }
+    ]
+  },
+  {
+    "id": "achaemenid-empire",
+    "name": "Achaemenid Empire",
+    "aliases": ["Achaemenid Empire", "Persian Empire", "Persia", "First Persian Empire"],
+    "yearFounded": -550,
+    "yearEnded": -330,
+    "leaders": [
+      {
+        "name": "Cyrus the Great",
+        "born": "c. 600 BCE",
+        "died": "530 BCE",
+        "causeOfDeath": "Killed in battle",
+        "summary": "Cyrus founded the Achaemenid Empire and created one of the largest states the ancient world had yet seen. He is remembered for combining military conquest with pragmatic administration and policies of local tolerance.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Cyrus_the_Great",
+          "wikidata": "https://www.wikidata.org/wiki/Q842606"
+        }
+      },
+      {
+        "name": "Cambyses II",
+        "born": "c. 558 BCE",
+        "died": "522 BCE",
+        "causeOfDeath": "Wound or possible suicide",
+        "summary": "Cambyses expanded Persian rule into Egypt and completed one of the empire’s most important early conquests. His reign extended Achaemenid power deep into the eastern Mediterranean and North Africa.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Cambyses_II",
+          "wikidata": "https://www.wikidata.org/wiki/Q174768"
+        }
+      },
+      {
+        "name": "Darius the Great",
+        "born": "c. 550 BCE",
+        "died": "486 BCE",
+        "causeOfDeath": "Illness",
+        "summary": "Darius reorganized the empire into satrapies, strengthened taxation and administration, and oversaw major building projects. He also expanded Persian power and developed the Royal Road and other systems that made imperial rule more efficient.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Darius_the_Great",
+          "wikidata": "https://www.wikidata.org/wiki/Q201621"
+        }
+      },
+      {
+        "name": "Xerxes I",
+        "born": "c. 518 BCE",
+        "died": "465 BCE",
+        "causeOfDeath": "Assassination",
+        "summary": "Xerxes led the famous Persian invasion of Greece and maintained the empire at the height of its territorial scale. His reign is also associated with major royal building projects, especially at Persepolis.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Xerxes_I",
+          "wikidata": "https://www.wikidata.org/wiki/Q203552"
+        }
+      },
+      {
+        "name": "Artaxerxes I",
+        "born": "c. 510 BCE",
+        "died": "424 BCE",
+        "causeOfDeath": "Unknown",
+        "summary": "Artaxerxes I preserved imperial stability after a period of succession conflict and foreign war. His reign helped maintain Achaemenid influence across a vast and diverse imperial system.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Artaxerxes_I",
+          "wikidata": "https://www.wikidata.org/wiki/Q203871"
+        }
+      }
+    ]
+  },
+  {
+    "id": "han-dynasty",
+    "name": "Han dynasty",
+    "aliases": ["Han dynasty", "Han Empire", "Han"],
+    "yearFounded": -202,
+    "yearEnded": 220,
+    "leaders": [
+      {
+        "name": "Emperor Gaozu of Han",
+        "born": "256 BCE",
+        "died": "195 BCE",
+        "causeOfDeath": "Illness",
+        "summary": "Liu Bang, later Emperor Gaozu, founded the Han dynasty after the collapse of Qin rule. He established the political framework of a dynasty that became one of the foundational eras of Chinese imperial history.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Emperor_Gaozu_of_Han",
+          "wikidata": "https://www.wikidata.org/wiki/Q313624"
+        }
+      },
+      {
+        "name": "Emperor Wen of Han",
+        "born": "203 BCE",
+        "died": "157 BCE",
+        "causeOfDeath": "Illness",
+        "summary": "Emperor Wen presided over a period of recovery, light taxation, and stable governance that strengthened the early Han state. His rule is often seen as a model of prudent and humane government in Chinese tradition.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Emperor_Wen_of_Han",
+          "wikidata": "https://www.wikidata.org/wiki/Q313472"
+        }
+      },
+      {
+        "name": "Emperor Wu of Han",
+        "born": "156 BCE",
+        "died": "87 BCE",
+        "causeOfDeath": "Illness",
+        "summary": "Emperor Wu greatly expanded Han territory, pushed deep into Central Asia, and made Confucianism central to state ideology. His reign marked the military and political high point of the Western Han.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Emperor_Wu_of_Han",
+          "wikidata": "https://www.wikidata.org/wiki/Q312545"
+        }
+      },
+      {
+        "name": "Emperor Guangwu of Han",
+        "born": "5 BCE",
+        "died": "57 CE",
+        "causeOfDeath": "Illness",
+        "summary": "Guangwu restored the Han dynasty after the interregnum of Wang Mang and founded the Eastern Han period. He rebuilt imperial authority and reestablished long-term political continuity after civil war.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Emperor_Guangwu_of_Han",
+          "wikidata": "https://www.wikidata.org/wiki/Q314087"
+        }
+      },
+      {
+        "name": "Empress Dowager Deng Sui",
+        "born": "81 CE",
+        "died": "121 CE",
+        "causeOfDeath": "Illness",
+        "summary": "Deng Sui served as regent and was one of the most capable political figures of the Eastern Han court. She influenced administration, managed succession, and helped preserve stability during a vulnerable period for the dynasty.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Deng_Sui",
+          "wikidata": "https://www.wikidata.org/wiki/Q1342603"
+        }
+      }
+    ]
+  },
+  {
+    "id": "macedonia",
+    "name": "Macedonia",
+    "aliases": ["Macedonia", "Macedon", "Ancient Macedonia", "Kingdom of Macedon", "Macedonian Empire"],
+    "yearFounded": -700,
+    "yearEnded": -168,
+    "leaders": [
+      {
+        "name": "Alexander I of Macedon",
+        "born": "c. 498 BCE",
+        "died": "454 BCE",
+        "causeOfDeath": "Unknown",
+        "summary": "Alexander I expanded Macedonian influence and strengthened the kingdom’s diplomatic position in the Greek world. His reign helped connect Macedon more closely to the wider political and cultural life of the eastern Mediterranean.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Alexander_I_of_Macedon",
+          "wikidata": "https://www.wikidata.org/wiki/Q316549"
+        }
+      },
+      {
+        "name": "Philip II of Macedon",
+        "born": "382 BCE",
+        "died": "336 BCE",
+        "causeOfDeath": "Assassination",
+        "summary": "Philip II transformed Macedon into the dominant military power in Greece through army reforms, diplomacy, and conquest. He laid the institutional and military foundations for his son Alexander’s later empire.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Philip_II_of_Macedon",
+          "wikidata": "https://www.wikidata.org/wiki/Q8409"
+        }
+      },
+      {
+        "name": "Alexander the Great",
+        "born": "356 BCE",
+        "died": "323 BCE",
+        "causeOfDeath": "Illness, possibly fever",
+        "summary": "Alexander conquered the Persian Empire and created one of the largest empires of the ancient world in little more than a decade. His campaigns spread Hellenistic culture across a vast territory from Greece to India.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Alexander_the_Great",
+          "wikidata": "https://www.wikidata.org/wiki/Q8409"
+        }
+      },
+      {
+        "name": "Cassander",
+        "born": "c. 355 BCE",
+        "died": "297 BCE",
+        "causeOfDeath": "Tuberculosis",
+        "summary": "Cassander emerged from the Wars of the Diadochi to secure control over Macedon after Alexander’s death. He helped shape the post-Alexander political order and reestablished Macedon as a major Hellenistic kingdom.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Cassander",
+          "wikidata": "https://www.wikidata.org/wiki/Q316660"
+        }
+      },
+      {
+        "name": "Philip V of Macedon",
+        "born": "238 BCE",
+        "died": "179 BCE",
+        "causeOfDeath": "Illness",
+        "summary": "Philip V was one of the last strong kings of Macedon and fought Rome in a series of decisive conflicts. His reign marked the final phase of Macedonian resistance before Roman supremacy in the region.",
+        "sources": {
+          "wikipedia": "https://en.wikipedia.org/wiki/Philip_V_of_Macedon",
+          "wikidata": "https://www.wikidata.org/wiki/Q356091"
+        }
+      }
+    ]
+  }
+]

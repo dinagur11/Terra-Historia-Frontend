@@ -1,32 +1,43 @@
-.map-with-sidebar {
-  display: flex;
+/* Wrapper + map */
+.ohm-wrapper {
+  position: relative;
   width: 100%;
   height: 100%;
 }
 
-/* Left: map */
-.map-container {
-  flex: 2;
-  height: 100vh;
+.ohm-map {
+  width: 100%;
+  height: 100%;
 }
 
-/* Right: events list */
-.events-sidebar {
-  flex: 1;
-  max-width: 320px;
-  background: rgba(15, 23, 42, 0.9); /* dark bluish overlay */
-  color: #f9fafb;
-  padding: 12px 16px;
+/* Events overlay */
+.events-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 360px;
+  max-height: 45vh;
   overflow-y: auto;
+  background:
+    linear-gradient(180deg, rgba(72, 10, 10, 0.96), rgba(24, 3, 3, 0.98));
+  color: #fff1eb;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(4px);
+  z-index: 20;
 }
 
-.events-sidebar h3 {
+.events-overlay h3 {
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  color: #fff1eb;
 }
 
+/* Events list */
 .events-list {
   list-style: none;
   margin: 0;
@@ -35,27 +46,20 @@
 
 .event-item {
   padding: 8px 6px;
-  border-radius: 6px;
   cursor: pointer;
   transition: background 0.15s ease, transform 0.1s ease;
 }
 
-.event-item {
-  padding: 8px 6px;
-  cursor: pointer;
-  border-radius: 0;
-}
-
-/* Add separator under each item */
 .event-item:not(:last-child) {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   margin-bottom: 6px;
   padding-bottom: 10px;
 }
 
 .event-item:hover {
-  background: rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.12);
   transform: translateX(2px);
+  border-radius: 10px;
 }
 
 .event-name {
@@ -67,14 +71,15 @@
 .event-date {
   margin: 2px 0 0;
   font-size: 0.8rem;
-  opacity: 0.8;
+  color: #ffd4c9;
 }
 
 .no-events {
   font-size: 0.9rem;
-  opacity: 0.8;
+  color: #ffd4c9;
 }
 
+/* 🔴 KEEP THESE */
 .event-marker {
   width: 10px;
   height: 10px;
@@ -82,15 +87,107 @@
   background: #ff4d4d;
   border: 1px solid white;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-  z-index: 1000; /* keep above map layers */
+  z-index: 1000;
   cursor: pointer;
+}
+
+.relationship-marker {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08), 0 6px 14px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.relationship-marker--ally {
+  background: #3b82f6;
+}
+
+.relationship-marker--enemy {
+  background: #ef4444;
+}
+
+.relationship-marker--trade {
+  background: #f4c542;
+}
+
+.relationship-marker--colony {
+  background: #22c55e;
+}
+
+.relationship-popup {
+  min-width: 120px;
+  color: #1f1308;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.relationships-overlay {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 220px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(72, 10, 10, 0.96), rgba(24, 3, 3, 0.98));
+  color: #fff1eb;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+  z-index: 20;
+}
+
+.relationships-overlay h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.relationships-overlay__country {
+  margin: 0 0 12px;
+  color: #ffd4c9;
+  font-size: 0.92rem;
+}
+
+.relationships-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.relationships-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.relationships-legend__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.relationships-legend__swatch--ally {
+  background: #3b82f6;
+}
+
+.relationships-legend__swatch--enemy {
+  background: #ef4444;
+}
+
+.relationships-legend__swatch--trade {
+  background: #f4c542;
+}
+
+.relationships-legend__swatch--colony {
+  background: #22c55e;
 }
 
 .maplibregl-popup {
   z-index: 9999;
 }
 
-/* Hide MapLibre's default popup background box */
 .maplibregl-popup-content {
   background: none !important;
   box-shadow: none !important;
@@ -98,12 +195,10 @@
   border: none !important;
 }
 
-/* Hide the default close button */
 .maplibregl-popup-close-button {
   display: none !important;
 }
 
-/* Hide the little bottom tip arrow */
 .maplibregl-popup-tip {
   display: none !important;
 }

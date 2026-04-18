@@ -1,0 +1,197 @@
+[
+  {
+    "id": "roman-republic",
+    "name": "Roman Republic",
+    "aliases": ["Roman Republic", "Rome", "Roman state", "Res publica Romana"],
+    "wikidataLookupName": "Roman Republic",
+    "yearFounded": -509,
+    "yearEnded": -27,
+    "peakPopulation": "Unknown",
+    "peakTerritoryYear": -50,
+    "language": "Latin",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Roman_Republic",
+      "wikidata": "https://www.wikidata.org/wiki/Q17167"
+    }
+  },
+  {
+    "id": "achaemenid-empire",
+    "name": "Achaemenid Empire",
+    "aliases": ["Achaemenid Empire", "Persian Empire", "Persia", "First Persian Empire"],
+    "wikidataLookupName": "Achaemenid Empire",
+    "yearFounded": -550,
+    "yearEnded": -330,
+    "peakPopulation": "17-35 million",
+    "peakTerritoryYear": -500,
+    "language": "Old Persian, Imperial Aramaic",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Achaemenid_Empire",
+      "wikidata": "https://www.wikidata.org/wiki/Q389688"
+    }
+  },
+  {
+    "id": "seleucid-empire",
+    "name": "Seleucid Empire",
+    "aliases": ["Seleucid Empire", "Seleucids"],
+    "wikidataLookupName": "Seleucid Empire",
+    "yearFounded": -312,
+    "yearEnded": -63,
+    "peakPopulation": "30,000,000+",
+    "peakTerritoryYear": -301,
+    "language": "Greek, Old Persian, Middle Aramaic",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Seleucid_Empire",
+      "wikidata": "https://www.wikidata.org/wiki/Q93180"
+    }
+  },
+  {
+    "id": "ptolemaic-kingdom",
+    "name": "Ptolemaic Kingdom",
+    "aliases": ["Ptolemaic Kingdom", "Ptolemaic Egypt", "Ptolemaic Empire"],
+    "wikidataLookupName": "Ptolemaic Kingdom",
+    "yearFounded": -305,
+    "yearEnded": -30,
+    "peakPopulation": "4.9-7.5 million",
+    "peakTerritoryYear": -235,
+    "language": "Greek, Egyptian",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Ptolemaic_Kingdom",
+      "wikidata": "https://www.wikidata.org/wiki/Q2320005"
+    }
+  },
+  {
+    "id": "maurya-empire",
+    "name": "Maurya Empire",
+    "aliases": ["Maurya Empire", "Mauryan Empire"],
+    "wikidataLookupName": "Maurya empire",
+    "yearFounded": -320,
+    "yearEnded": -185,
+    "peakPopulation": "15-30 million",
+    "peakTerritoryYear": -250,
+    "language": "Magadhi Prakrit, Sanskrit",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Maurya_Empire",
+      "wikidata": "https://www.wikidata.org/wiki/Q62943"
+    }
+  },
+  {
+    "id": "han-dynasty",
+    "name": "Han dynasty",
+    "aliases": ["Han dynasty", "Han Empire", "Han"],
+    "wikidataLookupName": "Han dynasty",
+    "yearFounded": -202,
+    "yearEnded": 220,
+    "peakPopulation": "57,671,400",
+    "peakTerritoryYear": 100,
+    "language": "Old Chinese",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Han_dynasty",
+      "wikidata": "https://www.wikidata.org/wiki/Q7209"
+    }
+  },
+  {
+    "id": "qin-dynasty",
+    "name": "Qin dynasty",
+    "aliases": ["Qin dynasty", "Qin", "Qin Empire"],
+    "wikidataLookupName": "Qin dynasty",
+    "yearFounded": -221,
+    "yearEnded": -206,
+    "peakPopulation": "Unknown",
+    "peakTerritoryYear": -220,
+    "language": "Old Chinese",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Qin_dynasty",
+      "wikidata": "https://www.wikidata.org/wiki/Q7183"
+    }
+  },
+  {
+    "id": "gupta-empire",
+    "name": "Gupta Empire",
+    "aliases": ["Gupta Empire", "Gupta dynasty"],
+    "wikidataLookupName": "Gupta Empire",
+    "yearFounded": 240,
+    "yearEnded": 579,
+    "peakPopulation": "75,000,000",
+    "peakTerritoryYear": 400,
+    "language": "Sanskrit, Prakrit",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Gupta_Empire",
+      "wikidata": "https://www.wikidata.org/wiki/Q11774"
+    }
+  },
+  {
+    "id": "parthian-empire",
+    "name": "Parthian Empire",
+    "aliases": ["Parthian Empire", "Arsacid Empire", "Parthia"],
+    "wikidataLookupName": "Parthian Empire",
+    "yearFounded": -247,
+    "yearEnded": 224,
+    "peakPopulation": "Unknown",
+    "peakTerritoryYear": 1,
+    "language": "Parthian, Greek, Aramaic",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Parthian_Empire",
+      "wikidata": "https://www.wikidata.org/wiki/Q1986139"
+    }
+  },
+  {
+    "id": "neo-assyrian-empire",
+    "name": "Neo-Assyrian Empire",
+    "aliases": ["Neo-Assyrian Empire", "Assyria", "Assyrian Empire"],
+    "wikidataLookupName": "Neo-Assyrian Empire",
+    "yearFounded": -911,
+    "yearEnded": -609,
+    "peakPopulation": "Unknown",
+    "peakTerritoryYear": -670,
+    "language": "Akkadian, Imperial Aramaic",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Neo-Assyrian_Empire",
+      "wikidata": "https://www.wikidata.org/wiki/Q10914393"
+    }
+  },
+  {
+    "id": "neo-babylonian-empire",
+    "name": "Neo-Babylonian Empire",
+    "aliases": ["Neo-Babylonian Empire", "Babylonia", "New Babylonian Empire", "Chaldean Empire"],
+    "wikidataLookupName": "Neo-Babylonian Empire",
+    "yearFounded": -626,
+    "yearEnded": -539,
+    "peakPopulation": "Unknown",
+    "peakTerritoryYear": -562,
+    "language": "Akkadian, Imperial Aramaic",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Neo-Babylonian_Empire",
+      "wikidata": "https://www.wikidata.org/wiki/Q624887"
+    }
+  },
+  {
+    "id": "ancient-carthage",
+    "name": "Ancient Carthage",
+    "aliases": ["Ancient Carthage", "Carthage", "Carthaginian Empire", "Carthaginian Republic"],
+    "wikidataLookupName": "Ancient Carthage",
+    "yearFounded": -814,
+    "yearEnded": -146,
+    "peakPopulation": "3.7-4.3 million",
+    "peakTerritoryYear": -323,
+    "language": "Phoenicio-Punic",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Ancient_Carthage",
+      "wikidata": "https://www.wikidata.org/wiki/Q2429397"
+    }
+  },
+  {
+    "id": "macedonia",
+    "name": "Macedonia",
+    "aliases": ["Macedonia", "Macedon", "Ancient Macedonia", "Kingdom of Macedon", "Macedonian Empire"],
+    "wikidataLookupName": "Macedonia",
+    "yearFounded": -700,
+    "yearEnded": -168,
+    "peakPopulation": "Unknown",
+    "peakTerritoryYear": -323,
+    "language": "Ancient Macedonian, Attic, Koine Greek",
+    "sources": {
+      "wikipedia": "https://en.wikipedia.org/wiki/Macedonia_(ancient_kingdom)",
+      "wikidata": "https://www.wikidata.org/wiki/Q83958"
+    }
+  }
+]
