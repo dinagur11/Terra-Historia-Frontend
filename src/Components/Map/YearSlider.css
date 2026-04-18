@@ -1,35 +1,43 @@
 .slider-container {
+  --panel-text: #fff1eb;
+  --panel-soft-text: #ffd4c9;
+  --panel-accent: #ffd166;
+  --panel-border: rgba(255, 255, 255, 0.18);
+  --panel-hover: rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
-  gap: 12px;               /* spacing between input and slider */
-  background: transparent; /* invisible background */
+  gap: 12px;
+  background: transparent;
   border: none;
   width: 390px;
 }
 
-/* Make the input smaller and tidy */
 .slider-container input {
   width: 68px;
   text-align: center;
-  background: transparent;
-  border: 1px solid #ccc;     /* optional: subtle border */
-  border-radius: 4px;
-  color: var(--accent-color);    
-  background: transparent;          
+  padding: 6px 8px;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  color: var(--panel-text);
+  background: var(--panel-hover);
+  font-weight: 700;
 }
 
 .slider-container .MuiSlider-root {
   flex: 1;
+  color: var(--panel-accent);
 }
 
 .slider-container .MuiSlider-thumb {
-  background-color: #fff;
+  background-color: var(--panel-accent);
+  border: 2px solid #fff1eb;
 }
 
 .input-slider .MuiSlider-track {
-  background-color: var(--accent-color); /* pick a color from your palette */
+  background-color: var(--panel-accent);
 }
 
 .input-slider .MuiSlider-rail {
-  opacity: 0.3;
+  background-color: var(--panel-soft-text);
+  opacity: 0.35;
 }
