@@ -1,4 +1,4 @@
-import "./LogInPage.css"
+import "./LoginPage.css"
 import StarBackground from "../Components/StarsBackground"
 import VerifyCard from "../Components/VerifyCard";
 
