@@ -1,4 +1,4 @@
-import "./LogInPage.css"
+import "./LoginPage.css"
 import LoginCard from "../Components/LoginCard";
 import StarBackground from "../Components/StarsBackground"
 
