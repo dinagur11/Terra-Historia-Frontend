@@ -1,0 +1,82 @@
+[
+  {
+    "name": "American Declaration of Independence",
+    "date": "July 4, 1776",
+    "location": "Philadelphia, Pennsylvania, USA",
+    "coordinates": {
+      "lat": 39.9526,
+      "lng": -75.1652
+    },
+    "summary": "The Thirteen American Colonies declared independence from Great Britain, marking the birth of the United States and a major turning point in world history."
+  },
+  {
+    "name": "Battle of Long Island",
+    "date": "August 27, 1776",
+    "location": "Brooklyn, New York, USA",
+    "coordinates": {
+      "lat": 40.6782,
+      "lng": -73.9442
+    },
+    "summary": "The British army defeated American forces in the largest battle of the American Revolutionary War, securing control of New York City."
+  },
+  {
+    "name": "Battle of Trenton",
+    "date": "December 26, 1776",
+    "location": "Trenton, New Jersey, USA",
+    "coordinates": {
+      "lat": 40.2170,
+      "lng": -74.7429
+    },
+    "summary": "George Washington led a surprise attack against Hessian forces, boosting American morale and revitalizing the Revolutionary cause."
+  },
+  {
+    "name": "Publication of Adam Smith's 'The Wealth of Nations'",
+    "date": "March 9, 1776",
+    "location": "London, England, United Kingdom",
+    "coordinates": {
+      "lat": 51.5074,
+      "lng": -0.1278
+    },
+    "summary": "Adam Smith published his influential work laying the foundations of modern economics and advocating free-market principles."
+  },
+  {
+    "name": "Captain James Cook Begins Third Voyage",
+    "date": "July 12, 1776",
+    "location": "Plymouth, England, United Kingdom",
+    "coordinates": {
+      "lat": 50.3755,
+      "lng": -4.1427
+    },
+    "summary": "Captain James Cook set sail on his third voyage, aiming to find the Northwest Passage and further explore the Pacific region."
+  },
+  {
+    "name": "Spanish Consolidation of Alta California Missions",
+    "date": "1776",
+    "location": "San Diego, California, New Spain (Mexico)",
+    "coordinates": {
+      "lat": 32.7157,
+      "lng": -117.1611
+    },
+    "summary": "Spain strengthened its presence in Alta California, expanding missions and settlements to secure its northern frontier in the Americas."
+  },
+  {
+    "name": "Foundation of San Francisco Presidio",
+    "date": "September 17, 1776",
+    "location": "San Francisco, California, New Spain (USA)",
+    "coordinates": {
+      "lat": 37.7749,
+      "lng": -122.4194
+    },
+    "summary": "Spanish forces established the Presidio of San Francisco, marking the beginning of European settlement in the region."
+  },
+  {
+    "name": "Russo-Turkish War Continues in the Black Sea Region",
+    "date": "1776",
+    "location": "Crimea, Ottoman Empire (Ukraine)",
+    "coordinates": {
+      "lat": 44.9521,
+      "lng": 34.1024
+    },
+    "summary": "The ongoing Russo-Turkish War saw continued संघर्ष over influence in the Black Sea, shaping the balance of power in Eastern Europe."
+  }
+]

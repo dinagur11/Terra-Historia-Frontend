@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Fall of Constantinople",
+    "date": "May 29, 1453",
+    "location": "Constantinople, Byzantine Empire (Istanbul, Turkey)",
+    "coordinates": {
+      "lat": 41.0082,
+      "lng": 28.9784
+    },
+    "summary": "The Ottoman Empire captured Constantinople, ending the Byzantine Empire and marking a major turning point in world history and the rise of Ottoman dominance."
+  },
+  {
+    "name": "End of the Hundred Years' War",
+    "date": "July 17, 1453",
+    "location": "Castillon-la-Bataille, France",
+    "coordinates": {
+      "lat": 44.8559,
+      "lng": -0.0417
+    },
+    "summary": "The Battle of Castillon ended the Hundred Years' War, securing French victory over England and marking the decline of English territorial claims in France."
+  },
+  {
+    "name": "Ottoman Consolidation of Constantinople",
+    "date": "1453",
+    "location": "Istanbul, Ottoman Empire (Turkey)",
+    "coordinates": {
+      "lat": 41.0082,
+      "lng": 28.9784
+    },
+    "summary": "Following its conquest, the Ottomans began transforming Constantinople into their capital, strengthening administrative and cultural control over the region."
+  },
+  {
+    "name": "Treaty of Lodi Negotiations Begin",
+    "date": "1453",
+    "location": "Milan, Italy",
+    "coordinates": {
+      "lat": 45.4642,
+      "lng": 9.1900
+    },
+    "summary": "Italian states moved toward negotiations that would lead to the Peace of Lodi, establishing a balance of power in Italy after years of conflict."
+  },
+  {
+    "name": "Ming Dynasty Strengthens Northern Defenses",
+    "date": "1453",
+    "location": "Beijing, Ming China",
+    "coordinates": {
+      "lat": 39.9042,
+      "lng": 116.4074
+    },
+    "summary": "The Ming Dynasty reinforced defenses along its northern borders, including sections of the Great Wall, to protect against Mongol incursions."
+  },
+  {
+    "name": "Inca Expansion in the Andes",
+    "date": "1453",
+    "location": "Cusco, Inca Empire (Peru)",
+    "coordinates": {
+      "lat": -13.5319,
+      "lng": -71.9675
+    },
+    "summary": "The Inca Empire continued expanding across the Andes, consolidating power and integrating diverse regions into a centralized state."
+  },
+  {
+    "name": "Rise of the Kingdom of Kongo",
+    "date": "1453",
+    "location": "Mbanza Kongo, Kingdom of Kongo (Angola)",
+    "coordinates": {
+      "lat": -6.2670,
+      "lng": 14.2480
+    },
+    "summary": "The Kingdom of Kongo strengthened its political organization and regional influence in Central Africa, becoming a significant power in the region."
+  }
+]

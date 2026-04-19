@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import MapPage from "./Pages/MapPage";
 import LogInPage from "./Pages/LoginPage";
+import SignUpPage from "./Pages/SignUpPage";
+import VerifyPage from "./Pages/VerifyPage";
+import ForgotPassword from "./Pages/ForgotPassPage"
 
 
 export default function App() {
@@ -11,6 +14,9 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/login" element={<LogInPage />} />
+        <Route path="/register" element={<SignUpPage />} />
+        <Route path="/verify" element={<VerifyPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );

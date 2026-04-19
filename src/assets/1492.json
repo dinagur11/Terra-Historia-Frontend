@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Christopher Columbus Reaches the Americas",
+    "date": "October 12, 1492",
+    "location": "San Salvador Island, Bahamas",
+    "coordinates": {
+      "lat": 24.0600,
+      "lng": -74.5000
+    },
+    "summary": "Christopher Columbus landed in the Bahamas during his first voyage, marking the beginning of sustained European contact with the Americas."
+  },
+  {
+    "name": "Fall of Granada",
+    "date": "January 2, 1492",
+    "location": "Granada, Spain",
+    "coordinates": {
+      "lat": 37.1773,
+      "lng": -3.5986
+    },
+    "summary": "The Catholic Monarchs Ferdinand and Isabella captured Granada, ending Muslim rule in Spain and completing the Reconquista."
+  },
+  {
+    "name": "Alhambra Decree Issued",
+    "date": "March 31, 1492",
+    "location": "Granada, Spain",
+    "coordinates": {
+      "lat": 37.1773,
+      "lng": -3.5986
+    },
+    "summary": "The Alhambra Decree ordered the expulsion of Jews from Spain unless they converted to Christianity, significantly impacting Jewish communities across Europe and the Mediterranean."
+  },
+  {
+    "name": "Martin Behaim Creates the Erdapfel Globe",
+    "date": "1492",
+    "location": "Nuremberg, Holy Roman Empire (Germany)",
+    "coordinates": {
+      "lat": 49.4521,
+      "lng": 11.0767
+    },
+    "summary": "Martin Behaim constructed the Erdapfel, the oldest surviving terrestrial globe, representing the known world before the discovery of the Americas."
+  },
+  {
+    "name": "Peace Treaty of Étaples",
+    "date": "November 3, 1492",
+    "location": "Étaples, France",
+    "coordinates": {
+      "lat": 50.5167,
+      "lng": 1.6333
+    },
+    "summary": "France and England signed the Treaty of Étaples, ending hostilities between the two kingdoms and stabilizing relations after years of conflict."
+  },
+  {
+    "name": "Songhai Empire Expansion Under Askia Muhammad",
+    "date": "1492",
+    "location": "Gao, Songhai Empire (Mali)",
+    "coordinates": {
+      "lat": 16.2667,
+      "lng": -0.0500
+    },
+    "summary": "The Songhai Empire continued expanding in West Africa, strengthening its political and economic power under emerging leadership."
+  }
+]

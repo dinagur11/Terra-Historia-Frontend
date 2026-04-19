@@ -3,23 +3,33 @@ import facebookLogo from "../assets/facebooklogo.png"
 import googleLogo from "../assets/googlelogo.png"
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput.jsx";
-import { signIn } from 'aws-amplify/auth';
+import { signUp } from 'aws-amplify/auth';
 import { useState } from 'react';
 
-function LoginCard(){
+function SignUpCard(){
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-    const handleLogin = async (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault()
         setError('')
         setLoading(true)
         try {
-            await signIn({ username: email, password })
-            navigate('/') 
+            await signUp({
+                username: email,
+                password,
+                options: {
+                    userAttributes: {
+                        name: name,
+                        email: email
+                    }
+                }
+            })
+            navigate("/verify", { state: { email } });
         } catch (err) {
             setError(err.message)
         } finally {
@@ -29,32 +39,34 @@ function LoginCard(){
 
     return (
     <div className="login-card">
-        <h2 className="sign-in-txt">Sign In</h2>
+        <h2 className="sign-in-txt">Sign Up</h2>
         {error && <p className="error-msg">{error}</p>}
         <div className="input-group">
             <input
                 type="text"
                 className="input-mail"
-                placeholder="Email or Username"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+            />
+            <input
+                type="text"
+                className="input-mail"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
             <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />
-            <div className="pass-remember">
-                <label>
-                    <input type="checkbox" /> Remember me
-                </label>
-                <Link to="/forgot-password" className="pass-reset">
-                    <p>Forgot password?</p>
-                </Link>
-            </div>
         </div>
-        <button className="next-btn" onClick={handleLogin} disabled={loading}>
-            {loading ? 'Signing in...' : 'Next'}
+
+        <button className="next-btn" onClick={handleSignUp} disabled={loading}>
+            {loading ? 'Creating account...' : 'Sign Up'}
         </button>
+
         <div className="divider">
             <span className="or-text">or</span>
         </div>
+
         <div className="social-login">
             <div className="social-buttons">
                 <button className="social-login-btn">
@@ -67,11 +79,12 @@ function LoginCard(){
                 </button>
             </div>
         </div>
-        <Link to="/register" className="register">
-            <p>Don't have an account?</p>
+
+        <Link to="/login" className="register">
+            <p>Already have an account?</p>
         </Link>
     </div>
     );
 }
 
-export default LoginCard
+export default SignUpCard;

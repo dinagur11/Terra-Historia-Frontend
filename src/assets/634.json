@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Battle of Ajnadayn",
+    "date": "July 634",
+    "location": "Near Beit Guvrin, Byzantine Empire (Israel)",
+    "coordinates": {
+      "lat": 31.6120,
+      "lng": 34.8950
+    },
+    "summary": "Arab Muslim forces defeated the Byzantine army in one of the first major battles of the Islamic conquests, opening the way for expansion into the Levant."
+  },
+  {
+    "name": "Death of Caliph Abu Bakr",
+    "date": "August 23, 634",
+    "location": "Medina, Rashidun Caliphate (Saudi Arabia)",
+    "coordinates": {
+      "lat": 24.5247,
+      "lng": 39.5692
+    },
+    "summary": "Abu Bakr, the first Caliph of Islam, died and was succeeded by Umar ibn al-Khattab, who would lead further expansion of the Islamic state."
+  },
+  {
+    "name": "Umar Becomes Second Caliph",
+    "date": "August 634",
+    "location": "Medina, Rashidun Caliphate (Saudi Arabia)",
+    "coordinates": {
+      "lat": 24.5247,
+      "lng": 39.5692
+    },
+    "summary": "Umar ibn al-Khattab assumed leadership of the Islamic Caliphate, initiating a period of rapid territorial expansion and administrative development."
+  },
+  {
+    "name": "Muslim Conquest of Damascus Begins",
+    "date": "634",
+    "location": "Damascus, Byzantine Empire (Syria)",
+    "coordinates": {
+      "lat": 33.5138,
+      "lng": 36.2765
+    },
+    "summary": "Arab forces began their campaign against Damascus, a key Byzantine city, marking an important step in the conquest of Syria."
+  },
+  {
+    "name": "Tang Dynasty Consolidates Power",
+    "date": "634",
+    "location": "Chang'an, Tang China",
+    "coordinates": {
+      "lat": 34.3416,
+      "lng": 108.9398
+    },
+    "summary": "Under Emperor Taizong, the Tang Dynasty strengthened central authority and expanded influence across East Asia."
+  },
+  {
+    "name": "King Dagobert I Rules the Frankish Kingdom",
+    "date": "634",
+    "location": "Paris, Frankish Kingdom (France)",
+    "coordinates": {
+      "lat": 48.8566,
+      "lng": 2.3522
+    },
+    "summary": "Dagobert I maintained control over the Frankish Kingdom, representing one of the last strong Merovingian rulers before the rise of the mayors of the palace."
+  },
+  {
+    "name": "Visigothic Kingdom Stability in Iberia",
+    "date": "634",
+    "location": "Toledo, Visigothic Kingdom (Spain)",
+    "coordinates": {
+      "lat": 39.8628,
+      "lng": -4.0273
+    },
+    "summary": "The Visigothic Kingdom continued consolidating its rule over Iberia, maintaining political and religious unity under Catholic leadership."
+  }
+]

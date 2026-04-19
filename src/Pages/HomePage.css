@@ -1,11 +1,15 @@
-.login-button, .account-button {
+/* ===== Shared button style ===== */
+.login-button,
+.account-button,
+.logout-button {
   position: absolute;
   top: 12px;
-  right: 12px;
   z-index: 9999;
+
   width: 45px;
   height: 45px;
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,9 +19,52 @@
 
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
+
+  text-decoration: none; /* for Link */
+  border: none;          /* for button */
+  padding: 0;
 }
 
-.home-button:hover, .account-button:hover {
+/* ===== Positions ===== */
+.login-button {
+  right: 12px;
+}
+
+.account-button {
+  right: 12px;
+}
+
+.logout-button {
+  right: 65px; /* sits left of account button */
+}
+
+/* ===== Hover effects ===== */
+.login-button:hover,
+.account-button:hover,
+.logout-button:hover {
   background: rgba(0, 0, 0, 0.85);
   transform: scale(1.05);
+}
+
+/* ===== Optional: active click feel ===== */
+.login-button:active,
+.account-button:active,
+.logout-button:active {
+  transform: scale(0.95);
+}
+
+.hello-text {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  z-index: 9999;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+
+  background: rgba(57, 54, 54, 0.25);
+  padding: 8px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
 }

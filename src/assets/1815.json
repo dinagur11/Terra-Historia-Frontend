@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Battle of Waterloo",
+    "date": "June 18, 1815",
+    "location": "Waterloo, Belgium",
+    "coordinates": {
+      "lat": 50.6806,
+      "lng": 4.4125
+    },
+    "summary": "Napoleon Bonaparte was defeated by British and Prussian forces, ending his rule and marking the conclusion of the Napoleonic Wars."
+  },
+  {
+    "name": "Congress of Vienna Concludes",
+    "date": "June 9, 1815",
+    "location": "Vienna, Austria",
+    "coordinates": {
+      "lat": 48.2082,
+      "lng": 16.3738
+    },
+    "summary": "European powers finalized a new political order after the Napoleonic Wars, redrawing borders and establishing a balance of power to maintain stability."
+  },
+  {
+    "name": "Napoleon Escapes Elba (Hundred Days Begins)",
+    "date": "March 1, 1815",
+    "location": "Golfe-Juan, France",
+    "coordinates": {
+      "lat": 43.5667,
+      "lng": 7.0667
+    },
+    "summary": "Napoleon escaped exile on Elba and returned to France, regaining power and initiating the brief period known as the Hundred Days."
+  },
+  {
+    "name": "Napoleon Abdicates for the Second Time",
+    "date": "June 22, 1815",
+    "location": "Paris, France",
+    "coordinates": {
+      "lat": 48.8566,
+      "lng": 2.3522
+    },
+    "summary": "Following his defeat at Waterloo, Napoleon abdicated the French throne for a second time, leading to his final exile."
+  },
+  {
+    "name": "Mount Tambora Eruption",
+    "date": "April 10, 1815",
+    "location": "Sumbawa, Indonesia",
+    "coordinates": {
+      "lat": -8.2470,
+      "lng": 118.0000
+    },
+    "summary": "Mount Tambora erupted in one of the most powerful volcanic events in recorded history, causing widespread devastation and leading to global climate effects."
+  },
+  {
+    "name": "Kandyan Convention Signed",
+    "date": "March 2, 1815",
+    "location": "Kandy, Sri Lanka",
+    "coordinates": {
+      "lat": 7.2906,
+      "lng": 80.6337
+    },
+    "summary": "The Kingdom of Kandy was annexed by the British Empire, bringing the entire island of Sri Lanka under British colonial rule."
+  },
+  {
+    "name": "German Confederation Established",
+    "date": "June 8, 1815",
+    "location": "Frankfurt, German Confederation (Germany)",
+    "coordinates": {
+      "lat": 50.1109,
+      "lng": 8.6821
+    },
+    "summary": "The German Confederation was created as a loose association of German states, replacing the Holy Roman Empire and shaping future German politics."
+  }
+]

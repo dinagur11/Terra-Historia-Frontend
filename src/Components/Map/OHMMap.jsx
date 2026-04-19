@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
 import "./OHMMap.css";
-import events2025 from "../assets/database-example-2025.json"
-import events2000 from "../assets/database-example-2000.json"
-import relationshipOverlays2026 from "../assets/relationship-overlays-2026.json";
+import events2025 from "../../assets/2025.json";
+import events2000 from "../../assets/2000.json"
+import relationshipOverlays2026 from "../../assets/relationship-overlays-2026.json";
 import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
 

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Black Death Reaches Europe",
+    "date": "October 1347",
+    "location": "Messina, Sicily, Italy",
+    "coordinates": {
+      "lat": 38.1938,
+      "lng": 15.5540
+    },
+    "summary": "The Black Death arrived in Europe when Genoese ships docked in Messina, bringing a devastating pandemic that would kill millions across the continent."
+  },
+  {
+    "name": "Battle of Crécy",
+    "date": "August 26, 1346",
+    "location": "Crécy-en-Ponthieu, France",
+    "coordinates": {
+      "lat": 50.2530,
+      "lng": 1.8820
+    },
+    "summary": "Although fought in 1346, its aftermath shaped 1347 as English forces under Edward III continued their campaign in France during the Hundred Years' War."
+  },
+  {
+    "name": "Siege of Calais Continues",
+    "date": "1347",
+    "location": "Calais, France",
+    "coordinates": {
+      "lat": 50.9513,
+      "lng": 1.8587
+    },
+    "summary": "English forces maintained a prolonged siege of Calais, which would end in 1347 with the city's surrender, giving England a strategic foothold in France."
+  },
+  {
+    "name": "Surrender of Calais to England",
+    "date": "August 3, 1347",
+    "location": "Calais, France",
+    "coordinates": {
+      "lat": 50.9513,
+      "lng": 1.8587
+    },
+    "summary": "After a year-long siege, Calais surrendered to Edward III of England, becoming a key English stronghold on the European mainland."
+  },
+  {
+    "name": "Marinid Expansion in North Africa",
+    "date": "1347",
+    "location": "Tlemcen, Algeria",
+    "coordinates": {
+      "lat": 34.8828,
+      "lng": -1.3167
+    },
+    "summary": "The Marinid Sultanate expanded its influence in North Africa, consolidating control over key cities and trade routes in the Maghreb."
+  },
+  {
+    "name": "Yuan Dynasty Faces Growing Rebellions",
+    "date": "1347",
+    "location": "Beijing, Yuan China",
+    "coordinates": {
+      "lat": 39.9042,
+      "lng": 116.4074
+    },
+    "summary": "Internal unrest and peasant uprisings intensified during the Yuan Dynasty, weakening Mongol rule and foreshadowing its eventual collapse."
+  }
+]

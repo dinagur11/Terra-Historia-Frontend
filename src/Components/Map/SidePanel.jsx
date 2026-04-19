@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./SidePanel.css";
-import ancientKingdoms from "../assets/ancient-kingdoms.json";
-import notableLeaders from "../assets/notable-leaders.json";
-import deepDives from "../assets/deep-dives.json";
+import ancientKingdoms from "../../assets/ancient-kingdoms.json";
+import notableLeaders from "../../assets/notable-leaders.json";
+import deepDives from "../../assets/deep-dives.json";
 
 const leaderPortraitCache = new Map();
 const deepDiveImageCache = new Map();
