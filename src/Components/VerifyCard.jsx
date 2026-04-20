@@ -74,7 +74,7 @@ function VerifyCard() {
             </button>
 
             <button
-                className="social-login-btn"
+                className="resend-btn"
                 type="button"
                 onClick={handleResend}
             >

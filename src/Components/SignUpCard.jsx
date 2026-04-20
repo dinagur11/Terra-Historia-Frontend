@@ -56,7 +56,7 @@ function SignUpCard(){
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />
+            <PasswordInput value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} />
         </div>
 
         <button className="next-btn" onClick={handleSignUp} disabled={loading}>

@@ -2,14 +2,14 @@ import {Eye, EyeOff} from "lucide-react"
 import "./PasswordInput.css"
 import { useState } from "react";
 
-function PasswordInput({ value, onChange }){
+function PasswordInput({ value, onChange, placeholder }){
     const [showPass, setShowPass] = useState(false);
     return (
         <div className="pass-input-container">
             <input
                 type={showPass ? "text" : "password"}
                 className="input-password"
-                placeholder="Password"
+                placeholder={placeholder}
                 value={value}
                 onChange={onChange}
             />

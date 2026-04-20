@@ -16,10 +16,21 @@
   width: 360px;
   min-width: 360px;
   height: 100%;
-  overflow-y: auto;
   background: black;
   border-left: 2px solid #333;
   z-index: 10;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* prevent the panel itself from scrolling */
+}
+
+.side-panel .logo-btn {
+  position: absolute;
+  top: 6px;
+  right: 16px;
+  z-index: 10;
+  pointer-events: all;
 }
 
 .year-overlay {

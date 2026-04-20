@@ -229,3 +229,26 @@
   .sign-in-txt{ font-size: 24px; }
   .social-buttons{ flex-direction: column; }
 }
+
+.resend-btn {
+  margin-top: 14px;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  background: transparent;
+  border: none;
+  color: #cfcfcf;
+
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.resend-btn:hover {
+  color: white;
+  transform: scale(1.03);
+  text-decoration: underline;
+}

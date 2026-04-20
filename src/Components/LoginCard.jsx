@@ -39,7 +39,7 @@ function LoginCard(){
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />
+            <PasswordInput value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)} />
             <div className="pass-remember">
                 <label>
                     <input type="checkbox" /> Remember me

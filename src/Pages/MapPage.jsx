@@ -3,11 +3,10 @@ import "./MapPage.css"
 import YearSlider from '../Components/Map/YearSlider';
 import SidePanel from "../Components/Map/SidePanel";
 import { useState, useEffect } from "react";
+import Logo from "../Components/Logo";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const MIN_YEAR = -1000;
-
-
 
 export default function MapPage() {
   const defaultYear = new Date().getFullYear();
@@ -15,38 +14,29 @@ export default function MapPage() {
   const [tempInput, setTempInput] = useState(defaultYear);
   const [tempSliderInput, setTempSliderInput] = useState(defaultYear);
   const [selectedCountry, setSelectedCountry] = useState(null);
-  useEffect(() => { setTempInput(year); setTempSliderInput(year) }, [year]);
+
+  useEffect(() => {
+    setTempInput(year);
+    setTempSliderInput(year);
+  }, [year]);
 
   const handleInputChange = (event) => {
     const v = event.target.value;
-    if (/^-?\d*$/.test(v))
-      setTempInput(v);
+    if (/^-?\d*$/.test(v)) setTempInput(v);
   };
 
   const handleBlur = (event) => {
     let rawVal = event.target.value;
-    if (rawVal === "" || rawVal === "-") {
-      setTempInput(year);
-      return;
-    }
-    const  value = Number(rawVal);
+    if (rawVal === "" || rawVal === "-") { setTempInput(year); return; }
+    const value = Number(rawVal);
     let finalValue;
-
-    if (value > CURRENT_YEAR) {
-      finalValue = CURRENT_YEAR;
-    } else if (value < MIN_YEAR) {
-      finalValue = MIN_YEAR;
-    } else {
-      finalValue = value;
-    }
-
+    if (value > CURRENT_YEAR) finalValue = CURRENT_YEAR;
+    else if (value < MIN_YEAR) finalValue = MIN_YEAR;
+    else finalValue = value;
     setYear(finalValue);
-    console.log(finalValue);
   };
 
-  const handleSliderChange = (event, year) => {
-    setYear(year);
-  };
+  const handleSliderChange = (event, year) => setYear(year);
 
   const handleSliderTemp = (event, year) => {
     setTempSliderInput(year);
@@ -59,7 +49,6 @@ export default function MapPage() {
         <OHMMap
           yearProp={year}
           onCountrySelect={setSelectedCountry}
-          selectedCountry={selectedCountry}
         />
         <div className="year-overlay">
           <YearSlider
@@ -74,6 +63,13 @@ export default function MapPage() {
         </div>
       </div>
       <div className="side-panel">
-        <SidePanel yearProp={year} selectedCountry={selectedCountry} /></div>
-    </div>);
+        <Logo></Logo>
+        <SidePanel
+          yearProp={year}
+          selectedCountry={selectedCountry}
+          onCountryClose={() => setSelectedCountry(null)}
+        />
+      </div>
+    </div>
+  );
 }

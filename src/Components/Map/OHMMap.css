@@ -26,7 +26,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(4px);
-  z-index: 20;
+  z-index: 1001;
 }
 
 .events-overlay h3 {
@@ -64,7 +64,7 @@
 
 .event-name {
   margin: 0;
-  font-weight: 600;
+  font-weight: 900;
   font-size: 0.95rem;
 }
 
@@ -91,6 +91,7 @@
   cursor: pointer;
 }
 
+/*
 .relationship-marker {
   width: 18px;
   height: 18px;
@@ -182,6 +183,23 @@
 
 .relationships-legend__swatch--colony {
   background: #22c55e;
+}
+  */
+  .events-overlay::-webkit-scrollbar {
+  width: 4px;
+}
+
+.events-overlay::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.events-overlay::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+.events-overlay::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .maplibregl-popup {

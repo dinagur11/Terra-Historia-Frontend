@@ -1,7 +1,7 @@
 .slider-container {
   --panel-text: #fff1eb;
   --panel-soft-text: #ffd4c9;
-  --panel-accent: #ffd166;
+  --panel-accent: #7ab8b8;
   --panel-border: rgba(255, 255, 255, 0.18);
   --panel-hover: rgba(255, 255, 255, 0.08);
   display: flex;

@@ -23,7 +23,7 @@ function ForgotPasswordCard() {
 
         try {
             await resetPassword({ username: email });
-            setMessage("A verification code was sent to your email.");
+            setMessage("If an account exists for this email, a verification code has been sent.");
             setStep(2);
         } catch (err) {
             setError(err.message || "Failed to send reset code.");
@@ -93,6 +93,7 @@ function ForgotPasswordCard() {
 
                     <PasswordInput
                         value={newPassword}
+                        placeholder={"New Password"}
                         onChange={(e) => setNewPassword(e.target.value)}
                     />
 
