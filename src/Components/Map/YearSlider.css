@@ -1,43 +1,98 @@
+/* ── Terra Historia · Year Slider ────────────────────────────────────────── */
+/* Depends on CSS variables defined in MapPage.css                           */
+
 .slider-container {
-  --panel-text: #fff1eb;
-  --panel-soft-text: #ffd4c9;
-  --panel-accent: #7ab8b8;
-  --panel-border: rgba(255, 255, 255, 0.18);
-  --panel-hover: rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   gap: 12px;
   background: transparent;
   border: none;
-  width: 390px;
+  width: 100%;
 }
 
+/* ── Year input ──────────────────────────────────────────────────────────── */
+
 .slider-container input {
-  width: 68px;
+  width: 64px;
+  flex-shrink: 0;
   text-align: center;
-  padding: 6px 8px;
-  border: 1px solid var(--panel-border);
-  border-radius: 10px;
-  color: var(--panel-text);
-  background: var(--panel-hover);
-  font-weight: 700;
+  padding: 3px 6px;
+
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+  border-radius: 0;
+  outline: none;
+
+  transition: border-color 0.2s ease;
 }
+
+.slider-container input:focus {
+  border-color: var(--gold);
+}
+
+/* ── MUI Slider overrides ────────────────────────────────────────────────── */
 
 .slider-container .MuiSlider-root {
   flex: 1;
-  color: var(--panel-accent);
+  color: var(--gold);
+  height: 2px;
+  padding: 8px 0;
+  /* prevent the thumb from visually escaping the component bounds */
+  overflow: visible;
+  box-sizing: content-box;
+}
+
+.slider-container .MuiSlider-rail {
+  background-color: rgba(255, 255, 255, 0.12);
+  opacity: 1;
+}
+
+.slider-container .MuiSlider-track {
+  background-color: var(--gold);
+  border-color: var(--gold);
 }
 
 .slider-container .MuiSlider-thumb {
-  background-color: var(--panel-accent);
-  border: 2px solid #fff1eb;
+  width: 16px;
+  height: 16px;
+  background-color: var(--gold);
+  /* two-ring look: dark inner border + gold outer ring via outline */
+  border: 3px solid #111010;
+  outline: 2px solid var(--gold);
+  outline-offset: 0px;
+  /* reset MUI's default box-shadow so it doesn't add extra size */
+  box-shadow: none !important;
+  transition: outline-width 0.15s ease, transform 0.15s ease;
 }
 
-.input-slider .MuiSlider-track {
-  background-color: var(--panel-accent);
+.slider-container .MuiSlider-thumb:hover,
+.slider-container .MuiSlider-thumb.Mui-focusVisible {
+  box-shadow: none !important;
+  outline: 2px solid var(--gold);
+  background-color: #d4aa2a;
 }
 
-.input-slider .MuiSlider-rail {
-  background-color: var(--panel-soft-text);
-  opacity: 0.35;
+.slider-container .MuiSlider-thumb.Mui-active {
+  box-shadow: none !important;
+  transform: scale(1.12);
+}
+
+/* MUI value label */
+.slider-container .MuiSlider-valueLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--bg-dark);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  color: var(--gold);
+  border-radius: 4px;
+  padding: 2px 6px;
 }

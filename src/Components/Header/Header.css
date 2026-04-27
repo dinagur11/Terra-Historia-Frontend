@@ -1,46 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500&display=swap');
+@import url('../../Variables.css');
+ 
 .header-container {
-    display: flex;
-    align-items: center;
-    padding: 0.35rem 1rem;
-    gap: 1rem;
-    border-bottom: 1px solid var(--accent-color);
-    margin: 0.1rem 1.5rem; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  height: 56px;
+  padding: 0 1.75rem;
+
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-subtle);
+
+  /* faint parchment-noise overlay */
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.025) 0%,
+      transparent 100%
+    );
+
+  position: relative;
+  z-index: 100;
 }
+
+/* thin gold rule at very bottom */
+.header-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gold-dim) 30%,
+    var(--gold)    50%,
+    var(--gold-dim) 70%,
+    transparent 100%
+  );
+  opacity: 0.45;
+}
+
+/* ── Left: logo + nav ────────────────────────────────────────────────────── */
 
 .header-left {
-    display: flex;
-    gap: 2.4rem;
-    flex: 1;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-shrink: 0;
 }
 
-.header-left p{
-    color: var(--accent-color);
-    font-weight: 550;
-    font-size: larger;
+/* Logo image */
+.logo-img {
+  height: 44px;
+  width: auto;
+  filter: drop-shadow(0 0 6px var(--gold-glow));
+  transition: filter 0.3s ease;
 }
 
-.header-left p:hover{
-    color: var(--highlight-color);
+.logo-img:hover {
+  filter: drop-shadow(0 0 10px rgba(201, 162, 39, 0.5));
 }
+
+/* Nav links */
+.header-left .link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-muted);
+
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.25s ease;
+}
+
+.header-left .link p {
+  margin: 0;
+}
+
+/* animated underline */
+.header-left .link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-left .link:hover {
+  color: var(--gold);
+}
+
+.header-left .link:hover::after {
+  width: 100%;
+}
+
+/* active link — mimics the MAP dot in the screenshot */
+.header-left .link.active {
+  color: var(--gold);
+}
+
+.header-left .link.active::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--active-dot);
+  box-shadow: 0 0 6px var(--gold);
+}
+
+/* ── Center: search ──────────────────────────────────────────────────────── */
 
 .header-center {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+  flex: 1;
+  max-width: 320px;
+  margin: 0 auto;
 }
+
+/* Minimal search bar defaults — SearchBar component wraps its own input */
+.header-center input,
+.header-center .search-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 0.4rem 0.85rem 0.4rem 2rem;
+
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+
+  outline: none;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.header-center input::placeholder,
+.header-center .search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.header-center input:focus,
+.header-center .search-input:focus {
+  background: rgba(201, 162, 39, 0.06);
+  border-color: rgba(201, 162, 39, 0.4);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+/* ── Right: nav link + account icon ──────────────────────────────────────── */
 
 .header-right {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-shrink: 0;
 }
 
-.logo-img{
-    width: 75px;
-    height: 75px;
+.header-right .link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-muted);
+
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.25s ease;
 }
 
-.link{
-    text-decoration: none;
+.header-right .link p {
+  margin: 0;
+}
+
+.header-right .link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-right .link:hover {
+  color: var(--gold);
+}
+
+.header-right .link:hover::after {
+  width: 100%;
+}
+
+.account-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.04);
+
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.25s ease, border-color 0.25s ease,
+              background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.account-button::before,
+.account-button::after {
+  display: none;
+}
+
+.account-button:hover {
+  color: var(--gold);
+  border-color: rgba(201, 162, 39, 0.45);
+  background: rgba(201, 162, 39, 0.08);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .header-center {
+    max-width: 180px;
+  }
+
+  .header-left {
+    gap: 1.2rem;
+  }
+
+  .header-left .link {
+    font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .header-center {
+    display: none;
+  }
 }

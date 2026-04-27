@@ -64,7 +64,7 @@ function userNotLogged() {
 function userLogged(handleLogout) {
     return (
         <>
-            <Link to="/account" className="account-button" title="my account">
+            <Link to="/account" className="header-account-btn" title="my account">
                 <User size={22} />
             </Link>
 

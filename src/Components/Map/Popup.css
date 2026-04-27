@@ -1,5 +1,7 @@
+@import url('../../Variables.css');
+
 .popup-container {
-  background: white;
+  background: rgba(22, 20, 17, 0.95);
   padding: 16px 20px;
   border-radius: 10px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
@@ -15,7 +17,7 @@
 }
 
 .popup-container .title {
-  color:black;
+  color:#c9a227;
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
@@ -24,14 +26,14 @@
 
 .popup-container .date {
   font-size: 0.95rem;
-  color: #555;
+  color: var(--text-muted);
   margin: 0;
   text-align: center;
 }
 
 .popup-container .description {
   font-size: 0.9rem;
-  color: #333;
+  color: var(--text-primary);
   margin: 0;
   line-height: 1.35;
   text-align: left;
@@ -39,8 +41,8 @@
 
 .popup-close {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 5px;
+  right: 8px;
   background: transparent;
   border: none;
   font-size: 20px;

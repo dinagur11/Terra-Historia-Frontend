@@ -7,6 +7,21 @@ import Popup from "./Popup.jsx";
 
 window.mapboxgl = maplibregl;
 
+const CUSTOM_LABELS = [
+  {
+    name: "Third Reich",
+    yearStart: 1939,
+    yearEnd: 1945,
+    coordinates: [13.4050, 51.1657]
+  },
+  {
+    name: "Khedivate \nof Egypt",
+    yearStart: 1867,
+    yearEnd: 1914,
+    coordinates: [29.8, 26.8]
+  }
+]
+
 const fetchEvents = async (year) => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/events/${year}`)
   if (!res.ok) return []
@@ -93,6 +108,13 @@ export default function OHMMap({
 
   const applyDate = (map) => {
     map.filterByDate(`${yearRef.current}-01-01`);
+    if (map.getLayer("custom-labels")) {
+      map.setFilter("custom-labels", [
+        "all",
+        ["<=", ["get", "yearStart"], yearRef.current],
+        [">=", ["get", "yearEnd"], yearRef.current]
+      ])
+    }
     map.triggerRepaint();
   };
 
@@ -145,6 +167,12 @@ export default function OHMMap({
           layers: ["country_points_labels", "country_points_labels_cen"]
         });
 
+      map.on("click", "custom-labels", (e) => {
+        const name = e.features[0]?.properties?.name;
+        if (!name) return;
+        if (onCountrySelect) onCountrySelect({ name, properties: e.features[0].properties });
+      });
+
         const feature = features[0];
         if (!feature) return;
         const name = getFeatureName(feature);
@@ -156,6 +184,44 @@ export default function OHMMap({
       map.on("load", async () => {
         forceEnglishLabels();
         applyDate(map);
+
+          map.addSource("custom-labels", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: CUSTOM_LABELS.map(label => ({
+              type: "Feature",
+              properties: {
+                name: label.name,
+                yearStart: label.yearStart,
+                yearEnd: label.yearEnd
+              },
+              geometry: {
+                type: "Point",
+                coordinates: label.coordinates
+              }
+            }))
+          }
+        })
+        //adds missing labels
+        map.addLayer({
+          id: "custom-labels",
+          type: "symbol",
+          source: "custom-labels",
+          layout: {
+            "text-field": ["get", "name"],
+            "text-size": 12,
+            "text-font": ["Open Sans Bold"],
+            "text-anchor": "center",
+            "text-letter-spacing": 0.05
+
+          },
+          paint: {
+            "text-color": "#6E786E",
+            "text-halo-color": "rgba(34, 33, 33, 0.6)",
+            "text-halo-width": 0.2
+          }
+        })
         const list = await getEvents(yearProp, map, markersRef)
         setEventsList(list)
       });

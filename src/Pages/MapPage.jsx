@@ -4,6 +4,7 @@ import YearSlider from '../Components/Map/YearSlider';
 import SidePanel from "../Components/Map/SidePanel";
 import { useState, useEffect } from "react";
 import Logo from "../Components/Logo";
+import Header from "../Components/Header/Header";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const MIN_YEAR = -1000;
@@ -45,6 +46,7 @@ export default function MapPage() {
 
   return (
     <div className="page">
+      <Header></Header>
       <div className="map-container">
         <OHMMap
           yearProp={year}
@@ -63,7 +65,6 @@ export default function MapPage() {
         </div>
       </div>
       <div className="side-panel">
-        <Logo></Logo>
         <SidePanel
           yearProp={year}
           selectedCountry={selectedCountry}

@@ -1,6 +1,6 @@
 /* ===== Shared button style ===== */
 .login-button,
-.account-button,
+.header-account-btn,
 .logout-button {
   position: absolute;
   top: 12px;
@@ -30,7 +30,7 @@
   right: 12px;
 }
 
-.account-button {
+.header-account-btn {
   right: 12px;
 }
 
@@ -40,7 +40,7 @@
 
 /* ===== Hover effects ===== */
 .login-button:hover,
-.account-button:hover,
+.header-account-btn:hover,
 .logout-button:hover {
   background: rgba(0, 0, 0, 0.85);
   transform: scale(1.05);
@@ -48,7 +48,7 @@
 
 /* ===== Optional: active click feel ===== */
 .login-button:active,
-.account-button:active,
+.header-account-btn:active,
 .logout-button:active {
   transform: scale(0.95);
 }

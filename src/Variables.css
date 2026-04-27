@@ -1,0 +1,12 @@
+:root {
+  --bg-dark:       #111010;
+  --bg-header:     #0e0d0c;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --gold:          #c9a227;
+  --gold-dim:      #a07d18;
+  --gold-glow:     rgba(201, 162, 39, 0.18);
+  --text-primary:  #e8e0d0;
+  --text-muted:    #7a7060;
+  --text-link:     #b8a87a;
+  --active-dot:    #c9a227;
+}

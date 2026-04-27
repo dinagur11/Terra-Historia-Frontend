@@ -34,6 +34,13 @@ export default function YearSlider({inputProp, sliderProp, handleBlur, handleSli
               max={CURRENT_YEAR}
               step={1}
               aria-label="Year"
+              sx={{
+                mx: '8px',
+                width: 'calc(100% - 16px)',
+                '& .MuiSlider-thumb.Mui-active': {
+                  transform: 'translate(-50%, -50%) scale(1)',
+                },
+              }}
             />
       </div>
   );}

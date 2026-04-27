@@ -1,4 +1,8 @@
-/* Wrapper + map */
+/* ── Terra Historia · OHM Map Component ─────────────────────────────────── */
+/* Depends on CSS variables defined in MapPage.css                           */
+
+/* ── Wrapper + map ───────────────────────────────────────────────────────── */
+
 .ohm-wrapper {
   position: relative;
   width: 100%;
@@ -10,34 +14,57 @@
   height: 100%;
 }
 
-/* Events overlay */
+/* ── Events overlay ──────────────────────────────────────────────────────── */
+
 .events-overlay {
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 360px;
+  width: 320px;
   max-height: 45vh;
   overflow-y: auto;
-  background:
-    linear-gradient(180deg, rgba(72, 10, 10, 0.96), rgba(24, 3, 3, 0.98));
-  color: #fff1eb;
-  padding: 14px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(4px);
   z-index: 1001;
-}
 
+  background: rgba(22, 20, 17, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  padding: 14px 16px;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 80, 80, 0.06),
+    0 8px 32px rgba(0, 0, 0, 0.55);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  color: #f0e0d8;
+}
 .events-overlay h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #fff1eb;
+  margin: 0 0 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.0rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+/* scrollbar */
+.events-overlay::-webkit-scrollbar {
+  width: 3px;
+}
+.events-overlay::-webkit-scrollbar-track {
+  background: transparent;
+}
+.events-overlay::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+}
+.events-overlay::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* Events list */
+/* ── Events list ─────────────────────────────────────────────────────────── */
+
 .events-list {
   list-style: none;
   margin: 0;
@@ -47,160 +74,66 @@
 .event-item {
   padding: 8px 6px;
   cursor: pointer;
+  border-radius: 4px;
   transition: background 0.15s ease, transform 0.1s ease;
 }
 
 .event-item:not(:last-child) {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 4px;
   padding-bottom: 10px;
 }
 
 .event-item:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateX(2px);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateX(3px);
 }
 
 .event-name {
   margin: 0;
-  font-weight: 900;
-  font-size: 0.95rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f0e0d8;
+  letter-spacing: 0.02em;
 }
 
 .event-date {
-  margin: 2px 0 0;
-  font-size: 0.8rem;
-  color: #ffd4c9;
+  margin: 3px 0 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(240, 180, 160, 0.65);
+  letter-spacing: 0.04em;
 }
 
 .no-events {
-  font-size: 0.9rem;
-  color: #ffd4c9;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: rgba(240, 180, 160, 0.55);
 }
 
-/* 🔴 KEEP THESE */
+/* ── Event map markers ───────────────────────────────────────────────────── */
+
 .event-marker {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #ff4d4d;
-  border: 1px solid white;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  background: #cc3333;
+  border: 1.5px solid rgba(255, 220, 200, 0.8);
+  box-shadow:
+    0 0 0 3px rgba(180, 30, 30, 0.2),
+    0 0 8px rgba(0, 0, 0, 0.45);
   z-index: 1000;
   cursor: pointer;
 }
 
-/*
-.relationship-marker {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08), 0 6px 14px rgba(0, 0, 0, 0.35);
-  cursor: pointer;
+.event-marker:hover {
+  transform: scale(1.3);
 }
 
-.relationship-marker--ally {
-  background: #3b82f6;
-}
-
-.relationship-marker--enemy {
-  background: #ef4444;
-}
-
-.relationship-marker--trade {
-  background: #f4c542;
-}
-
-.relationship-marker--colony {
-  background: #22c55e;
-}
-
-.relationship-popup {
-  min-width: 120px;
-  color: #1f1308;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.relationships-overlay {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 220px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(72, 10, 10, 0.96), rgba(24, 3, 3, 0.98));
-  color: #fff1eb;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
-  z-index: 20;
-}
-
-.relationships-overlay h3 {
-  margin: 0 0 8px;
-  font-size: 1rem;
-}
-
-.relationships-overlay__country {
-  margin: 0 0 12px;
-  color: #ffd4c9;
-  font-size: 0.92rem;
-}
-
-.relationships-legend {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.relationships-legend__item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-}
-
-.relationships-legend__swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.relationships-legend__swatch--ally {
-  background: #3b82f6;
-}
-
-.relationships-legend__swatch--enemy {
-  background: #ef4444;
-}
-
-.relationships-legend__swatch--trade {
-  background: #f4c542;
-}
-
-.relationships-legend__swatch--colony {
-  background: #22c55e;
-}
-  */
-  .events-overlay::-webkit-scrollbar {
-  width: 4px;
-}
-
-.events-overlay::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.events-overlay::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 2px;
-}
-
-.events-overlay::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
+/* ── MapLibre popup overrides ────────────────────────────────────────────── */
 
 .maplibregl-popup {
   z-index: 9999;
@@ -221,32 +154,40 @@
   display: none !important;
 }
 
+/* ── Events panel wrapper ────────────────────────────────────────────────── */
+
 .events-panel {
   position: relative;
   height: 100%;
 }
+
+/* ── Home button ─────────────────────────────────────────────────────────── */
 
 .home-button {
   position: absolute;
   bottom: 12px;
   right: 12px;
 
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
+  background: rgba(14, 13, 12, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(220, 200, 170, 0.8);
 
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.2s ease;
 }
 
 .home-button:hover {
-  background: rgba(0, 0, 0, 0.85);
-  transform: scale(1.05);
+  background: rgba(201, 162, 39, 0.12);
+  border-color: rgba(201, 162, 39, 0.35);
+  color: #c9a227;
+  transform: scale(1.08);
 }

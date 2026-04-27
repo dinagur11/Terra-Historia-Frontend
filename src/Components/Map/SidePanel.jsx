@@ -186,35 +186,33 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
 
   // handle year changes
   useEffect(() => {
-  if (!countryData || !countryName) return;
-  if (!countryData.switchable) return;
+    if (!countryData || !countryName) return;
 
-  // still within range, nothing to do
-  if (yearProp >= countryData.yearStart && yearProp <= countryData.yearEnd) return;
+    // still within range, nothing to do
+    if (yearProp >= countryData.yearStart && yearProp <= countryData.yearEnd) return;
 
-  const controller = new AbortController();
-  setIsLoading(true);
+    const controller = new AbortController();
+    setIsLoading(true);
 
-  resolveFileForYear(currentFileName.current, yearProp, controller.signal)
-    .then(data => {
-      if (!data) {
-        onCountryClose();
-      } else {
-        currentFileName.current = data.file;
-        setCountryData(data);
-      }
-    })
-    .catch(err => { if (err.name !== "AbortError") setError("No data found.") })
-    .finally(() => { if (!controller.signal.aborted) setIsLoading(false) });
+    resolveFileForYear(currentFileName.current, yearProp, controller.signal)
+      .then(data => {
+        if (!data) {
+          onCountryClose();
+        } else {
+          currentFileName.current = data.file;
+          setCountryData(data);
+        }
+      })
+      .catch(err => { if (err.name !== "AbortError") setError("No data found.") })
+      .finally(() => { if (!controller.signal.aborted) setIsLoading(false) });
 
-  return () => controller.abort();
-}, [yearProp]);
+    return () => controller.abort();
+  }, [yearProp]);
 
   if (!selectedCountry) {
     return (
       <div className="country-panel">
         <div className="country-panel__header">
-          <p className="country-panel__eyebrow">Country Details</p>
           <h2 className="country-panel__title">Terra Historia</h2>
         </div>
         <div className="country-panel__empty">
@@ -245,9 +243,7 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
           />
         )}
 
-        <p className="country-panel__eyebrow">Country Details</p>
         <h2 className="country-panel__title">{displayName || countryName}</h2>
-        <p className="country-panel__year">Year: {yearProp}</p>
       </div>
 
       {isLoading ? (
