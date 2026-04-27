@@ -1,21 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap');
+@import url('../Variables.css');
 
 /* ── Terra Historia · Map Page ───────────────────────────────────────────── */
 
 :root {
-  --bg-dark:         #111010;
-  --bg-panel:        #141312;
-  --bg-panel-alt:    #191816;
-  --bg-card:         #1c1a18;
-  --bg-card-hover:   #222018;
-  --border-subtle:   rgba(255, 255, 255, 0.07);
-  --border-gold:     rgba(201, 162, 39, 0.3);
-  --gold:            #c9a227;
-  --gold-dim:        #a07d18;
-  --gold-glow:       rgba(201, 162, 39, 0.15);
-  --text-primary:    #e8e0d0;
-  --text-secondary:  #b0a48a;
-  --text-muted:      #6a6050;
   --panel-width:     380px;
   --header-height:   56px;
 }
@@ -67,7 +55,7 @@ body {
 .map-container .leaflet-tile-pane,
 .map-container canvas,
 .map-container .ohm-map {
-  filter: grayscale(0.25) brightness(0.88) sepia(0.1);
+  filter: grayscale(0.23) brightness(0.89) sepia(0.1);
 }
 
 /* vignette over the map edges */

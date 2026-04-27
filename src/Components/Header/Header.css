@@ -7,7 +7,7 @@
   justify-content: space-between;
   gap: 1.5rem;
 
-  height: 56px;
+  height: 57px;
   padding: 0 1.75rem;
 
   background: var(--bg-header);
@@ -53,7 +53,7 @@
 
 /* Logo image */
 .logo-img {
-  height: 44px;
+  height: 45px;
   width: auto;
   filter: drop-shadow(0 0 6px var(--gold-glow));
   transition: filter 0.3s ease;

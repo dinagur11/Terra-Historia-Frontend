@@ -1,5 +1,4 @@
-/* ── Terra Historia · OHM Map Component ─────────────────────────────────── */
-/* Depends on CSS variables defined in MapPage.css                           */
+@import url('../../Variables.css');
 
 /* ── Wrapper + map ───────────────────────────────────────────────────────── */
 
@@ -103,7 +102,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
-  color: rgba(240, 180, 160, 0.65);
+  color: var(--text-muted);
   letter-spacing: 0.04em;
 }
 
@@ -111,7 +110,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 0.8rem;
   font-style: italic;
-  color: rgba(240, 180, 160, 0.55);
+  color: var(--text-muted);
 }
 
 /* ── Event map markers ───────────────────────────────────────────────────── */
