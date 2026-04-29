@@ -5,8 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput.jsx";
 import { signIn } from 'aws-amplify/auth';
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 function LoginCard(){
+    const { login } = useAuth();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
@@ -19,6 +21,7 @@ function LoginCard(){
         setLoading(true)
         try {
             await signIn({ username: email, password })
+            login();
             navigate('/') 
         } catch (err) {
             setError(err.message)

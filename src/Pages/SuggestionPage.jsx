@@ -9,7 +9,7 @@ export default function SuggestionPage(){
     const [selection, setSelection] = useState("event");
     return (
         <div className='suggestion-page'>
-            <Header/>
+            <Header isMapActive={false}/>
             <div className="suggestion-page__body">
                 <div className="suggestion-page__card">
                     <h1 className='suggestion-page__title'>Contact us</h1>

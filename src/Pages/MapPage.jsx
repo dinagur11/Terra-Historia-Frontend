@@ -46,7 +46,7 @@ export default function MapPage() {
 
   return (
     <div className="page">
-      <Header></Header>
+      <Header isMapActive={true}></Header>
       <div className="map-container">
         <OHMMap
           yearProp={year}
