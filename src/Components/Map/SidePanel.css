@@ -160,9 +160,6 @@
   line-height: 1.6;
 }
 
-/* ── Artifact thumbnails ─────────────────────────────────────────────────── */
-/* removed — no artifacts feature */
-
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
@@ -366,7 +363,6 @@
   margin: 0 0 6px;
 }
 
-/* DetailRows inside ruler cards */
 .country-panel__ruler-card > div,
 .country-panel__ruler-card > p {
   display: flex;
@@ -436,10 +432,11 @@
 
 .country-panel__history-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0 0 6px;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .country-panel__history-description {
@@ -459,11 +456,11 @@
   font-family: 'Raleway', sans-serif;
   font-size: 0.8rem;
   font-style: italic;
-  color: var(--text-muted);
+  color: var(--blue-highlight);
   padding: 24px 18px;
   text-align: center;
 }
 
 .country-panel__error {
-  color: var(--text-secondary);
+  color: var(--blue-highlight);
 }

@@ -5,6 +5,7 @@ import LogInPage from "./Pages/LoginPage";
 import SignUpPage from "./Pages/SignUpPage";
 import VerifyPage from "./Pages/VerifyPage";
 import ForgotPassword from "./Pages/ForgotPassPage"
+import SuggestionPage from "./Pages/SuggestionPage";
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/register" element={<SignUpPage />} />
         <Route path="/verify" element={<VerifyPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/suggestions" element={<SuggestionPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -52,6 +52,6 @@
 }
 
 .search-btn:hover {
-  color: #c9a227;
+  color: var(--blue-highlight);
   transform: translateY(-50%) scale(1.1);
 }

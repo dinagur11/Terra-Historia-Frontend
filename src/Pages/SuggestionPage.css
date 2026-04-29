@@ -1,0 +1,212 @@
+/* ── Terra Historia · Suggestion Page ───────────────────────────────────── */
+/* Depends on variables.css                                                  */
+
+/* ── Page shell ──────────────────────────────────────────────────────────── */
+
+.suggestion-page {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestion-page__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+/* ── Card ────────────────────────────────────────────────────────────────── */
+
+.suggestion-page__card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 36px 40px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Heading ─────────────────────────────────────────────────────────────── */
+
+.suggestion-page__eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 10px;
+}
+
+.suggestion-page__title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+  margin: 0 0 10px;
+}
+
+.suggestion-page__subtitle {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0 0 28px;
+}
+
+/* gold divider */
+.suggestion-page__divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gold-dim) 30%,
+    var(--gold) 50%,
+    var(--gold-dim) 70%,
+    transparent 100%
+  );
+  opacity: 0.35;
+  margin-bottom: 28px;
+}
+
+/* ── Type selector ───────────────────────────────────────────────────────── */
+
+.suggestion-page__select-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ── Form fields ─────────────────────────────────────────────────────────── */
+
+.suggestion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.suggestion-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.suggestion-form__label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.suggestion-form__label span {
+  color: var(--gold);
+  margin-left: 2px;
+}
+
+.suggestion-form__input,
+.suggestion-form__textarea {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-primary);
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 9px 12px;
+  outline: none;
+  width: 100%;
+
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.suggestion-form__input::placeholder,
+.suggestion-form__textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.suggestion-form__input:focus,
+.suggestion-form__textarea:focus {
+  border-color: rgba(201, 162, 39, 0.45);
+  background: rgba(201, 162, 39, 0.04);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.08);
+}
+
+.suggestion-form__textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.6;
+}
+
+/* ── Submit button ───────────────────────────────────────────────────────── */
+
+.suggestion-page__submit {
+  margin-top: 8px;
+  width: 100%;
+  padding: 10px 20px;
+
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #111010;
+
+  background: var(--gold);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.suggestion-page__submit:hover {
+  background: #d4aa2a;
+  box-shadow: 0 0 18px rgba(201, 162, 39, 0.3);
+}
+
+.suggestion-page__submit:active {
+  transform: scale(0.98);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .suggestion-page__card {
+    padding: 28px 22px;
+  }
+}
+
+.suggestion-form__textarea--tall {
+    min-height: 140px;
+}
+
+.suggestion-page {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  background-image: 
+    radial-gradient(ellipse at top, rgba(30, 25, 15, 0.8) 0%, transparent 60%),
+    url("https://unpkg.com/three-globe/example/img/night-sky.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+}
