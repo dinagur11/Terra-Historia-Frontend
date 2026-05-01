@@ -3,7 +3,7 @@ import Globe from "../Components/Globe";
 import "./HomePage.css";
 import { User, LogIn, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { getCurrentUser, signOut, fetchUserAttributes } from "aws-amplify/auth";
+import { fetchUserAttributes, signOut } from "aws-amplify/auth";
 import { useAuth } from '../context/AuthContext';
 
 export default function HomePage() {
@@ -13,18 +13,17 @@ export default function HomePage() {
     const { isLogged } = useAuth();
 
     useEffect(() => {
-        const checkUser = async () => {
+        const fetchName = async () => {
             try {
-                await getCurrentUser();
                 const attributes = await fetchUserAttributes();
                 setName(attributes.name || "User");
-            } catch (err) {
-                console.error("Auth check failed:", err);
+            } catch {
+                // nothing to do
             }
         };
 
-        checkUser();
-    }, []);
+        if (isLogged) fetchName();
+    }, [isLogged]);
 
     const handleLogout = async () => {
         try {

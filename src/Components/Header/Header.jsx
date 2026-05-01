@@ -33,7 +33,7 @@ function Header({isMapActive}){
                         </>
                     ) : (
                         <Link to="/login" className="login-button" title="log-in">
-                        <LogIn size={22} />
+                            <LogIn size={22} />
                         </Link>
                     )}
                     </div>
