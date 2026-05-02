@@ -4,6 +4,7 @@ import maplibregl from "maplibre-gl";
 import "./OHMMap.css";
 import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
+import { useAuth } from '../../Context/AuthContext';
 
 window.mapboxgl = maplibregl;
 
@@ -41,7 +42,7 @@ function getFeatureName(feature) {
   );
 }
 
-async function getEvents(year, map, markersRef) {
+async function getEvents(year, map, markersRef, isLogged) {
   const events = await fetchEvents(year)
   if (!Array.isArray(events)) {
     console.error("Events JSON is not an array:", events)
@@ -68,6 +69,7 @@ async function getEvents(year, map, markersRef) {
         eventName={evnt.name}
         eventDate={evnt.date}
         eventDescription={evnt.summary}
+        isLogged={isLogged}
         onClose={() => popup.remove()}
       />
     )
@@ -96,15 +98,13 @@ function clearMarkers(markersRef) {
   markersRef.current = [];
 }
 
-export default function OHMMap({
-  yearProp = new Date().getFullYear(),
-  onCountrySelect,
-}) {
+export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySelect}) {
   const mapEl = useRef(null);
   const mapRef = useRef(null);
   const yearRef = useRef(yearProp);
   const markersRef = useRef([]);
   const [eventsList, setEventsList] = useState([]);
+  const {isLogged} = useAuth();
 
   const applyDate = (map) => {
     map.filterByDate(`${yearRef.current}-01-01`);
@@ -222,8 +222,6 @@ export default function OHMMap({
             "text-halo-width": 0.2
           }
         })
-        const list = await getEvents(yearProp, map, markersRef)
-        setEventsList(list)
       });
     })();
 
@@ -234,17 +232,18 @@ export default function OHMMap({
     };
   }, []);
 
+  //add markers
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
     applyDate(map);
     clearMarkers(markersRef);
     const load = async () => {
-      const list = await getEvents(yearProp, mapRef.current, markersRef)
+      const list = await getEvents(yearProp, mapRef.current, markersRef, isLogged)
       setEventsList(list)
     }
     load()
-  }, [yearProp]);
+  }, [yearProp, isLogged]);
 
   const handleEventClick = (index) => {
     const marker = markersRef.current[index];

@@ -6,6 +6,7 @@ export default function Popup({
     eventName,
     eventDate,
     eventDescription,
+    isLogged,
     onClose
 }) {
     const [isFavorite, setIsFavorite] = useState(false);
@@ -19,15 +20,18 @@ export default function Popup({
             <button className="popup-close" onClick={onClose}>
                 ×
             </button>
-
-            <button className="favorite-btn" title="Add to favorites" onClick={toggleFavorite}>
+            {isLogged? 
+            (<button className="favorite-btn" title="Add to favorites" onClick={toggleFavorite}>
                 <Star
                     size={20}
                     fill={isFavorite ? "gold" : "white"}   
                     stroke="black"                        
                     strokeWidth={1}
                 />
-            </button>
+            </button>):
+            (<></>)
+            }
+            
 
             <p className="title">{eventName}</p>
             <p className="date">{eventDate}</p>
