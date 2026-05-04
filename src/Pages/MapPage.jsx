@@ -15,6 +15,7 @@ export default function MapPage() {
   const [tempInput, setTempInput] = useState(defaultYear);
   const [tempSliderInput, setTempSliderInput] = useState(defaultYear);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [countrySearch, setCountrySearch] = useState(null);
 
   useEffect(() => {
     setTempInput(year);
@@ -44,13 +45,18 @@ export default function MapPage() {
     setTempInput(year);
   };
 
+  const handleCountrySearch = (query) => {
+    setCountrySearch({ query, id: Date.now() });
+  };
+
   return (
     <div className="page">
-      <Header isMapActive={true}></Header>
+      <Header isMapActive={true} onCountrySearch={handleCountrySearch}></Header>
       <div className="map-container">
         <OHMMap
           yearProp={year}
           onCountrySelect={setSelectedCountry}
+          countrySearch={countrySearch}
         />
         <div className="year-overlay">
           <YearSlider

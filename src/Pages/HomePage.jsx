@@ -3,8 +3,8 @@ import Globe from "../Components/Globe";
 import "./HomePage.css";
 import { User, LogIn, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { getCurrentUser, signOut, fetchUserAttributes } from "aws-amplify/auth";
-import { useAuth } from '../context/AuthContext';
+import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
+import { useAuth } from '../Context/AuthContext';
 
 export default function HomePage() {
     const [name, setName] = useState("");
@@ -28,9 +28,8 @@ export default function HomePage() {
 
     const handleLogout = async () => {
         try {
-            await signOut();
+            await logout();
             setName("");
-            logout();
             navigate("/");
         } catch (err) {
             console.error("Logout failed:", err);

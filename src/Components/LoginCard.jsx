@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput.jsx";
 import { signIn } from 'aws-amplify/auth';
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../Context/AuthContext';
 
 function LoginCard(){
     const { login } = useAuth();
