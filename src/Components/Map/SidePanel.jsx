@@ -59,9 +59,6 @@ async function getCountryIndex() {
 async function resolveFileName(clickedName) {
   const normalized = normalizeClickedName(clickedName)
   const directFileName = normalized.replace(/\s+/g, "-")
-  
-  console.log("normalized:", normalized)
-  console.log("trying direct:", directFileName)
 
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/countries/${directFileName}`)

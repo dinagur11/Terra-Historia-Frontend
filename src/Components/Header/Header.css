@@ -200,7 +200,7 @@
   width: 100%;
 }
 
-.account-button {
+.account-button, .login-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -218,12 +218,12 @@
               background 0.25s ease, box-shadow 0.25s ease;
 }
 
-.account-button::before,
-.account-button::after {
+.account-button::before, .login-button::before
+.account-button::after, .login-button::after {
   display: none;
 }
 
-.account-button:hover {
+.account-button:hover, .login-button:hover {
   color: var(--gold);
   border-color: rgba(201, 162, 39, 0.45);
   background: rgba(201, 162, 39, 0.08);

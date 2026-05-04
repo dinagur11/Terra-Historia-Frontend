@@ -1,12 +1,23 @@
-// src/Context/AuthContext.jsx
-import { createContext, useContext, useEffect, useState } from 'react';
-import { getCurrentUser, signOut } from 'aws-amplify/auth';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [isLogged, setIsLogged] = useState(false);
-  const [isAuthReady, setIsAuthReady] = useState(false);
+
+  useEffect(() => {
+    const syncAuth = async () => {
+      try {
+        await getCurrentUser();
+        setIsLogged(true);
+      } catch {
+        setIsLogged(false);
+      }
+    };
+
+    syncAuth();
+  }, []);
 
   const login = () => setIsLogged(true);
 

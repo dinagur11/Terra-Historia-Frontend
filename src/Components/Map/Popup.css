@@ -11,7 +11,7 @@
   overflow-y: auto;        
   display: flex;
   flex-direction: column;
-  gap: 8px;          
+  gap: 7px;          
   position: relative;   
   padding-bottom: 40px;  
 }
@@ -22,13 +22,13 @@
   font-size: 1.1rem;
   font-weight: bold;
   text-align: center;
-  margin-top: 0;
+  margin-top: 10px;
 }
 
 .popup-container .date {
   font-size: 0.95rem;
   font-family: 'Raleway', sans-serif;
-  color: rgba(240, 180, 160, 0.65);
+  color: var(--blue-highlight);
   margin: 0;
   text-align: center;
 }
@@ -73,4 +73,21 @@
 
 .favorite-btn:hover {
   transform: scale(1.15);
+}
+
+.popup-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.popup-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.popup-container::-webkit-scrollbar-thumb {
+  background: #c9a227;
+  border-radius: 10px;
+}
+
+.popup-container::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-highlight);
 }
