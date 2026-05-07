@@ -7,7 +7,7 @@ function VerifyCard() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [email, setEmail] = useState(location.state?.email || "");
+    const [email] = useState(location.state?.email || "");
     const [code, setCode] = useState("");
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");

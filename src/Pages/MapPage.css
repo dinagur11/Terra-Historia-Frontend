@@ -4,7 +4,8 @@
 /* ── Terra Historia · Map Page ───────────────────────────────────────────── */
 
 :root {
-  --panel-width:     380px;
+  --panel-width:     460px;
+  --panel-selected-width: 506px;
   --header-height:   56px;
 }
 
@@ -33,6 +34,10 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+}
+
+.page:has(.side-panel--selected) {
+  grid-template-columns: 1fr var(--panel-selected-width);
 }
 
 /* Header must span both columns */
@@ -98,7 +103,10 @@ body {
 
 
 @media (max-width: 900px) {
-  :root { --panel-width: 300px; }
+  :root {
+    --panel-width: 360px;
+    --panel-selected-width: 396px;
+  }
 }
 
 @media (max-width: 640px) {

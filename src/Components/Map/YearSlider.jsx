@@ -1,15 +1,36 @@
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import "./YearSlider.css"
-import { useState } from 'react';
 
 const CURRENT_YEAR = new Date().getFullYear();
 const MIN_YEAR = -1000;
 
-export default function YearSlider({inputProp, sliderProp, handleBlur, handleSlider, handleInputChange, handleSliderTemp}) {
+export default function YearSlider({
+  inputProp,
+  sliderProp,
+  handleBlur,
+  handleSlider,
+  handleInputChange,
+  handleSliderTemp,
+  onIncreaseYear,
+  onDecreaseYear
+}) {
+  const numericYear = typeof sliderProp === 'number' ? sliderProp : Number(inputProp);
 
   return (
       <div className="slider-container">
+          <div className="year-stepper">
+            <button
+              type="button"
+              className="year-stepper__button"
+              onClick={onIncreaseYear}
+              disabled={numericYear >= CURRENT_YEAR}
+              aria-label="Increase year"
+              title="Increase year"
+            >
+              <ChevronUp size={16} strokeWidth={2.4} />
+            </button>
             <MuiInput
               value={inputProp}
               size="small"
@@ -25,6 +46,17 @@ export default function YearSlider({inputProp, sliderProp, handleBlur, handleSli
                 'aria-label': 'Year'
               }}
             />
+            <button
+              type="button"
+              className="year-stepper__button"
+              onClick={onDecreaseYear}
+              disabled={numericYear <= MIN_YEAR}
+              aria-label="Decrease year"
+              title="Decrease year"
+            >
+              <ChevronDown size={16} strokeWidth={2.4} />
+            </button>
+          </div>
             <Slider
               value={typeof sliderProp === 'number' ? sliderProp : 0}
               onChangeCommitted={handleSlider}

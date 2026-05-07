@@ -8,9 +8,10 @@ import Header from "../Components/Header/Header";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const MIN_YEAR = -1000;
+const START_YEAR = 2026;
 
 export default function MapPage() {
-  const defaultYear = new Date().getFullYear();
+  const defaultYear = START_YEAR;
   const [year, setYear] = useState(defaultYear);
   const [tempInput, setTempInput] = useState(defaultYear);
   const [tempSliderInput, setTempSliderInput] = useState(defaultYear);
@@ -45,13 +46,22 @@ export default function MapPage() {
     setTempInput(year);
   };
 
+  const changeYearBy = (amount) => {
+    setYear((currentYear) => {
+      const nextYear = currentYear + amount;
+      if (nextYear > CURRENT_YEAR) return CURRENT_YEAR;
+      if (nextYear < MIN_YEAR) return MIN_YEAR;
+      return nextYear;
+    });
+  };
+
   const handleCountrySearch = (query) => {
     setCountrySearch({ query, id: Date.now() });
   };
 
   return (
     <div className="page">
-      <Header isMapActive={true} onCountrySearch={handleCountrySearch}></Header>
+      <Header isMapActive={true} onCountrySearch={handleCountrySearch} year={year}></Header>
       <div className="map-container">
         <OHMMap
           yearProp={year}
@@ -67,10 +77,12 @@ export default function MapPage() {
             handleSlider={handleSliderChange}
             handleSliderTemp={handleSliderTemp}
             handleInputChange={handleInputChange}
+            onIncreaseYear={() => changeYearBy(1)}
+            onDecreaseYear={() => changeYearBy(-1)}
           />
         </div>
       </div>
-      <div className="side-panel">
+      <div className={`side-panel${selectedCountry ? " side-panel--selected" : ""}`}>
         <SidePanel
           yearProp={year}
           selectedCountry={selectedCountry}

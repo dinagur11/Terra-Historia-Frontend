@@ -247,7 +247,8 @@
 /* ── Tabs ────────────────────────────────────────────────────────────────── */
 
 .country-panel__tabs {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   flex-shrink: 0;
   border-bottom: 1px solid var(--border-subtle);
   padding: 0 18px;
@@ -256,19 +257,22 @@
 
 .country-panel__tab {
   font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
 
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  padding: 10px 14px;
+  padding: 10px 6px;
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease;
   margin-bottom: -1px;
+  min-width: 0;
+  text-align: center;
+  white-space: normal;
 }
 
 .country-panel__tab:hover {
@@ -463,4 +467,23 @@
 
 .country-panel__error {
   color: var(--blue-highlight);
+}
+
+/* Fun facts */
+
+.country-panel__fact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.country-panel__fact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }

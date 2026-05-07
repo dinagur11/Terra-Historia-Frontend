@@ -79,7 +79,7 @@ export default function HomePage() {
       <div
         className="text-container"
         style={{
-          flex: "1 1 39%",
+          flex: "1 1 29%",
           padding: "4rem",
           zIndex: 2, // make sure it's above the canvas
         }}

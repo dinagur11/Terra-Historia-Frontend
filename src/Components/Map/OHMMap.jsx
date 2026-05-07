@@ -5,7 +5,7 @@ import "./OHMMap.css";
 import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
 import { useAuth } from '../../Context/AuthContext';
-import countriesTopology from "world-atlas/countries-110m.json";
+import { normalizeCountrySearch, resolveCountrySearch } from "../../utils/countrySearch.js";
 
 window.mapboxgl = maplibregl;
 
@@ -26,146 +26,6 @@ const CUSTOM_LABELS = [
   }
 ]
 
-const COUNTRY_SEARCH_ALIASES = {
-  "United States of America": ["United States", "USA", "U.S.A.", "US", "U.S."],
-  "United Kingdom": ["UK", "U.K.", "Great Britain", "Britain"],
-  "Czechia": ["Czech Republic"],
-  "Dem. Rep. Congo": ["Democratic Republic of the Congo", "DR Congo", "DRC"],
-  "Congo": ["Republic of the Congo"],
-  "Dominican Rep.": ["Dominican Republic"],
-  "Central African Rep.": ["Central African Republic"],
-  "Eq. Guinea": ["Equatorial Guinea"],
-  "Bosnia and Herz.": ["Bosnia and Herzegovina"],
-  "S. Sudan": ["South Sudan"],
-  "W. Sahara": ["Western Sahara"],
-  "eSwatini": ["Eswatini", "Swaziland"],
-  "Cote d'Ivoire": ["Ivory Coast"],
-  "Côte d'Ivoire": ["Ivory Coast", "Cote d'Ivoire"],
-  "Fr. S. Antarctic Lands": ["French Southern and Antarctic Lands"],
-  "N. Cyprus": ["Northern Cyprus"],
-  "Falkland Is.": ["Falkland Islands"],
-  "Solomon Is.": ["Solomon Islands"],
-};
-
-let countrySearchIndex = null;
-
-function normalizeCountrySearch(value) {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/^the\s+/, "")
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim()
-    .replace(/\s+/g, " ");
-}
-
-function decodeArc(topology, arcIndex) {
-  const arc = topology.arcs[arcIndex < 0 ? ~arcIndex : arcIndex];
-  const points = [];
-  const { scale, translate } = topology.transform;
-  let x = 0;
-  let y = 0;
-
-  for (const point of arc) {
-    x += point[0];
-    y += point[1];
-    points.push([
-      x * scale[0] + translate[0],
-      y * scale[1] + translate[1],
-    ]);
-  }
-
-  return arcIndex < 0 ? points.reverse() : points;
-}
-
-function decodeRing(topology, ring) {
-  return ring.flatMap((arcIndex, index) => {
-    const points = decodeArc(topology, arcIndex);
-    return index === 0 ? points : points.slice(1);
-  });
-}
-
-function getGeometryRings(topology, geometry) {
-  if (geometry.type === "Polygon") {
-    return geometry.arcs.map(ring => decodeRing(topology, ring));
-  }
-
-  if (geometry.type === "MultiPolygon") {
-    return geometry.arcs.flatMap(polygon => polygon.map(ring => decodeRing(topology, ring)));
-  }
-
-  return [];
-}
-
-function getRingArea(ring) {
-  let area = 0;
-  for (let i = 0; i < ring.length; i += 1) {
-    const [x1, y1] = ring[i];
-    const [x2, y2] = ring[(i + 1) % ring.length];
-    area += x1 * y2 - x2 * y1;
-  }
-  return Math.abs(area / 2);
-}
-
-function getRingCenter(ring) {
-  const bounds = getRingBounds(ring);
-
-  return [
-    (bounds.minLng + bounds.maxLng) / 2,
-    (bounds.minLat + bounds.maxLat) / 2,
-  ];
-}
-
-function getRingBounds(ring) {
-  return ring.reduce(
-    (acc, [lng, lat]) => ({
-      minLng: Math.min(acc.minLng, lng),
-      maxLng: Math.max(acc.maxLng, lng),
-      minLat: Math.min(acc.minLat, lat),
-      maxLat: Math.max(acc.maxLat, lat),
-    }),
-    { minLng: Infinity, maxLng: -Infinity, minLat: Infinity, maxLat: -Infinity }
-  );
-}
-
-function buildCountrySearchIndex() {
-  if (countrySearchIndex) return countrySearchIndex;
-
-  const index = new Map();
-  const geometries = countriesTopology.objects.countries.geometries;
-
-  for (const geometry of geometries) {
-    const name = geometry.properties?.name;
-    if (!name) continue;
-
-    const rings = getGeometryRings(countriesTopology, geometry);
-    const largestRing = rings.reduce((largest, ring) => {
-      if (!largest) return ring;
-      return getRingArea(ring) > getRingArea(largest) ? ring : largest;
-    }, null);
-
-    if (!largestRing?.length) continue;
-
-    const country = {
-      name,
-      center: getRingCenter(largestRing),
-      bounds: getRingBounds(largestRing),
-    };
-
-    [name, ...(COUNTRY_SEARCH_ALIASES[name] || [])].forEach(alias => {
-      index.set(normalizeCountrySearch(alias), country);
-    });
-  }
-
-  countrySearchIndex = index;
-  return countrySearchIndex;
-}
-
-function resolveCountrySearch(query) {
-  return buildCountrySearchIndex().get(normalizeCountrySearch(query)) || null;
-}
 
 function getCoordinateBounds(coordinates, bounds = {
   minLng: Infinity,
@@ -290,13 +150,14 @@ function clearMarkers(markersRef) {
   markersRef.current = [];
 }
 
-export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySelect , countrySearch,
+export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch,
 }) {
   const mapEl = useRef(null);
   const mapRef = useRef(null);
   const yearRef = useRef(yearProp);
   const markersRef = useRef([]);
   const [eventsList, setEventsList] = useState([]);
+  const [mapReady, setMapReady] = useState(false);
   const {isLogged} = useAuth();
 
   const applyDate = (map) => {
@@ -346,7 +207,9 @@ export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySe
               ["get", "name_en"],
               ["get", "name"],
             ]);
-          } catch { }
+          } catch {
+            // Some style layers do not allow changing this layout property.
+          }
         }
       };
 
@@ -377,6 +240,7 @@ export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySe
       map.on("load", async () => {
         forceEnglishLabels();
         applyDate(map);
+        setMapReady(true);
 
           map.addSource("custom-labels", {
           type: "geojson",
@@ -420,6 +284,7 @@ export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySe
 
     return () => {
       disposed = true;
+      setMapReady(false);
       mapRef.current?.remove();
       mapRef.current = null;
     };
@@ -428,7 +293,7 @@ export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySe
   //add markers
   useEffect(() => {
     const map = mapRef.current;
-    if (!map) return;
+    if (!map || !mapReady) return;
     applyDate(map);
     clearMarkers(markersRef);
     const load = async () => {
@@ -436,7 +301,7 @@ export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySe
       setEventsList(list)
     }
     load()
-  }, [yearProp, isLogged]);
+  }, [yearProp, isLogged, mapReady]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -457,6 +322,12 @@ export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySe
 
     const country = resolveCountrySearch(countrySearch.query);
     if (!country) return;
+    if (
+      country.type === "historical" &&
+      (yearRef.current < country.yearStart || yearRef.current > country.yearEnd)
+    ) {
+      return;
+    }
 
     map.fitBounds(
       [
@@ -466,7 +337,15 @@ export default function OHMMap({yearProp = new Date().getFullYear(), onCountrySe
       { padding: 80, maxZoom: 5, duration: 1200 }
     );
     if (onCountrySelect) {
-      onCountrySelect({ name: country.name, properties: { name: country.name } });
+      onCountrySelect({
+        name: country.name,
+        properties: {
+          name: country.name,
+          yearStart: country.yearStart,
+          yearEnd: country.yearEnd,
+          searchType: country.type,
+        },
+      });
     }
   }, [countrySearch, onCountrySelect]);
 

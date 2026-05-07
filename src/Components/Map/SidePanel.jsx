@@ -5,6 +5,7 @@ const PANEL_TABS = [
   { id: "general", label: "General Info" },
   { id: "rulers", label: "Notable Rulers" },
   { id: "history", label: "Timeline" },
+  { id: "funFacts", label: "Fun Facts" },
 ];
 
 function formatLabel(key) {
@@ -22,6 +23,12 @@ function DetailRow({ label, value }) {
       <span>{value}</span>
     </div>
   );
+}
+
+function formatFact(fact) {
+  if (!fact) return null;
+  if (typeof fact === "string") return fact;
+  return fact.text || fact.fact || fact.description || null;
 }
 
 function formatYear(year) {
@@ -324,6 +331,23 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
                 </div>
               ) : (
                 <p className="country-panel__empty">No recorded history before {yearProp}.</p>
+              )
+            )}
+
+            {activeTab === "funFacts" && (
+              countryData.funFacts?.map(formatFact).filter(Boolean).length ? (
+                <div className="country-panel__fact-list">
+                  {countryData.funFacts
+                    .map(formatFact)
+                    .filter(Boolean)
+                    .map((fact) => (
+                      <div key={fact} className="country-panel__fact-card">
+                        {fact}
+                      </div>
+                    ))}
+                </div>
+              ) : (
+                <p className="country-panel__empty">No fun facts recorded yet.</p>
               )
             )}
           </div>
