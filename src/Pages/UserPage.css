@@ -332,3 +332,14 @@
     grid-template-columns: 1fr;
   }
 }
+
+.user-page__stat-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 18px;
+  padding-top: 56px;
+  box-sizing: border-box;
+}

@@ -286,7 +286,7 @@ export default function DeepDivesInfoPage() {
           <button
             className="deepdive-back-btn"
             type="button"
-            onClick={() => navigate("/deepdives")}
+            onClick={() => navigate("/deep-dives")}
           >
             <ArrowLeft size={18} />
             Back to deep dives

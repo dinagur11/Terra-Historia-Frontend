@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import "./OHMMap.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
-import "./OHMMap.css";
 import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
 import { useAuth } from '../../Context/AuthContext';

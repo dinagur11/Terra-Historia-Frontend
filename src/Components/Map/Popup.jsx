@@ -17,25 +17,24 @@ export default function Popup({
 
     return (
         <div className="popup-container">
-            <button className="popup-close" onClick={onClose}>
-                ×
-            </button>
-            {isLogged? 
-            (<button className="favorite-btn" title="Add to favorites" onClick={toggleFavorite}>
-                <Star
-                    size={20}
-                    fill={isFavorite ? "gold" : "white"}   
-                    stroke="black"                        
-                    strokeWidth={1}
-                />
-            </button>):
-            (<></>)
+            <div className="popup-scrollable">
+                <button className="popup-close" onClick={onClose}>
+                    ×
+                </button>
+                <p className="title">{eventName}</p>
+                <p className="date">{eventDate}</p>
+                <p className="description">{eventDescription}</p>
+            </div>
+            {isLogged &&
+                (<button className="favorite-btn" title="Add to favorites" onClick={toggleFavorite}>
+                    <Star
+                        size={20}
+                        fill={isFavorite ? "gold" : "white"}   
+                        stroke="black"                        
+                        strokeWidth={1}
+                    />
+                </button>)
             }
-            
-
-            <p className="title">{eventName}</p>
-            <p className="date">{eventDate}</p>
-            <p className="description">{eventDescription}</p>
         </div>
     );
 }

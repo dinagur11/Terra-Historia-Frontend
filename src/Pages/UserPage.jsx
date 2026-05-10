@@ -202,16 +202,12 @@ export default function UserPage() {
             </div>
 
             <div className="user-page__stat">
-              <span className="user-page__stat-value">0</span>
-              <span className="user-page__stat-label">Deep dives progress</span>
+              <div className="user-page__stat-placeholder">
+                <span className="user-page__stat-value">0</span>
+                <span className="user-page__stat-label">Deep dives progress</span>
+              </div>
             </div>
-
-            <div className="user-page__stat">
-              <span className="user-page__stat-value">0%</span>
-              <span className="user-page__stat-label">Timeline progress</span>
-            </div>
-          </div>
-
+          </div> 
           {savedBookmarksError && (
             <p className="user-page__message user-page__message--error">
               {savedBookmarksError}
