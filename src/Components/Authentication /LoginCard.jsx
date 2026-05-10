@@ -1,11 +1,10 @@
 import "./LoginCard.css"
-import facebookLogo from "../assets/facebooklogo.png"
-import googleLogo from "../assets/googlelogo.png"
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput.jsx";
 import { signIn } from 'aws-amplify/auth';
 import { useState } from 'react';
-import { useAuth } from '../Context/AuthContext';
+import { useAuth } from '../../Context/AuthContext.jsx';
+import Logo from "../Logo.jsx";
 
 function LoginCard(){
     const { login } = useAuth();
@@ -32,6 +31,9 @@ function LoginCard(){
 
     return (
     <div className="login-card">
+        <div className="logo">
+            <Logo />
+        </div>
         <h2 className="sign-in-txt">Sign In</h2>
         {error && <p className="error-msg">{error}</p>}
         <div className="input-group">
@@ -57,18 +59,6 @@ function LoginCard(){
         </button>
         <div className="divider">
             <span className="or-text">or</span>
-        </div>
-        <div className="social-login">
-            <div className="social-buttons">
-                <button className="social-login-btn">
-                    <img src={googleLogo} alt="Google" />
-                    Google
-                </button>
-                <button className="social-login-btn">
-                    <img src={facebookLogo} alt="Facebook" />
-                    Facebook
-                </button>
-            </div>
         </div>
         <Link to="/register" className="register">
             <p>Don't have an account?</p>

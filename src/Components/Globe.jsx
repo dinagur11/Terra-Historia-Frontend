@@ -84,8 +84,8 @@ export default function HomePage() {
           zIndex: 2, // make sure it's above the canvas
         }}
       >
-        <h1 style={{ fontSize: "2.6rem", marginBottom: "1.1rem" }}>Terra Historia</h1>
-        <p style={{ fontSize: "1.1rem", lineHeight: "1.6" }}>
+        <h1 className="project-name" >Terra Historia</h1>
+        <p className="description">
           Explore the world through time — from ancient empires to modern nations.
           View timelines for different countries, modern or in the past, 
           and discover the evolution of history across centuries.

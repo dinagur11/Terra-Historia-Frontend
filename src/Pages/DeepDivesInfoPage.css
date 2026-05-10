@@ -1,0 +1,783 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap');
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DeepDivesInfoPage.css  ·  Terra Historia design system
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg:          #111010;
+  --bg-header:   #0e0d0c;
+  --bg-card:     #151312;
+  --bg-subtle:   #0e0d0c;
+  --border:      rgba(255, 255, 255, 0.07);
+  --border-gold: rgba(201, 162, 39, 0.22);
+  --gold:        #c9a227;
+  --gold-dim:    #a07d18;
+  --gold-glow:   rgba(201, 162, 39, 0.18);
+  --txt:         #e8e0d0;
+  --txt-muted:   #7a7060;
+  --txt-link:    #b8a87a;
+}
+
+/* ── Page shell ───────────────────────────────────────────────────────────── */
+
+.deepdives-info-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'Raleway', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.deepdives-info-status {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.9rem;
+  color: var(--txt-muted);
+  letter-spacing: 0.06em;
+  padding: 4rem;
+}
+
+/* ── Layout wrapper ───────────────────────────────────────────────────────── */
+
+.deepdive-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* full height minus whatever the Header occupies */
+  height: calc(100vh - 56px);
+}
+
+/* ── Top bar ──────────────────────────────────────────────────────────────── */
+
+.deepdive-topbar {
+  flex-shrink: 0;
+  height: 44px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+/* gold hairline at bottom of topbar */
+.deepdive-topbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gold-dim) 30%,
+    var(--gold)    50%,
+    var(--gold-dim) 70%,
+    transparent 100%
+  );
+  opacity: 0.38;
+}
+
+.deepdive-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--txt-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.22s ease;
+  position: relative;
+}
+
+.deepdive-back-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.deepdive-back-btn:hover {
+  color: var(--gold);
+}
+
+.deepdive-back-btn:hover::after {
+  width: 100%;
+}
+
+.deepdive-back-btn svg {
+  flex-shrink: 0;
+  transition: transform 0.22s ease;
+}
+
+.deepdive-back-btn:hover svg {
+  transform: translateX(-2px);
+}
+
+.deepdive-counter {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--txt-muted);
+  letter-spacing: 0.12em;
+}
+
+/* ── Main split ───────────────────────────────────────────────────────────── */
+
+.deepdive-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Map panel ────────────────────────────────────────────────────────────── */
+
+.deepdive-map-panel {
+  flex: 0 0 50%;
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+.deepdive-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Corner ornaments on the map */
+.deepdive-map-panel::before,
+.deepdive-map-panel::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  z-index: 10;
+  pointer-events: none;
+  border-color: rgba(201, 162, 39, 0.32);
+  border-style: solid;
+  border-width: 0;
+}
+.deepdive-map-panel::before {
+  top: 10px; left: 10px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+.deepdive-map-panel::after {
+  bottom: 10px; right: 10px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+/* MapLibre marker styles */
+.deepdive-map-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: rgba(201, 162, 39, 0.9);
+  box-shadow: 0 0 8px var(--gold-glow), 0 0 0 4px rgba(201, 162, 39, 0.12);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deepdive-map-marker:hover {
+  transform: scale(1.3);
+  box-shadow: 0 0 14px rgba(201, 162, 39, 0.5);
+}
+
+.deepdive-map-marker--minor {
+  width: 8px;
+  height: 8px;
+  border-color: var(--txt-link);
+  background: rgba(184, 168, 122, 0.75);
+  box-shadow: none;
+}
+
+.deepdive-map-marker--minor:hover {
+  transform: scale(1.25);
+}
+
+/* MapLibre popup */
+.maplibregl-popup-content {
+  background: var(--bg-card) !important;
+  color: var(--txt) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.08em !important;
+  border: 1px solid var(--border-gold) !important;
+  border-radius: 2px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: var(--border-gold) !important;
+}
+
+.maplibregl-popup-close-button {
+  color: var(--txt-muted) !important;
+  font-size: 1rem !important;
+}
+
+.maplibregl-popup-close-button:hover {
+  color: var(--gold) !important;
+  background: transparent !important;
+}
+
+/* MapLibre zoom controls */
+.maplibregl-ctrl-group {
+  background: var(--bg-header) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 2px !important;
+  overflow: hidden;
+}
+
+.maplibregl-ctrl-group button {
+  background: transparent !important;
+  color: var(--txt-muted) !important;
+  border-bottom: 1px solid var(--border) !important;
+  width: 30px !important;
+  height: 30px !important;
+  transition: color 0.2s ease, background 0.2s ease !important;
+}
+
+.maplibregl-ctrl-group button:last-child {
+  border-bottom: none !important;
+}
+
+.maplibregl-ctrl-group button:hover {
+  background: rgba(201, 162, 39, 0.08) !important;
+  color: var(--gold) !important;
+}
+
+.maplibregl-ctrl-group button span {
+  filter: invert(0.5) !important;
+}
+
+.maplibregl-ctrl-attrib {
+  display: none !important;
+}
+
+/* ── Content panel ────────────────────────────────────────────────────────── */
+
+.deepdive-content-panel {
+  flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ── Event meta + heading (fixed, not scrolled) ─────────────────────────── */
+
+.deepdive-event-meta {
+  flex-shrink: 0;
+  padding: 14px 22px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deepdive-event-meta span {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--txt-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.deepdive-event-meta span + span::before {
+  content: '·';
+  margin-right: 12px;
+  color: var(--border-gold);
+}
+
+.deepdive-content-panel > h1 {
+  flex-shrink: 0;
+  padding: 6px 22px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--txt);
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+
+.deepdive-subtitle {
+  flex-shrink: 0;
+  padding: 4px 22px 12px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 300;
+  color: var(--txt-link);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+/* gold rule under subtitle */
+.deepdive-subtitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gold-dim) 30%,
+    var(--gold)    50%,
+    var(--gold-dim) 70%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+/* ── Scrollable slide area ────────────────────────────────────────────────── */
+
+.deepdive-slide-card {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 22px;
+
+  /* Styled scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) transparent;
+}
+
+.deepdive-slide-card::-webkit-scrollbar {
+  width: 4px;
+}
+
+.deepdive-slide-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.deepdive-slide-card::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 2px;
+}
+
+.deepdive-slide-card::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ── Slide image ──────────────────────────────────────────────────────────── */
+
+.deepdive-slide-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-gold);
+  background: #080a06;
+  margin-bottom: 8px;
+}
+
+.deepdive-slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: sepia(15%) contrast(1.06) brightness(0.93);
+  transition: transform 0.4s ease;
+}
+
+.deepdive-slide-image-wrap:hover .deepdive-slide-image {
+  transform: scale(1.02);
+}
+
+/* bottom fade on image */
+.deepdive-slide-image-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 50px;
+  background: linear-gradient(transparent, rgba(6, 8, 5, 0.88));
+  pointer-events: none;
+}
+
+.deepdive-slide-caption {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(232, 224, 208, 0.52);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+.deepdive-slide-caption::before {
+  content: '◈ ';
+  color: var(--gold-dim);
+}
+
+/* ── Slide header (title + bookmark) ─────────────────────────────────────── */
+
+.deepdive-slide-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.deepdive-slide-header h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--txt);
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
+.deepdive-bookmark-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--txt-muted);
+  cursor: pointer;
+  transition: color 0.22s ease, border-color 0.22s ease,
+              background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.deepdive-bookmark-btn:hover {
+  color: var(--gold);
+  border-color: var(--border-gold);
+  background: rgba(201, 162, 39, 0.08);
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+
+.deepdive-bookmark-btn.is-bookmarked {
+  color: var(--gold);
+  border-color: var(--border-gold);
+  background: rgba(201, 162, 39, 0.1);
+}
+
+/* ── Slide body text ──────────────────────────────────────────────────────── */
+
+.deepdive-slide-body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.82;
+  color: var(--txt-link);
+  margin-bottom: 16px;
+}
+
+/* ── Stats grid ───────────────────────────────────────────────────────────── */
+
+.deepdive-stats {
+  display: grid;
+  /*
+    Each stat is at least 160px wide, but they grow to fill space.
+    This means: 2 stats → 2 columns, 1 stat → fills the full row,
+    3 stats → 2 + 1 full, all automatically, no manual --full needed
+    for the lone-item case.
+  */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.deepdive-stat {
+  padding: 9px 12px;
+  border-left: 2px solid var(--gold);
+  background: rgba(201, 162, 39, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Explicit full-width override (e.g. a long label that should always span) */
+.deepdive-stat--full {
+  grid-column: 1 / -1;
+}
+
+.deepdive-stat strong {
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.deepdive-stat span {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--txt-muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* ── Slide controls ───────────────────────────────────────────────────────── */
+
+.deepdive-controls {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding: 12px 22px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-subtle);
+  position: relative;
+}
+
+/* gold top-rule on controls */
+.deepdive-controls::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gold-dim) 30%,
+    var(--gold)    50%,
+    var(--gold-dim) 70%,
+    transparent 100%
+  );
+  opacity: 0.28;
+}
+
+.deepdive-controls button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: var(--txt-link);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.deepdive-controls button:first-child {
+  border-right: none;
+}
+
+.deepdive-controls button:hover:not(:disabled) {
+  background: rgba(201, 162, 39, 0.08);
+  color: var(--gold);
+  border-color: var(--gold);
+  z-index: 1;
+}
+
+/* Next button — filled gold */
+.deepdive-controls button:last-child {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0e0d0c;
+  font-weight: 700;
+}
+
+.deepdive-controls button:last-child:hover:not(:disabled) {
+  background: #d4ab2c;
+  border-color: #d4ab2c;
+}
+
+.deepdive-controls button:disabled {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.13);
+  cursor: default;
+}
+
+.deepdive-controls button svg {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.deepdive-controls button:first-child:hover:not(:disabled) svg {
+  transform: translateX(-2px);
+}
+
+.deepdive-controls button:last-child:hover:not(:disabled) svg {
+  transform: translateX(2px);
+}
+
+/* ── Event tabs ───────────────────────────────────────────────────────────── */
+
+.deepdive-event-tabs {
+  flex-shrink: 0;
+  display: flex;
+  overflow-x: auto;
+  border-top: 1px solid var(--border);
+  background: var(--bg-subtle);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) transparent;
+}
+
+.deepdive-event-tabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.deepdive-event-tabs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.deepdive-event-tabs::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 2px;
+}
+
+.deepdive-event-tabs::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+.deepdive-event-tabs button {
+  flex-shrink: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 11px 18px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border);
+  border-bottom: 2px solid transparent;
+  color: var(--txt-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+  position: relative;
+}
+
+.deepdive-event-tabs button:last-child {
+  border-right: none;
+}
+
+/* dot indicator */
+.deepdive-event-tabs button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(201, 162, 39, 0.15);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  transition: all 0.28s ease;
+}
+
+.deepdive-event-tabs button:hover {
+  color: var(--txt-link);
+  background: rgba(201, 162, 39, 0.03);
+}
+
+.deepdive-event-tabs button.active {
+  color: var(--gold);
+  background: rgba(201, 162, 39, 0.05);
+  border-bottom-color: var(--gold);
+}
+
+.deepdive-event-tabs button.active::before {
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 7px rgba(201, 162, 39, 0.45);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .deepdive-content-panel {
+    flex: 0 0 50%;
+  }
+}
+
+@media (max-width: 860px) {
+  .deepdive-main {
+    flex-direction: column;
+  }
+
+  .deepdive-map-panel {
+    flex: 0 0 300px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .deepdive-content-panel {
+    flex: 1;
+  }
+
+  .deepdive-layout {
+    height: auto;
+    overflow: visible;
+  }
+
+  .deepdive-slide-card {
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 540px) {
+  .deepdive-content-panel {
+    flex: 0 0 auto;
+  }
+
+  .deepdive-topbar {
+    padding: 0 1rem;
+  }
+
+  .deepdive-back-btn {
+    font-size: 0.6rem;
+  }
+
+  .deepdive-counter {
+    font-size: 0.6rem;
+  }
+
+  .deepdive-event-meta,
+  .deepdive-content-panel > h1,
+  .deepdive-subtitle,
+  .deepdive-slide-card {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .deepdive-controls {
+    padding: 10px 14px;
+  }
+
+  .deepdive-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .deepdive-stat--full {
+    grid-column: 1;
+  }
+}

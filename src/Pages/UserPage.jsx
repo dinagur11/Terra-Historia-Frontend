@@ -1,25 +1,31 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { fetchAuthSession, fetchUserAttributes, updatePassword } from "aws-amplify/auth";
+import {
+  fetchAuthSession,
+  fetchUserAttributes,
+  updatePassword,
+} from "aws-amplify/auth";
 import Header from "../Components/Header/Header";
 import { useAuth } from "../Context/AuthContext";
-import { DEEP_DIVES } from "../data/deepDives";
 import "./UserPage.css";
 
 export default function UserPage() {
   const { isLogged, isAuthReady } = useAuth();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
+
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [savedDiveIds, setSavedDiveIds] = useState([]);
-  const [savedDiveError, setSavedDiveError] = useState("");
-  const [showSavedDives, setShowSavedDives] = useState(false);
-  const savedDeepDives = DEEP_DIVES.filter((dive) => savedDiveIds.includes(dive.id));
+
+  const [savedBookmarks, setSavedBookmarks] = useState([]);
+  const [savedBookmarksError, setSavedBookmarksError] = useState("");
+  const [showSavedBookmarks, setShowSavedBookmarks] = useState(false);
+  const [isBookmarksLoading, setIsBookmarksLoading] = useState(false);
 
   useEffect(() => {
     if (!isLogged) return;
@@ -36,10 +42,15 @@ export default function UserPage() {
   useEffect(() => {
     if (!isLogged) return;
 
+    setIsBookmarksLoading(true);
+
     fetchUserBookmarks()
-      .then(setSavedDiveIds)
+      .then(setSavedBookmarks)
       .catch(() => {
-        setSavedDiveError("Saved deep dives could not be loaded.");
+        setSavedBookmarksError("Saved bookmarks could not be loaded.");
+      })
+      .finally(() => {
+        setIsBookmarksLoading(false);
       });
   }, [isLogged]);
 
@@ -50,10 +61,7 @@ export default function UserPage() {
     setIsChangingPassword(true);
 
     try {
-      await updatePassword({
-        oldPassword,
-        newPassword,
-      });
+      await updatePassword({ oldPassword, newPassword });
       setOldPassword("");
       setNewPassword("");
       setShowPasswordForm(false);
@@ -80,6 +88,7 @@ export default function UserPage() {
   return (
     <div className="user-page">
       <Header isMapActive={false} />
+
       <main className="user-page__body">
         <section className="user-page__panel">
           <p className="user-page__eyebrow">My Account</p>
@@ -109,6 +118,7 @@ export default function UserPage() {
             >
               Change Password
             </button>
+
             <button
               type="button"
               className="user-page__button"
@@ -121,7 +131,11 @@ export default function UserPage() {
           {showPasswordForm && (
             <>
               <div className="user-page__divider" />
-              <form className="user-page__password-form" onSubmit={handlePasswordChange}>
+
+              <form
+                className="user-page__password-form"
+                onSubmit={handlePasswordChange}
+              >
                 <label className="user-page__label" htmlFor="old-password">
                   Current password
                 </label>
@@ -158,14 +172,19 @@ export default function UserPage() {
           )}
 
           {message && <p className="user-page__message">{message}</p>}
-          {error && <p className="user-page__message user-page__message--error">{error}</p>}
+          {error && (
+            <p className="user-page__message user-page__message--error">
+              {error}
+            </p>
+          )}
         </section>
 
         <section className="user-page__progress">
           <p className="user-page__eyebrow">Progress</p>
           <h2 className="user-page__title">Your Journey</h2>
           <p className="user-page__subtitle">
-            A larger space for saved eras, explored timelines, achievements, or learning progress.
+            A larger space for saved eras, explored timelines, achievements, or
+            learning progress.
           </p>
 
           <div className="user-page__progress-grid">
@@ -173,57 +192,76 @@ export default function UserPage() {
               <button
                 type="button"
                 className="user-page__stat-button"
-                onClick={() => setShowSavedDives((current) => !current)}
+                onClick={() => setShowSavedBookmarks((current) => !current)}
               >
-                <span className="user-page__stat-value">{savedDeepDives.length}</span>
-                <span className="user-page__stat-label">Saved deep dives</span>
+                <span className="user-page__stat-value">
+                  {savedBookmarks.length}
+                </span>
+                <span className="user-page__stat-label">Saved bookmarks</span>
               </button>
             </div>
+
             <div className="user-page__stat">
               <span className="user-page__stat-value">0</span>
               <span className="user-page__stat-label">Deep dives progress</span>
             </div>
+
             <div className="user-page__stat">
               <span className="user-page__stat-value">0%</span>
               <span className="user-page__stat-label">Timeline progress</span>
             </div>
           </div>
 
-          {savedDiveError && (
-            <p className="user-page__message user-page__message--error">{savedDiveError}</p>
+          {savedBookmarksError && (
+            <p className="user-page__message user-page__message--error">
+              {savedBookmarksError}
+            </p>
           )}
 
-          {showSavedDives ? (
+          {showSavedBookmarks ? (
             <div className="user-page__saved-dives">
-              {savedDeepDives.length ? (
-                savedDeepDives.map((dive) => (
+              {isBookmarksLoading ? (
+                <div className="user-page__progress-empty">
+                  Loading saved bookmarks...
+                </div>
+              ) : savedBookmarks.length ? (
+                savedBookmarks.map((bookmark, index) => (
                   <button
-                    key={dive.id}
+                    key={`${bookmark.timelineId}-${bookmark.eventId}-${bookmark.slideIndex}-${index}`}
                     type="button"
                     className="user-page__saved-dive-card"
-                    onClick={() => navigate("/deep-dives", { state: { deepDiveId: dive.id } })}
+                    onClick={() =>
+                      navigate(`/deepdives/${bookmark.timelineId}`, {
+                        state: {
+                          eventId: bookmark.eventId,
+                          slideIndex: bookmark.slideIndex,
+                        },
+                      })
+                    }
                   >
-                    <span className="user-page__saved-dive-years">{dive.years}</span>
-                    <strong>
-                      {dive.title}
-                      <span>{dive.subtitle}</span>
-                    </strong>
-                    <p>{dive.summary}</p>
+                    <span className="user-page__saved-dive-years">
+                      {bookmark.slideTitle}
+                    </span>
+
+                    <strong>{bookmark.eventTitle}</strong>
+
                     <span className="user-page__saved-dive-meta">
-                      <span style={{ backgroundColor: dive.color }} />
-                      {dive.eventCount} key events
+                      <span />
+                      {bookmark.savedAt
+                        ? `Saved ${new Date(bookmark.savedAt).toLocaleDateString()}`
+                        : "Saved bookmark"}
                     </span>
                   </button>
                 ))
               ) : (
                 <div className="user-page__progress-empty">
-                  No saved deep dives yet.
+                  No saved bookmarks yet.
                 </div>
               )}
             </div>
           ) : (
             <div className="user-page__progress-empty">
-              Click Saved deep dives to view your bookmarks.
+              Click Saved bookmarks to view your bookmarks.
             </div>
           )}
         </section>
@@ -248,9 +286,11 @@ async function getAuthHeaders() {
 
 async function fetchUserBookmarks() {
   const headers = await getAuthHeaders();
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me/bookmarks`, {
-    headers,
-  });
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/me/bookmarks`,
+    { headers }
+  );
 
   if (!response.ok) {
     throw new Error("Could not load bookmarks");

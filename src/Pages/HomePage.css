@@ -1,3 +1,5 @@
+@import url('../Variables.css');
+
 /* ===== Shared button style ===== */
 .login-button,
 .header-account-btn,
@@ -15,7 +17,7 @@
   justify-content: center;
 
   background: rgba(57, 54, 54, 0.25);
-  color: white;
+  color: var(--text-primary);
 
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
@@ -56,10 +58,10 @@
 .hello-text {
   position: absolute;
   top: 18px;
-  left: 20px;
+  right: 320px;
   z-index: 9999;
 
-  color: white;
+  color: var(--text-primary);
   font-size: 18px;
   font-weight: 500;
 

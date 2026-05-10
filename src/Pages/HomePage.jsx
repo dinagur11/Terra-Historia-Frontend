@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { useAuth } from '../Context/AuthContext';
 
-const TODAY_EVENT_LIMIT = 7;
+const TODAY_EVENT_LIMIT = 9;
 
 export default function HomePage() {
     const [name, setName] = useState("");
@@ -94,7 +94,7 @@ function TodaySection({ events, status }) {
     return (
         <aside className="today-section" aria-label="Today in history">
             <div className="today-section__header">
-                <span>Today</span>
+                <span>Today {new Date().toLocaleDateString()}</span>
                 <h2>On This Day</h2>
             </div>
 

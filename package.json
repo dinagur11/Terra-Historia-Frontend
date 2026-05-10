@@ -17,6 +17,7 @@
     "@openhistoricalmap/maplibre-gl-dates": "^1.3.0",
     "aws-amplify": "^6.16.4",
     "globe.gl": "^2.45.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.546.0",
     "mapbox-gl": "^3.16.0",
     "maplibre-gl": "^5.11.0",

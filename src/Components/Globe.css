@@ -1,12 +1,31 @@
+@import url('../Variables.css');
+
+.project-name {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+
+.description {
+    color: var(--blue-highlight);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 400px;
+    margin-top: 0.5rem;
+}
+
 .globe-container{
     margin-top: 0;
 }
 
 .map-link{
     font-weight: 600;
-    color: white;
+    color: var(--text-primary);
+    text-decoration: none;
     transition: transform 0.2s ease;
-    transform-origin: left center;   
+    transform-origin: left center; 
+    margin-top: 12px;  
 }
 
 .link{

@@ -8,6 +8,7 @@ import ForgotPassword from "./Pages/ForgotPassPage"
 import SuggestionPage from "./Pages/SuggestionPage";
 import UserPage from "./Pages/UserPage";
 import DeepDivesPage from "./Pages/DeepDivesPage";
+import DeepDivesInfoPage from "./Pages/DeepDivesInfoPage";
 
 
 export default function App() {
@@ -22,7 +23,8 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/suggestions" element={<SuggestionPage />} />
         <Route path="/account" element={<UserPage />} />
-        <Route path="/deep-dives" element={<DeepDivesPage />} />
+        <Route path="/deep-dives" element={<DeepDivesPage />} /> 
+        <Route path="/deepdives/:id" element={<DeepDivesInfoPage />} />
       </Routes>
     </BrowserRouter>
   );
