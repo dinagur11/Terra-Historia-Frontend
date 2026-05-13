@@ -4,13 +4,11 @@
 /* ── Page shell ───────────────────────────────────────────────────────────── */
 
 .deepdives-info-page {
-  min-height: 100vh;
-  background: var(--bg);
-  color: var(--txt);
-  font-family: 'Raleway', sans-serif;
-  display: flex;
-  flex-direction: column;
+  height: 100vh;           /* ADD — pin the page itself */
+  min-height: unset;       /* remove min-height: 100vh */
+  overflow: hidden;        /* ADD */
 }
+
 
 .deepdives-info-status {
   flex: 1;
@@ -31,8 +29,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* full height minus whatever the Header occupies */
-  height: calc(100vh - 56px);
+  height: calc(100vh - 57px);  
+  min-height: 0;
 }
 
 /* ── Top bar ──────────────────────────────────────────────────────────────── */
@@ -49,7 +47,6 @@
   position: relative;
 }
 
-/* gold hairline at bottom of topbar */
 .deepdive-topbar::after {
   content: '';
   position: absolute;
@@ -93,13 +90,8 @@
   transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.deepdive-back-btn:hover {
-  color: var(--gold);
-}
-
-.deepdive-back-btn:hover::after {
-  width: 100%;
-}
+.deepdive-back-btn:hover { color: var(--gold); }
+.deepdive-back-btn:hover::after { width: 100%; }
 
 .deepdive-back-btn svg {
   flex-shrink: 0;
@@ -143,7 +135,6 @@
   height: 100%;
 }
 
-/* Corner ornaments on the map */
 .deepdive-map-panel::before,
 .deepdive-map-panel::after {
   content: '';
@@ -155,11 +146,13 @@
   border-style: solid;
   border-width: 0;
 }
+
 .deepdive-map-panel::before {
   top: 10px; left: 10px;
   border-top-width: 1px;
   border-left-width: 1px;
 }
+
 .deepdive-map-panel::after {
   bottom: 10px; right: 10px;
   border-bottom-width: 1px;
@@ -168,31 +161,43 @@
 
 /* MapLibre marker styles */
 .deepdive-map-marker {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--gold);
-  background: rgba(201, 162, 39, 0.9);
-  box-shadow: 0 0 8px var(--gold-glow), 0 0 0 4px rgba(201, 162, 39, 0.12);
+  width: 24px;
+  height: 32px;
+  background: var(--gold);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 10px var(--gold-glow);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.deepdive-map-marker::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .deepdive-map-marker:hover {
-  transform: scale(1.3);
-  box-shadow: 0 0 14px rgba(201, 162, 39, 0.5);
+  transform: rotate(-45deg) scale(1.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 16px var(--gold-glow);
 }
 
 .deepdive-map-marker--minor {
-  width: 8px;
-  height: 8px;
-  border-color: var(--txt-link);
-  background: rgba(184, 168, 122, 0.75);
-  box-shadow: none;
+  width: 18px;
+  height: 24px;
+  background: var(--txt-link);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .deepdive-map-marker--minor:hover {
-  transform: scale(1.25);
+  transform: rotate(-45deg) scale(1.15);
 }
 
 /* MapLibre zoom controls */
@@ -235,7 +240,7 @@
   flex: 0 0 50%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: hidden;          /* clips children, does not scroll itself */
   background: var(--bg);
 }
 
@@ -288,7 +293,6 @@
   position: relative;
 }
 
-/* gold rule under subtitle */
 .deepdive-subtitle::after {
   content: '';
   position: absolute;
@@ -308,31 +312,21 @@
 /* ── Scrollable slide area ────────────────────────────────────────────────── */
 
 .deepdive-slide-card {
-  flex: 1;
+  flex: 1;               /* claims all remaining space in the column */
+  min-height: 0;         /* lets flex actually shrink it — critical */
   overflow-y: auto;
   padding: 16px 22px;
-
-  /* Styled scrollbar */
   scrollbar-width: thin;
   scrollbar-color: var(--gold-dim) transparent;
 }
 
-.deepdive-slide-card::-webkit-scrollbar {
-  width: 4px;
-}
-
-.deepdive-slide-card::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+.deepdive-slide-card::-webkit-scrollbar { width: 4px; }
+.deepdive-slide-card::-webkit-scrollbar-track { background: transparent; }
 .deepdive-slide-card::-webkit-scrollbar-thumb {
   background: var(--gold-dim);
   border-radius: 2px;
 }
-
-.deepdive-slide-card::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
-}
+.deepdive-slide-card::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
 /* ── Slide image ──────────────────────────────────────────────────────────── */
 
@@ -360,7 +354,6 @@
   transform: scale(1.02);
 }
 
-/* bottom fade on image */
 .deepdive-slide-image-wrap::after {
   content: '';
   position: absolute;
@@ -447,12 +440,6 @@
 
 .deepdive-stats {
   display: grid;
-  /*
-    Each stat is at least 160px wide, but they grow to fill space.
-    This means: 2 stats → 2 columns, 1 stat → fills the full row,
-    3 stats → 2 + 1 full, all automatically, no manual --full needed
-    for the lone-item case.
-  */
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 8px;
   margin-bottom: 4px;
@@ -467,7 +454,6 @@
   gap: 3px;
 }
 
-/* Explicit full-width override (e.g. a long label that should always span) */
 .deepdive-stat--full {
   grid-column: 1 / -1;
 }
@@ -502,7 +488,6 @@
   position: relative;
 }
 
-/* gold top-rule on controls */
 .deepdive-controls::before {
   content: '';
   position: absolute;
@@ -549,7 +534,6 @@
   z-index: 1;
 }
 
-/* Next button — filled gold */
 .deepdive-controls button:last-child {
   background: var(--gold);
   border-color: var(--gold);
@@ -586,30 +570,16 @@
 
 .deepdive-event-tabs {
   flex-shrink: 0;
+  height: 44px;            /* fixed — prevents stealing space from slide card */
+  min-height: 44px;
   display: flex;
   overflow-x: auto;
+  overflow-y: hidden;
   border-top: 1px solid var(--border);
   background: var(--bg-subtle);
-
   scrollbar-width: thin;
   scrollbar-color: var(--gold-dim) transparent;
-}
-
-.deepdive-event-tabs::-webkit-scrollbar {
-  height: 3px;
-}
-
-.deepdive-event-tabs::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.deepdive-event-tabs::-webkit-scrollbar-thumb {
-  background: var(--gold-dim);
-  border-radius: 2px;
-}
-
-.deepdive-event-tabs::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
+  padding-bottom: 1px;
 }
 
 .deepdive-event-tabs button {
@@ -619,7 +589,8 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 11px 18px;
+  padding: 0 18px;           /* no vertical padding — height is controlled by parent */
+  height: 100%;
   background: transparent;
   border: none;
   border-right: 1px solid var(--border);
@@ -635,19 +606,6 @@
   border-right: none;
 }
 
-/* dot indicator */
-.deepdive-event-tabs button::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: rgba(201, 162, 39, 0.15);
-  border: 1px solid rgba(201, 162, 39, 0.2);
-  transition: all 0.28s ease;
-}
-
 .deepdive-event-tabs button:hover {
   color: var(--txt-link);
   background: rgba(201, 162, 39, 0.03);
@@ -657,13 +615,6 @@
   color: var(--gold);
   background: rgba(201, 162, 39, 0.05);
   border-bottom-color: var(--gold);
-}
-
-.deepdive-event-tabs button.active::before {
-  width: 7px; height: 7px;
-  background: var(--gold);
-  border-color: var(--gold);
-  box-shadow: 0 0 7px rgba(201, 162, 39, 0.45);
 }
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
@@ -687,6 +638,7 @@
 
   .deepdive-content-panel {
     flex: 1;
+    min-height: 0;
   }
 
   .deepdive-layout {
@@ -708,13 +660,8 @@
     padding: 0 1rem;
   }
 
-  .deepdive-back-btn {
-    font-size: 0.6rem;
-  }
-
-  .deepdive-counter {
-    font-size: 0.6rem;
-  }
+  .deepdive-back-btn { font-size: 0.6rem; }
+  .deepdive-counter { font-size: 0.6rem; }
 
   .deepdive-event-meta,
   .deepdive-content-panel > h1,

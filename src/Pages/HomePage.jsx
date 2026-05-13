@@ -21,7 +21,6 @@ export default function HomePage() {
                 const attributes = await fetchUserAttributes();
                 setName(attributes.name || "User");
             } catch {
-                // nothing to do
             }
         };
 

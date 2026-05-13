@@ -14,6 +14,159 @@ import Header from "../Components/Header/Header";
 import { useAuth } from "../Context/AuthContext";
 import "./DeepDivesInfoPage.css";
 
+// ── Map helpers ───────────────────────────────────────────────────────────────
+
+function forceEnglishLabels(map) {
+  const style = map.getStyle?.();
+  if (!style?.layers) return;
+  for (const layer of style.layers) {
+    if (layer.type !== "symbol") continue;
+    try {
+      map.setLayoutProperty(layer.id, "text-field", [
+        "coalesce",
+        ["get", "name:en"],
+        ["get", "name_en"],
+        ["get", "name"],
+      ]);
+    } catch (_) {}
+  }
+}
+
+function placeMarkers(map, activeEvent, markersRef) {
+  markersRef.current.forEach((m) => m.remove());
+  markersRef.current = [];
+
+  activeEvent.markers?.forEach((markerData) => {
+    const el = document.createElement("div");
+    el.className = `deepdive-map-marker deepdive-map-marker--${
+      markerData.type || "minor"
+    }`;
+
+    const marker = new maplibregl.Marker({ element: el })
+      .setLngLat([markerData.latlng[1], markerData.latlng[0]])
+      .setPopup(
+        new maplibregl.Popup({ offset: 18 }).setText(markerData.label)
+      )
+      .addTo(map);
+
+    markersRef.current.push(marker);
+  });
+}
+
+function polygonCentroid(coordinates) {
+  let x = 0, y = 0;
+  const n = coordinates.length;
+  for (const [lng, lat] of coordinates) {
+    x += lng;
+    y += lat;
+  }
+  return [x / n, y / n];
+}
+
+function placeOverlays(map, activeEvent) {
+  ["regions-labels", "regions-outline", "regions-fill"].forEach((id) => {
+    try { if (map.getLayer(id)) map.removeLayer(id); } catch (_) {}
+  });
+  ["regions-labels", "regions"].forEach((id) => {
+    try { if (map.getSource(id)) map.removeSource(id); } catch (_) {}
+  });
+
+  if (!activeEvent.regions?.length) return;
+
+  try {
+    map.addSource("regions", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: activeEvent.regions.map((r) => ({
+          type: "Feature",
+          properties: {
+            color: r.color,
+            opacity: r.opacity ?? 0.25,
+          },
+          geometry: {
+            type: "Polygon",
+            coordinates: [r.coordinates],
+          },
+        })),
+      },
+    });
+
+    map.addLayer({
+      id: "regions-fill",
+      type: "fill",
+      source: "regions",
+      paint: {
+        "fill-color": ["get", "color"],
+        "fill-opacity": ["get", "opacity"],
+      },
+    });
+
+    map.addLayer({
+      id: "regions-outline",
+      type: "line",
+      source: "regions",
+      paint: {
+        "line-color": ["get", "color"],
+        "line-width": 1.5,
+        "line-opacity": 0.7,
+      },
+    });
+
+    map.addSource("regions-labels", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: activeEvent.regions.map((r) => ({
+          type: "Feature",
+          properties: {
+            label: r.label,
+            color: r.color,
+          },
+          geometry: {
+            type: "Point",
+            coordinates: polygonCentroid(r.coordinates),
+          },
+        })),
+      },
+    });
+
+    map.addLayer({
+      id: "regions-labels",
+      type: "symbol",
+      source: "regions-labels",
+      layout: {
+        "text-field": ["get", "label"],
+        "text-size": 12,
+        "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+        "text-anchor": "center",
+        "text-max-width": 8,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false,
+      },
+      paint: {
+        "text-color": ["get", "color"],
+        "text-halo-color": "rgba(0, 0, 0, 0.7)",
+        "text-halo-width": 1.5,
+      },
+    });
+  } catch (err) {
+    console.warn("placeOverlays failed:", err);
+  }
+}
+
+function applyDateAndOverlays(map, event) {
+  try {
+    if (map.filterByDate) {
+      map.filterByDate(`${event.year}-01-01`);
+      map.triggerRepaint();
+    }
+  } catch (_) {}
+  placeOverlays(map, event);
+}
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function DeepDivesInfoPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,6 +175,7 @@ export default function DeepDivesInfoPage() {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]);
+  const yearRef = useRef(null);
 
   const [events, setEvents] = useState([]);
   const [activeEventIndex, setActiveEventIndex] = useState(0);
@@ -33,10 +187,12 @@ export default function DeepDivesInfoPage() {
   const activeEvent = events[activeEventIndex];
   const slides = activeEvent?.slides || [];
   const activeSlide = slides[activeSlideIndex];
+  // at the top of the component, restore this ref:
+  const activeEventRef = useRef(null);
+  activeEventRef.current = activeEvent ?? null;
 
   const currentBookmark = useMemo(() => {
     if (!id || !activeEvent || !activeSlide) return null;
-
     return {
       timelineId: id,
       eventId: activeEvent.id,
@@ -53,15 +209,18 @@ export default function DeepDivesInfoPage() {
       bookmark.slideIndex === activeSlideIndex
   );
 
+  // ── Auth headers ───────────────────────────────────────────────────────────
+
   async function getAuthHeaders() {
     const session = await fetchAuthSession();
     const token = session.tokens?.accessToken?.toString();
-
     return {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
   }
+
+  // ── Load deep dive ─────────────────────────────────────────────────────────
 
   useEffect(() => {
     async function loadDeepDive() {
@@ -73,12 +232,9 @@ export default function DeepDivesInfoPage() {
           `${import.meta.env.VITE_API_URL}/deepdives/${id}`
         );
 
-        if (!response.ok) {
-          throw new Error("Could not load this deep dive.");
-        }
+        if (!response.ok) throw new Error("Could not load this deep dive.");
 
         const data = await response.json();
-
         setEvents(data);
         setActiveEventIndex(0);
         setActiveSlideIndex(0);
@@ -93,6 +249,8 @@ export default function DeepDivesInfoPage() {
     loadDeepDive();
   }, [id]);
 
+  // ── Load bookmarks ─────────────────────────────────────────────────────────
+
   useEffect(() => {
     async function loadBookmarks() {
       if (!isLogged) {
@@ -102,15 +260,12 @@ export default function DeepDivesInfoPage() {
 
       try {
         const headers = await getAuthHeaders();
-
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/users/me/bookmarks`,
           { headers }
         );
 
-        if (!response.ok) {
-          throw new Error("Could not load bookmarks.");
-        }
+        if (!response.ok) throw new Error("Could not load bookmarks.");
 
         const data = await response.json();
         setBookmarks(data.deepDiveBookmarks || []);
@@ -122,6 +277,8 @@ export default function DeepDivesInfoPage() {
     loadBookmarks();
   }, [isLogged]);
 
+  // ── Map effect ─────────────────────────────────────────────────────────────
+
   useEffect(() => {
     if (!activeEvent || !mapContainerRef.current) return;
 
@@ -129,45 +286,71 @@ export default function DeepDivesInfoPage() {
     const zoom = activeEvent.view?.zoom || 3;
 
     if (!mapRef.current) {
-      mapRef.current = new maplibregl.Map({
-        container: mapContainerRef.current,
-        style: "https://demotiles.maplibre.org/style.json",
-        center: [center[1], center[0]],
-        zoom,
-      });
+      // ── First load ──────────────────────────────────────────────────────
+      let disposed = false;
 
-      mapRef.current.addControl(new maplibregl.NavigationControl(), "top-right");
+      (async () => {
+        await import("@openhistoricalmap/maplibre-gl-dates");
+        if (disposed || !mapContainerRef.current) return;
+
+        const map = new maplibregl.Map({
+          container: mapContainerRef.current,
+          style:
+            "https://unpkg.com/@openhistoricalmap/map-styles@latest/dist/historical/historical.json",
+          center: [center[1], center[0]],
+          zoom,
+        });
+
+        mapRef.current = map;
+        map.addControl(new maplibregl.NavigationControl(), "top-right");
+
+        // Force English labels on every style reload
+        map.on("styledata", () => {
+          const event = activeEventRef.current;
+          if (!event || !map.isStyleLoaded()) return;
+          forceEnglishLabels(map);
+          applyDateAndOverlays(map, event);
+        });
+
+        map.on("load", () => {
+          if (disposed) return;
+          const event = activeEventRef.current;
+          if (event) placeMarkers(map, event, markersRef);
+        });
+      })();
+
+      return () => { disposed = true; };
+
     } else {
+      // ── Subsequent events ───────────────────────────────────────────────
       mapRef.current.flyTo({
         center: [center[1], center[0]],
         zoom,
         essential: true,
       });
+
+      placeMarkers(mapRef.current, activeEvent, markersRef);
+
+      // flyTo doesn't trigger styledata, so apply explicitly
+      const applyUpdate = () => {
+        if (!mapRef.current) return;
+        applyDateAndOverlays(mapRef.current, activeEvent);
+      };
+
+      if (mapRef.current.isStyleLoaded()) {
+        applyUpdate();
+      } else {
+        mapRef.current.once("styledata", applyUpdate);
+      }
     }
-
-    markersRef.current.forEach((marker) => marker.remove());
-    markersRef.current = [];
-
-    activeEvent.markers?.forEach((markerData) => {
-      const el = document.createElement("div");
-      el.className = `deepdive-map-marker deepdive-map-marker--${
-        markerData.type || "minor"
-      }`;
-
-      const marker = new maplibregl.Marker(el)
-        .setLngLat([markerData.latlng[1], markerData.latlng[0]])
-        .setPopup(new maplibregl.Popup({ offset: 18 }).setText(markerData.label))
-        .addTo(mapRef.current);
-
-      markersRef.current.push(marker);
-    });
   }, [activeEvent]);
+
+  // ── Cleanup on unmount ─────────────────────────────────────────────────────
 
   useEffect(() => {
     return () => {
-      markersRef.current.forEach((marker) => marker.remove());
+      markersRef.current.forEach((m) => m.remove());
       markersRef.current = [];
-
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
@@ -175,9 +358,10 @@ export default function DeepDivesInfoPage() {
     };
   }, []);
 
+  // ── Bookmarks ──────────────────────────────────────────────────────────────
+
   async function saveBookmarks(nextBookmarks) {
     const headers = await getAuthHeaders();
-
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/users/me/bookmarks`,
       {
@@ -187,9 +371,7 @@ export default function DeepDivesInfoPage() {
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Could not update bookmarks.");
-    }
+    if (!response.ok) throw new Error("Could not update bookmarks.");
 
     const data = await response.json();
     setBookmarks(data.deepDiveBookmarks || nextBookmarks);
@@ -209,10 +391,7 @@ export default function DeepDivesInfoPage() {
         )
       : [
           ...bookmarks,
-          {
-            ...currentBookmark,
-            savedAt: new Date().toISOString(),
-          },
+          { ...currentBookmark, savedAt: new Date().toISOString() },
         ];
 
     setBookmarks(nextBookmarks);
@@ -225,12 +404,13 @@ export default function DeepDivesInfoPage() {
     }
   }
 
+  // ── Navigation ─────────────────────────────────────────────────────────────
+
   function goToPreviousSlide() {
     if (activeSlideIndex > 0) {
       setActiveSlideIndex((prev) => prev - 1);
       return;
     }
-
     if (activeEventIndex > 0) {
       const previousEvent = events[activeEventIndex - 1];
       setActiveEventIndex((prev) => prev - 1);
@@ -243,12 +423,13 @@ export default function DeepDivesInfoPage() {
       setActiveSlideIndex((prev) => prev + 1);
       return;
     }
-
     if (activeEventIndex < events.length - 1) {
       setActiveEventIndex((prev) => prev + 1);
       setActiveSlideIndex(0);
     }
   }
+
+  // ── Guards ─────────────────────────────────────────────────────────────────
 
   if (isLoading) {
     return (
@@ -276,6 +457,8 @@ export default function DeepDivesInfoPage() {
       </main>
     );
   }
+
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <main className="deepdives-info-page">

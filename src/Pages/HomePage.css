@@ -87,6 +87,24 @@
   backdrop-filter: blur(10px);
 }
 
+.today-section::-webkit-scrollbar {
+  width: 3px;
+}
+
+.today-section::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 3px 0;
+}
+
+.today-section::-webkit-scrollbar-thumb {
+  background: #c9a227;
+  border-radius: 10px;
+}
+
+.today-section::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-highlight);
+}
+
 .today-section__header {
   margin-bottom: 14px;
 }
