@@ -1,5 +1,5 @@
 import "./LoginPage.css"
-import LoginCard from "../Components/Authentication /LoginCard";
+import LoginCard from "../Components/Authentication/LoginCard";
 import StarBackground from "../Components/StarsBackground"
 
 function LogInPage(){

@@ -1,6 +1,6 @@
 import "./LoginPage.css"
 import StarBackground from "../Components/StarsBackground"
-import VerifyCard from "../Components/Authentication /VerifyCard";
+import VerifyCard from "../Components/Authentication/VerifyCard";
 
 function VerifyPage(){
     return (

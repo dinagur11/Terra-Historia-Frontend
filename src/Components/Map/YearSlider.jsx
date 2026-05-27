@@ -2,9 +2,9 @@ import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import "./YearSlider.css"
+import { min } from 'three/tsl';
 
 const CURRENT_YEAR = new Date().getFullYear();
-const MIN_YEAR = -1000;
 
 export default function YearSlider({
   inputProp,
@@ -14,7 +14,8 @@ export default function YearSlider({
   handleInputChange,
   handleSliderTemp,
   onIncreaseYear,
-  onDecreaseYear
+  onDecreaseYear,
+  minYear = 1914
 }) {
   const numericYear = typeof sliderProp === 'number' ? sliderProp : Number(inputProp);
 
@@ -39,7 +40,7 @@ export default function YearSlider({
               onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
               inputProps={{
                 step: 1,
-                min: MIN_YEAR,
+                min: minYear,
                 max: CURRENT_YEAR,
                 type: 'text',
                 className: 'input-slider',
@@ -50,7 +51,7 @@ export default function YearSlider({
               type="button"
               className="year-stepper__button"
               onClick={onDecreaseYear}
-              disabled={numericYear <= MIN_YEAR}
+              disabled={numericYear <= minYear}
               aria-label="Decrease year"
               title="Decrease year"
             >
@@ -62,7 +63,7 @@ export default function YearSlider({
               onChangeCommitted={handleSlider}
               onChange={handleSliderTemp}
               className='input-slider'
-              min={MIN_YEAR}
+              min={minYear}
               max={CURRENT_YEAR}
               step={1}
               aria-label="Year"

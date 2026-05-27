@@ -23,6 +23,18 @@ const CUSTOM_LABELS = [
     yearStart: 1867,
     yearEnd: 1914,
     coordinates: [29.8, 26.8]
+  },
+  {
+    name: "Yugoslavia",
+    yearStart: 1992,
+    yearEnd: 1992,
+    coordinates: [20.5, 43.9]
+  },
+  {
+    name: "France",
+    yearStart: 1945,
+    yearEnd: 1945,
+    coordinates: [2.2, 46.2]
   }
 ]
 
@@ -161,7 +173,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch
   const {isLogged} = useAuth();
 
   const applyDate = (map) => {
-    map.filterByDate(`${yearRef.current}-01-01`);
+    map.filterByDate(`${yearRef.current}-12-12`);
     if (map.getLayer("custom-labels")) {
       map.setFilter("custom-labels", [
         "all",

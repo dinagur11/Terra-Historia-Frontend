@@ -7,11 +7,10 @@ import Logo from "../Components/Logo";
 import Header from "../Components/Header/Header";
 
 const CURRENT_YEAR = new Date().getFullYear();
-const MIN_YEAR = -1000;
-const START_YEAR = 2026;
+const MIN_YEAR = 1914;
 
 export default function MapPage() {
-  const defaultYear = START_YEAR;
+  const defaultYear = CURRENT_YEAR;
   const [year, setYear] = useState(defaultYear);
   const [tempInput, setTempInput] = useState(defaultYear);
   const [tempSliderInput, setTempSliderInput] = useState(defaultYear);
@@ -77,8 +76,10 @@ export default function MapPage() {
             handleSlider={handleSliderChange}
             handleSliderTemp={handleSliderTemp}
             handleInputChange={handleInputChange}
+            minYear={MIN_YEAR}
             onIncreaseYear={() => changeYearBy(1)}
-            onDecreaseYear={() => changeYearBy(-1)}
+            onDecreaseYear={() => changeYearBy(-1)
+            }
           />
         </div>
       </div>

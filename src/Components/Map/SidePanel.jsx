@@ -5,7 +5,7 @@ const PANEL_TABS = [
   { id: "general", label: "General Info" },
   { id: "rulers", label: "Notable Rulers" },
   { id: "history", label: "Timeline" },
-  { id: "funFacts", label: "Fun Facts" },
+  { id: "funFacts", label: "Trivia" },
 ];
 
 function formatLabel(key) {
@@ -40,8 +40,9 @@ function formatYear(year) {
 
 function normalizeClickedName(name) {
   return name
-    .replace(/\(.*?\)/g, "")  // remove (1960-1991) etc.
+    .replace(/\(.*?\)/g, "")
     .toLowerCase()
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -75,7 +76,7 @@ async function resolveFileName(clickedName) {
     console.log("direct fetch error:", e)
   }
 
-  console.log("falling back to index")
+  console.log("falling back to index: " + normalized);
   try {
     const index = await getCountryIndex()
     const exactMatch = Object.entries(index).find(([, aliases]) =>
