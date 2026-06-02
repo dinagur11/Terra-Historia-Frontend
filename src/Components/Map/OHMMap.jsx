@@ -14,9 +14,15 @@ const COUNTRY_LABEL_LAYERS = ["country_points_labels", "country_points_labels_ce
 const CUSTOM_LABELS = [
   {
     name: "Third Reich",
-    yearStart: 1939,
+    yearStart: 1938,
     yearEnd: 1945,
     coordinates: [13.4050, 51.1657]
+  },
+  {
+  name: "Kingdom of Yugoslavia",
+  yearStart: 1939,
+  yearEnd: 1940,
+  coordinates: [20.4568, 44.0165]
   },
   {
     name: "Khedivate \nof Egypt",
@@ -31,10 +37,22 @@ const CUSTOM_LABELS = [
     coordinates: [20.5, 43.9]
   },
   {
-    name: "France",
-    yearStart: 1945,
-    yearEnd: 1945,
-    coordinates: [2.2, 46.2]
+    name: "Occupied France",
+    yearStart: 1944,
+    yearEnd: 1944,
+    coordinates: [2.3522, 46.8566]
+  },
+  {
+    name: "Occupied Belgium",
+    yearStart: 1944,
+    yearEnd: 1944,
+    coordinates: [4.4699, 50.5039]
+  },
+  {
+    name: "Australia",
+    yearStart: 1934,
+    yearEnd: 9999,
+    coordinates: [133.7751, -25.2744]
   }
 ]
 

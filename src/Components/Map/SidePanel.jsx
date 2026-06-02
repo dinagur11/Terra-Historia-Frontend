@@ -244,7 +244,11 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
           <img
             className="country-panel__flag"
             src={`https://flagcdn.com/w320/${countryData.countryCode}.png`}
-            alt={`Flag of ${displayName}`}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = `${import.meta.env.VITE_S3_HISTORIC_FLAGS_URL}/${countryData.countryCode}.png`;
+              e.target.onerror = () => { e.target.style.display = 'none' };
+            }}
           />
         )}
 

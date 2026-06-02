@@ -274,6 +274,11 @@ function buildCountrySearchData() {
 }
 
 export function resolveCountrySearch(query) {
+  if (name === "German Reich") {
+    if (year < 1918) return "german-empire";
+    if (year < 1933) return "weimar-republic";
+    return "nazi-germany";
+  }
   return buildCountrySearchData().index.get(normalizeCountrySearch(query)) || null;
 }
 
