@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
 import { useAuth } from '../../Context/AuthContext';
 import { normalizeCountrySearch, resolveCountrySearch } from "../../utils/countrySearch.js";
+import { MIN_MAP_YEAR } from "../../constants/mapYears";
 
 window.mapboxgl = maplibregl;
 
@@ -99,8 +100,13 @@ function getFeatureName(feature) {
   return (
     props["name:en"] ||
     props.name_en ||
-    props.name ||
     props["official_name:en"] ||
+    props.official_name_en ||
+    props["short_name:en"] ||
+    props.short_name_en ||
+    props.int_name ||
+    props["name:latin"] ||
+    props.name ||
     props.official_name ||
     null
   );
@@ -164,9 +170,10 @@ function clearMarkers(markersRef) {
 
 export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch,
 }) {
+  const effectiveYear = Math.max(Number(yearProp) || MIN_MAP_YEAR, MIN_MAP_YEAR);
   const mapEl = useRef(null);
   const mapRef = useRef(null);
-  const yearRef = useRef(yearProp);
+  const yearRef = useRef(effectiveYear);
   const markersRef = useRef([]);
   const [eventsList, setEventsList] = useState([]);
   const [mapReady, setMapReady] = useState(false);
@@ -185,8 +192,8 @@ export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch
   };
 
   useEffect(() => {
-    yearRef.current = yearProp;
-  }, [yearProp]);
+    yearRef.current = effectiveYear;
+  }, [effectiveYear]);
 
   useEffect(() => {
     let disposed = false;
@@ -217,6 +224,12 @@ export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch
               "coalesce",
               ["get", "name:en"],
               ["get", "name_en"],
+              ["get", "official_name:en"],
+              ["get", "official_name_en"],
+              ["get", "short_name:en"],
+              ["get", "short_name_en"],
+              ["get", "int_name"],
+              ["get", "name:latin"],
               ["get", "name"],
             ]);
           } catch {
@@ -309,11 +322,11 @@ export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch
     applyDate(map);
     clearMarkers(markersRef);
     const load = async () => {
-      const list = await getEvents(yearProp, mapRef.current, markersRef, isLogged)
+      const list = await getEvents(effectiveYear, mapRef.current, markersRef, isLogged)
       setEventsList(list)
     }
     load()
-  }, [yearProp, isLogged, mapReady]);
+  }, [effectiveYear, isLogged, mapReady]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -374,7 +387,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch
     <div className="ohm-wrapper">
       <div ref={mapEl} className="ohm-map" />
       <div className="events-overlay">
-        <h3>Events in {yearProp}</h3>
+        <h3>Events in {effectiveYear}</h3>
         {eventsList.length === 0 ? (
           <p className="no-events">No events for this year...</p>
         ) : (

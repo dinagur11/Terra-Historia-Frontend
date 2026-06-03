@@ -273,7 +273,7 @@
   flex-shrink: 0;
   padding: 6px 22px 0;
   font-family: 'Cinzel', serif;
-  font-size: 1.45rem;
+  font-size: 1.65rem;
   font-weight: 700;
   color: var(--txt);
   letter-spacing: 0.04em;
@@ -390,7 +390,7 @@
 
 .deepdive-slide-header h2 {
   font-family: 'Cinzel', serif;
-  font-size: 0.98rem;
+  font-size: 1.16rem;
   font-weight: 600;
   color: var(--txt);
   letter-spacing: 0.04em;
@@ -429,11 +429,11 @@
 
 .deepdive-slide-body {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.82rem;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1.82;
+  line-height: 1.78;
   color: var(--txt-link);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 /* ── Stats grid ───────────────────────────────────────────────────────────── */

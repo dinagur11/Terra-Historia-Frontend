@@ -5,9 +5,7 @@ import SidePanel from "../Components/Map/SidePanel";
 import { useState, useEffect } from "react";
 import Logo from "../Components/Logo";
 import Header from "../Components/Header/Header";
-
-const CURRENT_YEAR = new Date().getFullYear();
-const MIN_YEAR = 1914;
+import { CURRENT_YEAR, MIN_MAP_YEAR } from "../constants/mapYears";
 
 export default function MapPage() {
   const defaultYear = CURRENT_YEAR;
@@ -33,7 +31,7 @@ export default function MapPage() {
     const value = Number(rawVal);
     let finalValue;
     if (value > CURRENT_YEAR) finalValue = CURRENT_YEAR;
-    else if (value < MIN_YEAR) finalValue = MIN_YEAR;
+    else if (value < MIN_MAP_YEAR) finalValue = MIN_MAP_YEAR;
     else finalValue = value;
     setYear(finalValue);
   };
@@ -49,7 +47,7 @@ export default function MapPage() {
     setYear((currentYear) => {
       const nextYear = currentYear + amount;
       if (nextYear > CURRENT_YEAR) return CURRENT_YEAR;
-      if (nextYear < MIN_YEAR) return MIN_YEAR;
+      if (nextYear < MIN_MAP_YEAR) return MIN_MAP_YEAR;
       return nextYear;
     });
   };
@@ -76,7 +74,7 @@ export default function MapPage() {
             handleSlider={handleSliderChange}
             handleSliderTemp={handleSliderTemp}
             handleInputChange={handleInputChange}
-            minYear={MIN_YEAR}
+            minYear={MIN_MAP_YEAR}
             onIncreaseYear={() => changeYearBy(1)}
             onDecreaseYear={() => changeYearBy(-1)
             }

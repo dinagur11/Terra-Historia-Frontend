@@ -2,9 +2,7 @@ import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import "./YearSlider.css"
-import { min } from 'three/tsl';
-
-const CURRENT_YEAR = new Date().getFullYear();
+import { CURRENT_YEAR, MIN_MAP_YEAR } from "../../constants/mapYears";
 
 export default function YearSlider({
   inputProp,
@@ -15,7 +13,7 @@ export default function YearSlider({
   handleSliderTemp,
   onIncreaseYear,
   onDecreaseYear,
-  minYear = 1914
+  minYear = MIN_MAP_YEAR
 }) {
   const numericYear = typeof sliderProp === 'number' ? sliderProp : Number(inputProp);
 

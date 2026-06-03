@@ -26,6 +26,12 @@ function forceEnglishLabels(map) {
         "coalesce",
         ["get", "name:en"],
         ["get", "name_en"],
+        ["get", "official_name:en"],
+        ["get", "official_name_en"],
+        ["get", "short_name:en"],
+        ["get", "short_name_en"],
+        ["get", "int_name"],
+        ["get", "name:latin"],
         ["get", "name"],
       ]);
     } catch (_) {}
@@ -315,7 +321,11 @@ export default function DeepDivesInfoPage() {
         map.on("load", () => {
           if (disposed) return;
           const event = activeEventRef.current;
-          if (event) placeMarkers(map, event, markersRef);
+          forceEnglishLabels(map);
+          if (event) {
+            applyDateAndOverlays(map, event);
+            placeMarkers(map, event, markersRef);
+          }
         });
       })();
 
@@ -334,6 +344,7 @@ export default function DeepDivesInfoPage() {
       // flyTo doesn't trigger styledata, so apply explicitly
       const applyUpdate = () => {
         if (!mapRef.current) return;
+        forceEnglishLabels(mapRef.current);
         applyDateAndOverlays(mapRef.current, activeEvent);
       };
 
