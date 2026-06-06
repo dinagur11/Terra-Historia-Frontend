@@ -112,6 +112,175 @@ export const HISTORICAL_SEARCH_TARGETS = [
       maxLat: 42,
     },
   },
+  {
+    name: "Ottoman Empire",
+    aliases: ["Ottoman Turkey", "Ottomans"],
+    yearStart: 1299,
+    yearEnd: 1922,
+    center: [35, 39],
+    bounds: {
+      minLng: 18,
+      maxLng: 49,
+      minLat: 12,
+      maxLat: 46,
+    },
+  },
+  {
+    name: "German Empire",
+    aliases: ["Imperial Germany", "Second Reich"],
+    yearStart: 1871,
+    yearEnd: 1918,
+    center: [10.5, 51],
+    bounds: {
+      minLng: 5.8,
+      maxLng: 23,
+      minLat: 47,
+      maxLat: 56,
+    },
+  },
+  {
+    name: "Austria-Hungary",
+    aliases: ["Austro-Hungarian Empire", "Habsburg Empire"],
+    yearStart: 1867,
+    yearEnd: 1918,
+    center: [16.5, 47.5],
+    bounds: {
+      minLng: 9,
+      maxLng: 26.5,
+      minLat: 42,
+      maxLat: 51.5,
+    },
+  },
+  {
+    name: "Russian Empire",
+    aliases: ["Imperial Russia", "Tsarist Russia"],
+    yearStart: 1721,
+    yearEnd: 1917,
+    center: [50, 57],
+    bounds: {
+      minLng: 19,
+      maxLng: 180,
+      minLat: 35,
+      maxLat: 78,
+    },
+  },
+  {
+    name: "Kingdom of Italy",
+    aliases: ["Italian Kingdom"],
+    yearStart: 1861,
+    yearEnd: 1946,
+    center: [12.5, 42.8],
+    bounds: {
+      minLng: 6,
+      maxLng: 19,
+      minLat: 35,
+      maxLat: 48,
+    },
+  },
+  {
+    name: "Weimar Republic",
+    aliases: ["Weimar Germany"],
+    yearStart: 1918,
+    yearEnd: 1933,
+    center: [10.5, 51],
+    bounds: {
+      minLng: 5.8,
+      maxLng: 22.9,
+      minLat: 47,
+      maxLat: 55.2,
+    },
+  },
+  {
+    name: "Nazi Germany",
+    aliases: ["Third Reich", "German Reich"],
+    yearStart: 1933,
+    yearEnd: 1945,
+    center: [10.5, 51],
+    bounds: {
+      minLng: 5.8,
+      maxLng: 24.2,
+      minLat: 46.5,
+      maxLat: 55.2,
+    },
+  },
+  {
+    name: "Soviet Union",
+    aliases: ["USSR", "U.S.S.R.", "Union of Soviet Socialist Republics"],
+    yearStart: 1922,
+    yearEnd: 1991,
+    center: [60, 57],
+    bounds: {
+      minLng: 19,
+      maxLng: 180,
+      minLat: 35,
+      maxLat: 78,
+    },
+  },
+  {
+    name: "Czechoslovakia",
+    aliases: ["Czecho-Slovakia"],
+    yearStart: 1918,
+    yearEnd: 1992,
+    center: [16.5, 49],
+    bounds: {
+      minLng: 12,
+      maxLng: 23,
+      minLat: 47.5,
+      maxLat: 51.2,
+    },
+  },
+  {
+    name: "Yugoslavia",
+    aliases: ["Kingdom of Yugoslavia", "Socialist Yugoslavia"],
+    yearStart: 1918,
+    yearEnd: 1992,
+    center: [20.5, 44],
+    bounds: {
+      minLng: 13,
+      maxLng: 23.5,
+      minLat: 40,
+      maxLat: 47,
+    },
+  },
+  {
+    name: "East Germany",
+    aliases: ["German Democratic Republic", "GDR"],
+    yearStart: 1949,
+    yearEnd: 1990,
+    center: [12.5, 52],
+    bounds: {
+      minLng: 9.8,
+      maxLng: 15.1,
+      minLat: 50.2,
+      maxLat: 54.8,
+    },
+  },
+  {
+    name: "West Germany",
+    aliases: ["Federal Republic of Germany", "FRG"],
+    yearStart: 1949,
+    yearEnd: 1990,
+    center: [9, 51],
+    bounds: {
+      minLng: 5.8,
+      maxLng: 13.8,
+      minLat: 47.2,
+      maxLat: 55.1,
+    },
+  },
+  {
+    name: "British Empire",
+    aliases: ["British colonial empire"],
+    yearStart: 1607,
+    yearEnd: 1997,
+    center: [-2, 54],
+    bounds: {
+      minLng: -11,
+      maxLng: 3,
+      minLat: 49,
+      maxLat: 61,
+    },
+  },
 ];
 
 let countrySearchIndex = null;
@@ -274,11 +443,6 @@ function buildCountrySearchData() {
 }
 
 export function resolveCountrySearch(query) {
-  if (name === "German Reich") {
-    if (year < 1918) return "german-empire";
-    if (year < 1933) return "weimar-republic";
-    return "nazi-germany";
-  }
   return buildCountrySearchData().index.get(normalizeCountrySearch(query)) || null;
 }
 

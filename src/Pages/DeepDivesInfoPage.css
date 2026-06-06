@@ -110,6 +110,12 @@
   letter-spacing: 0.12em;
 }
 
+.deepdive-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 /* ── Main split ───────────────────────────────────────────────────────────── */
 
 .deepdive-main {
@@ -198,6 +204,61 @@
 
 .deepdive-map-marker--minor:hover {
   transform: rotate(-45deg) scale(1.15);
+}
+
+.deepdive-map-popup--photo .maplibregl-popup-content {
+  width: 220px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-gold);
+  border-radius: 4px;
+  background: #11130f;
+  color: #f2ede3;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.82);
+}
+
+.deepdive-map-popup--photo .maplibregl-popup-tip {
+  border-top-color: #11130f;
+  border-bottom-color: #11130f;
+}
+
+.deepdive-map-photo-popup {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 10px;
+  background: #11130f;
+}
+
+.deepdive-map-photo-popup img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: #080a06;
+}
+
+.deepdive-map-photo-popup strong,
+.deepdive-map-photo-popup span {
+  padding: 0 10px;
+}
+
+.deepdive-map-photo-popup strong {
+  color: #f1ce68;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-shadow: 0 1px 2px #000;
+  text-transform: uppercase;
+}
+
+.deepdive-map-photo-popup span {
+  color: #f2ede3;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-shadow: 0 1px 2px #000;
 }
 
 /* MapLibre zoom controls */
@@ -423,6 +484,18 @@
   color: var(--gold);
   border-color: var(--border-gold);
   background: rgba(201, 162, 39, 0.1);
+}
+
+.deepdive-bookmark-btn--topbar {
+  width: auto;
+  height: 30px;
+  gap: 6px;
+  padding: 0 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* ── Slide body text ──────────────────────────────────────────────────────── */
@@ -662,6 +735,16 @@
 
   .deepdive-back-btn { font-size: 0.6rem; }
   .deepdive-counter { font-size: 0.6rem; }
+  .deepdive-topbar-actions { gap: 8px; }
+
+  .deepdive-bookmark-btn--topbar {
+    width: 30px;
+    padding: 0;
+  }
+
+  .deepdive-bookmark-btn--topbar span {
+    display: none;
+  }
 
   .deepdive-event-meta,
   .deepdive-content-panel > h1,

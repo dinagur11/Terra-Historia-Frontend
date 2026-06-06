@@ -3,20 +3,34 @@ import { Search } from "lucide-react";
 import { getCountrySearchSuggestions } from "../../utils/countrySearch.js";
 import "./Searchbar.css"
 
-function SearchBar({ onSearch, year }) {
+function SearchBar({ onSearch, year, countryOptions = [] }) {
     const [query, setQuery] = useState("");
     const [isFocused, setIsFocused] = useState(false);
     const [activeSuggestion, setActiveSuggestion] = useState(-1);
-    const suggestions = useMemo(() => getCountrySearchSuggestions(query, year), [query, year]);
+    const suggestions = useMemo(() => {
+        const normalizedQuery = query.trim().toLowerCase();
+        if (!normalizedQuery) return [];
+
+        const ohmSuggestions = countryOptions
+            .filter(option => option.name.toLowerCase().startsWith(normalizedQuery))
+            .map(option => option.name);
+
+        if (countryOptions.length > 0) return ohmSuggestions.slice(0, 8);
+
+        return getCountrySearchSuggestions(query, year);
+    }, [countryOptions, query, year]);
     const showSuggestions = isFocused && suggestions.length > 0;
 
     const submitQuery = (value) => {
         const nextQuery = value.trim();
         if (!nextQuery) return;
+        const option = countryOptions.find(
+            country => country.name.toLowerCase() === nextQuery.toLowerCase()
+        );
         setQuery(nextQuery);
         setIsFocused(false);
         setActiveSuggestion(-1);
-        onSearch?.(nextQuery);
+        onSearch?.(nextQuery, option);
     };
 
     const handleSubmit = (event) => {

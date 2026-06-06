@@ -11,6 +11,10 @@ import { MIN_MAP_YEAR } from "../../constants/mapYears";
 window.mapboxgl = maplibregl;
 
 const COUNTRY_LABEL_LAYERS = ["country_points_labels", "country_points_labels_cen"];
+const COUNTRY_SOURCE_LAYERS = [
+  { sourceLayer: "land_ohm_centroids", matches: props => props.type === "administrative" && Number(props.admin_level) === 2 },
+  { sourceLayer: "place_points_centroids", matches: props => props.type === "country" },
+];
 
 const CUSTOM_LABELS = [
   {
@@ -106,6 +110,69 @@ function findVisibleMapCountry(map, query) {
   }) || null;
 }
 
+function getFeatureYear(properties, key) {
+  const decimal = Number(properties[`${key}_decdate`]);
+  if (Number.isFinite(decimal)) return decimal;
+
+  const match = String(properties[`${key}_date`] || "").match(/^-?\d{1,4}/);
+  return match ? Number(match[0]) : null;
+}
+
+function isFeatureActiveInYear(feature, year) {
+  const start = getFeatureYear(feature.properties || {}, "start");
+  const end = getFeatureYear(feature.properties || {}, "end");
+  const selectedDate = year + 0.945;
+  return (start === null || start <= selectedDate) && (end === null || end >= selectedDate);
+}
+
+function getOhmCountryOptions(map, year) {
+  const options = new Map();
+
+  for (const source of COUNTRY_SOURCE_LAYERS) {
+    let features = [];
+    try {
+      features = map.querySourceFeatures("ohm", {
+        sourceLayer: source.sourceLayer,
+      });
+    } catch {
+      continue;
+    }
+
+    for (const feature of features) {
+      if (!source.matches(feature.properties || {})) continue;
+      if (!isFeatureActiveInYear(feature, year)) continue;
+
+      const name = getFeatureName(feature);
+      const center = getFeatureCenter(feature);
+      if (!name || !center) continue;
+
+      const key = normalizeCountrySearch(name);
+      if (!options.has(key)) {
+        options.set(key, {
+          name,
+          center,
+          properties: feature.properties,
+        });
+      }
+    }
+  }
+
+  for (const label of CUSTOM_LABELS) {
+    if (year < label.yearStart || year > label.yearEnd) continue;
+    options.set(normalizeCountrySearch(label.name), {
+      name: label.name.replace(/\n/g, " "),
+      center: label.coordinates,
+      properties: {
+        name: label.name,
+        yearStart: label.yearStart,
+        yearEnd: label.yearEnd,
+      },
+    });
+  }
+
+  return [...options.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
 const fetchEvents = async (year) => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/events/${year}`)
   if (!res.ok) return []
@@ -186,7 +253,8 @@ function clearMarkers(markersRef) {
   markersRef.current = [];
 }
 
-export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch,
+export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
+  onCountryOptionsChange,
 }) {
   const effectiveYear = Math.max(Number(yearProp) || MIN_MAP_YEAR, MIN_MAP_YEAR);
   const mapEl = useRef(null);
@@ -331,24 +399,42 @@ export default function OHMMap({yearProp = 2026, onCountrySelect , countrySearch
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, []);
+  }, [onCountrySelect]);
 
   //add markers
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapReady) return;
     applyDate(map);
+    const publishCountryOptions = () => {
+      onCountryOptionsChange?.(getOhmCountryOptions(map, effectiveYear));
+    };
+    publishCountryOptions();
+    map.once("idle", publishCountryOptions);
     clearMarkers(markersRef);
     const load = async () => {
       const list = await getEvents(effectiveYear, mapRef.current, markersRef, isLogged)
       setEventsList(list)
     }
     load()
-  }, [effectiveYear, isLogged, mapReady]);
+  }, [effectiveYear, isLogged, mapReady, onCountryOptionsChange]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !countrySearch?.query) return;
+
+    if (countrySearch.option?.center) {
+      map.flyTo({
+        center: countrySearch.option.center,
+        zoom: Math.max(map.getZoom(), 4),
+        speed: 0.7,
+      });
+      onCountrySelect?.({
+        name: countrySearch.option.name,
+        properties: countrySearch.option.properties,
+      });
+      return;
+    }
 
     const visibleFeature = findVisibleMapCountry(map, countrySearch.query);
     if (visibleFeature) {

@@ -2,7 +2,7 @@ import OHMMap from "../Components/Map/OHMMap"
 import "./MapPage.css"
 import YearSlider from '../Components/Map/YearSlider';
 import SidePanel from "../Components/Map/SidePanel";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Logo from "../Components/Logo";
 import Header from "../Components/Header/Header";
 import { CURRENT_YEAR, MIN_MAP_YEAR } from "../constants/mapYears";
@@ -14,6 +14,7 @@ export default function MapPage() {
   const [tempSliderInput, setTempSliderInput] = useState(defaultYear);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [countrySearch, setCountrySearch] = useState(null);
+  const [countryOptions, setCountryOptions] = useState([]);
 
   useEffect(() => {
     setTempInput(year);
@@ -52,18 +53,28 @@ export default function MapPage() {
     });
   };
 
-  const handleCountrySearch = (query) => {
-    setCountrySearch({ query, id: Date.now() });
+  const handleCountrySearch = (query, option) => {
+    setCountrySearch({ query, option, id: Date.now() });
   };
+
+  const handleCountryOptionsChange = useCallback((options) => {
+    setCountryOptions(options);
+  }, []);
 
   return (
     <div className="page">
-      <Header isMapActive={true} onCountrySearch={handleCountrySearch} year={year}></Header>
+      <Header
+        isMapActive={true}
+        onCountrySearch={handleCountrySearch}
+        year={year}
+        countryOptions={countryOptions}
+      />
       <div className="map-container">
         <OHMMap
           yearProp={year}
           onCountrySelect={setSelectedCountry}
           countrySearch={countrySearch}
+          onCountryOptionsChange={handleCountryOptionsChange}
         />
         <div className="year-overlay">
           <YearSlider

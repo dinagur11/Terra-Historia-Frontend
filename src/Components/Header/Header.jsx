@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { User, LogIn, LogOut } from "lucide-react";
 import { useAuth } from '../../Context/AuthContext';
 
-function Header({isMapActive, onCountrySearch, year}){
+function Header({isMapActive, onCountrySearch, year, countryOptions}){
     const { isLogged, logout } = useAuth();
     const navigate = useNavigate();
 
@@ -29,7 +29,11 @@ function Header({isMapActive, onCountrySearch, year}){
             </div>   
             {isMapActive ?
             (<div className="header-center">
-                <SearchBar onSearch={onCountrySearch} year={year} />
+                <SearchBar
+                    onSearch={onCountrySearch}
+                    year={year}
+                    countryOptions={countryOptions}
+                />
             </div>):
             (<></>)
             }

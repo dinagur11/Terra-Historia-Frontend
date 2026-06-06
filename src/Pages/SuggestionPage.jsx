@@ -1,120 +1,258 @@
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
-import Header from '../Components/Header/Header';
-import './SuggestionPage.css'
+import { useEffect, useState } from "react";
+import { fetchAuthSession } from "aws-amplify/auth";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { Navigate } from "react-router-dom";
 
+import Header from "../Components/Header/Header";
+import { useAuth } from "../Context/AuthContext";
+import "./SuggestionPage.css";
 
-export default function SuggestionPage(){
-    const [selection, setSelection] = useState("event");
-    return (
-        <div className='suggestion-page'>
-            <Header isMapActive={false}/>
-            <div className="suggestion-page__body">
-                <div className="suggestion-page__card">
-                    <h1 className='suggestion-page__title'>Contact us</h1>
-                    <p className='suggestion-page__subtitle'>Want to notify us of a mistake, add missing information or make another suggestion? Feel free to contact us.</p>
-                    <div className="suggestion-page__divider" />
-                    <Select
-                        value={selection}
-                        onChange={(e) => setSelection(e.target.value)}
-                        size="small"
-                        fullWidth
-                        sx={{
-                            fontFamily: 'Raleway, sans-serif',
-                            fontSize: '0.8rem',
-                            color: '#e8e0d0',
-                            borderRadius: '4px',
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(255,255,255,0.07)',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(201, 162, 39, 0.4)',
-                            },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#c9a227',
-                            },
-                            '& .MuiSvgIcon-root': { color: '#6a6050' },
-                        }}
-                        MenuProps={{
-                            PaperProps: {
-                                sx: {
-                                    background: '#161412',
-                                    border: '1px solid rgba(255,255,255,0.07)',
-                                    borderRadius: '4px',
-                                    '& .MuiMenuItem-root': {
-                                        fontFamily: 'Raleway, sans-serif',
-                                        fontSize: '0.8rem',
-                                        color: '#e8e0d0',
-                                        '&:hover': { background: 'rgba(201, 162, 39, 0.08)' },
-                                        '&.Mui-selected': {
-                                            background: 'rgba(201, 162, 39, 0.12)',
-                                            color: '#c9a227',
-                                        },
-                                    },
-                                },
-                            },
-                        }}
-                    >
-                        <MenuItem value="event">Suggest a missing event</MenuItem>
-                        <MenuItem value="mistake">Correct a mistake</MenuItem>
-                        <MenuItem value="other">Other</MenuItem>
-                    </Select>
-                    {selection === 'event' && <SelectionEvent />}
-                    {selection === 'mistake' && <SelectionMistake />}
-                    {selection === 'other' && <SelectionOther />}
-                    <button className="suggestion-page__submit" onClick={handleSubmit}>Submit</button>
-                </div>
+const EMPTY_FORM = {
+  title: "",
+  date: "",
+  message: "",
+  link: "",
+};
+
+export default function SuggestionPage() {
+  const { isLogged, isAuthReady } = useAuth();
+  const [selection, setSelection] = useState("event");
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [suggestions, setSuggestions] = useState([]);
+  const [isDeveloper, setIsDeveloper] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!isLogged) return;
+
+    loadSuggestions()
+      .then((data) => {
+        setSuggestions(data.suggestions || []);
+        setIsDeveloper(Boolean(data.isDeveloper));
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoading(false));
+  }, [isLogged]);
+
+  const updateField = (field, value) => {
+    setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setMessage("");
+    setIsSubmitting(true);
+
+    try {
+      const suggestion = await createSuggestion({
+        type: selection,
+        ...form,
+      });
+      setSuggestions((current) => [suggestion, ...current]);
+      setForm(EMPTY_FORM);
+      setMessage("Suggestion submitted successfully.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!isAuthReady) return null;
+  if (!isLogged) return <Navigate to="/login" replace />;
+
+  return (
+    <div className="suggestion-page">
+      <Header isMapActive={false} />
+
+      <main className="suggestion-page__body">
+        <form className="suggestion-page__card" onSubmit={handleSubmit}>
+          <p className="suggestion-page__eyebrow">Community feedback</p>
+          <h1 className="suggestion-page__title">Send a suggestion</h1>
+          <p className="suggestion-page__subtitle">
+            Report a mistake, suggest a missing event, or share an idea. You
+            can track your submitted requests below.
+          </p>
+          <div className="suggestion-page__divider" />
+
+          <Select
+            value={selection}
+            onChange={(event) => setSelection(event.target.value)}
+            size="small"
+            fullWidth
+            sx={{
+              fontFamily: "Raleway, sans-serif",
+              fontSize: "0.8rem",
+              color: "#e8e0d0",
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(255,255,255,0.12)",
+              },
+              "& .MuiSvgIcon-root": { color: "#c9a227" },
+            }}
+          >
+            <MenuItem value="event">Suggest a missing event</MenuItem>
+            <MenuItem value="mistake">Correct a mistake</MenuItem>
+            <MenuItem value="other">Other</MenuItem>
+          </Select>
+
+          <div className="suggestion-form">
+            {selection === "event" && (
+              <>
+                <SuggestionField label="Event name">
+                  <input
+                    className="suggestion-form__input"
+                    value={form.title}
+                    onChange={(event) => updateField("title", event.target.value)}
+                    placeholder="e.g. Battle of Hastings"
+                    required
+                  />
+                </SuggestionField>
+                <SuggestionField label="Event date">
+                  <input
+                    className="suggestion-form__input"
+                    value={form.date}
+                    onChange={(event) => updateField("date", event.target.value)}
+                    placeholder="e.g. 1066"
+                  />
+                </SuggestionField>
+              </>
+            )}
+
+            {selection === "mistake" && (
+              <SuggestionField label="Relevant link">
+                <input
+                  className="suggestion-form__input"
+                  type="url"
+                  value={form.link}
+                  onChange={(event) => updateField("link", event.target.value)}
+                  placeholder="https://..."
+                />
+              </SuggestionField>
+            )}
+
+            <SuggestionField
+              label={
+                selection === "event"
+                  ? "Event description"
+                  : selection === "mistake"
+                    ? "What should be corrected?"
+                    : "Tell us more"
+              }
+            >
+              <textarea
+                className="suggestion-form__textarea suggestion-form__textarea--tall"
+                value={form.message}
+                onChange={(event) => updateField("message", event.target.value)}
+                placeholder="Describe your suggestion..."
+                required
+              />
+            </SuggestionField>
+          </div>
+
+          <button
+            className="suggestion-page__submit"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit suggestion"}
+          </button>
+
+          {message && <p className="suggestion-page__message">{message}</p>}
+          {error && (
+            <p className="suggestion-page__message suggestion-page__message--error">
+              {error}
+            </p>
+          )}
+        </form>
+
+        <section className="suggestion-history">
+          <p className="suggestion-page__eyebrow">
+            {isDeveloper ? "Developer inbox" : "My requests"}
+          </p>
+          <h2>{isDeveloper ? "All suggestions" : "Submitted suggestions"}</h2>
+
+          {isLoading ? (
+            <p className="suggestion-history__empty">Loading suggestions...</p>
+          ) : suggestions.length ? (
+            <div className="suggestion-history__list">
+              {suggestions.map((suggestion) => (
+                <article
+                  className="suggestion-history__item"
+                  key={suggestion.suggestionId}
+                >
+                  <div className="suggestion-history__meta">
+                    <span>{suggestion.type}</span>
+                    <span className={`status status--${suggestion.status}`}>
+                      {suggestion.status}
+                    </span>
+                  </div>
+                  <h3>{suggestion.title || suggestion.type}</h3>
+                  <p>{suggestion.message}</p>
+                  {suggestion.link && (
+                    <a href={suggestion.link} target="_blank" rel="noreferrer">
+                      View related link
+                    </a>
+                  )}
+                  <small>
+                    {isDeveloper
+                      ? `${suggestion.userName || suggestion.userEmail || "Unknown user"} · `
+                      : ""}
+                    {new Date(suggestion.createdAt).toLocaleString()}
+                  </small>
+                </article>
+              ))}
             </div>
-        </div>
-    );
+          ) : (
+            <p className="suggestion-history__empty">
+              No suggestions submitted yet.
+            </p>
+          )}
+        </section>
+      </main>
+    </div>
+  );
 }
 
-function handleSubmit(){
-
+function SuggestionField({ label, children }) {
+  return (
+    <label className="suggestion-form__field">
+      <span className="suggestion-form__label">{label}</span>
+      {children}
+    </label>
+  );
 }
 
-export function SelectionEvent(){
-    return (
-        <div className='suggestion-form'>
-            <div className='suggestion-form__field'>
-                <label className='suggestion-form__label'>Event name <span>*</span></label>
-                <input className='suggestion-form__input' placeholder='e.g. Battle of Hastings' />
-            </div>
-            <div className='suggestion-form__field'>
-                <label className='suggestion-form__label'>Event date</label>
-                <input className='suggestion-form__input' placeholder='e.g. 1066' />
-            </div>
-            <div className='suggestion-form__field'>
-                <label className='suggestion-form__label'>Event description <span>*</span></label>
-                <textarea className='suggestion-form__textarea' placeholder='Describe the event...' />
-            </div>
-        </div>
-    );
+async function getAuthHeaders() {
+  const session = await fetchAuthSession();
+  const token = session.tokens?.accessToken?.toString();
+  if (!token) throw new Error("Missing authentication token.");
+
+  return {
+    Authorization: `Bearer ${token}`,
+    "X-Cognito-Id-Token": session.tokens?.idToken?.toString() || "",
+    "Content-Type": "application/json",
+  };
 }
 
-export function SelectionMistake(){
-    return (
-        <div className='suggestion-form'>
-            <div className='suggestion-form__field'>
-                <label className='suggestion-form__label'>Mistake description <span>*</span></label>
-                <textarea className='suggestion-form__textarea' placeholder='What is incorrect and what should it be?' />
-            </div>
-            <div className='suggestion-form__field'>
-                <label className='suggestion-form__label'>Link (if applicable)</label>
-                <input className='suggestion-form__input' placeholder='https://...' />
-            </div>
-        </div>
-    );
+async function loadSuggestions() {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/suggestions`, {
+    headers: await getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Could not load suggestions.");
+  return response.json();
 }
 
-export function SelectionOther(){
-    return (
-        <div className='suggestion-form'>
-            <div className='suggestion-form__field'>
-                <label className='suggestion-form__label'>Tell us more<span>*</span></label>
-                <textarea className='suggestion-form__textarea suggestion-form__textarea--tall' placeholder='Your message...' />
-            </div>
-        </div>
-    );
+async function createSuggestion(suggestion) {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/suggestions`, {
+    method: "POST",
+    headers: await getAuthHeaders(),
+    body: JSON.stringify(suggestion),
+  });
+  if (!response.ok) throw new Error("Could not submit suggestion.");
+  return response.json();
 }
