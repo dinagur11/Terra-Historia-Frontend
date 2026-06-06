@@ -20,7 +20,7 @@ const CUSTOM_LABELS = [
   {
     name: "Third Reich",
     yearStart: 1938,
-    yearEnd: 1945,
+    yearEnd: 1944,
     coordinates: [13.4050, 51.1657]
   },
   {
@@ -34,12 +34,6 @@ const CUSTOM_LABELS = [
     yearStart: 1867,
     yearEnd: 1914,
     coordinates: [29.8, 26.8]
-  },
-  {
-    name: "Yugoslavia",
-    yearStart: 1992,
-    yearEnd: 1992,
-    coordinates: [20.5, 43.9]
   },
   {
     name: "Occupied France",
@@ -56,10 +50,25 @@ const CUSTOM_LABELS = [
   {
     name: "Australia",
     yearStart: 1934,
-    yearEnd: 9999,
+    yearEnd: 1982,
     coordinates: [133.7751, -25.2744]
+  },
+  {
+    name: "Dutch\nGuiana",
+    yearStart: 1667,
+    yearEnd: 1975,
+    coordinates: [-56.0278, 3.9193]
+  },
+  {
+    name: "French\nGuiana",
+    yearStart: 1946,
+    yearEnd: 9999,
+    coordinates: [-53.1258, 3.9339]
   }
 ]
+
+  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat']; 
+
 
 
 function getCoordinateBounds(coordinates, bounds = {
@@ -299,7 +308,6 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
         },
       });
       mapRef.current = map;
-
       const forceEnglishLabels = () => {
         const style = map.getStyle?.();
         if (!style?.layers) return;
@@ -324,6 +332,19 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
         }
       };
 
+      const removeUnwantedLabels = () => {
+        COUNTRY_LABEL_LAYERS.forEach(layerId => {
+          if (!map.getLayer(layerId)) return;
+          map.setPaintProperty(layerId, 'text-opacity', [
+            'case',
+            ['in', ['coalesce', ['get', 'name:en'], ['get', 'name_en'], ['get', 'name'], ''], 
+              ['literal', unwantedLabels]],
+            0,
+            1
+          ]);
+        });
+      };
+
       map.on("styledata", () => {
         applyDate(map);
         forceEnglishLabels();
@@ -333,6 +354,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
         const features = map.queryRenderedFeatures(e.point, {
           layers: ["country_points_labels", "country_points_labels_cen"]
         });
+        console.log(features.map(f => f.properties));
 
       map.on("click", "custom-labels", (e) => {
         const name = e.features[0]?.properties?.name;
@@ -351,8 +373,8 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
       map.on("load", async () => {
         forceEnglishLabels();
         applyDate(map);
+        removeUnwantedLabels();
         setMapReady(true);
-
           map.addSource("custom-labels", {
           type: "geojson",
           data: {

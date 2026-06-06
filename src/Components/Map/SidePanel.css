@@ -190,7 +190,7 @@
 /* when a flag IS present, it overlaps the padding naturally */
 .country-panel__flag {
   width: 100%;
-  height: 215px;
+  height: 250px;
   object-fit: cover;
   display: block;
   /* pull up to sit above the padding, so text below stays consistent */
