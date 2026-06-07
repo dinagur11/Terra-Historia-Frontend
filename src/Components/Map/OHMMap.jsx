@@ -64,10 +64,34 @@ const CUSTOM_LABELS = [
     yearStart: 1946,
     yearEnd: 9999,
     coordinates: [-53.1258, 3.9339]
-  }
+  }, 
+  {
+    name: "Nazi\nOccupied\nUkraine",
+    yearStart: 1941,
+    yearEnd: 1944,
+    coordinates: [24.8, 49.3]
+  },
+  {
+    name: "Transnistria",
+    yearStart: 1941,
+    yearEnd: 1943,
+    coordinates: [30.2, 47.5]
+  },
+  {
+    name: "Nazi\nOccupied\nPoland",
+    yearStart: 1941,
+    yearEnd: 1944,
+    coordinates: [23.5, 53.3]
+  },
+  {
+    name: "Transcarpathia",
+    yearStart: 1945,
+    yearEnd: 1951,
+    coordinates: [23.5, 48.5]
+  },
 ]
 
-  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat']; 
+  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands']; 
 
 
 
