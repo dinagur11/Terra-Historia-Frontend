@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, GitBranch } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useLocation} from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
+import { fetchAuthSession } from "aws-amplify/auth";
 import Header from "../Components/Header/Header";
 import { isDeepDiveAvailable } from "../constants/deepDiveAvailability";
 import { getDeepDiveImage } from "../constants/deepDiveImages";
@@ -32,7 +33,17 @@ export default function DeepDivesPage() {
   const [activeId, setActiveId] = useState("wwi-events");
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
   const graphScrollRef = useRef(null);
+  const { isLogged } = useAuth();
+  const [completedTimelines, setCompletedTimelines] = useState(new Set());
 
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.justCompleted) {
+      setCompletedTimelines((prev) => new Set([...prev, location.state.justCompleted]));
+    }
+  }, [location.state?.justCompleted]);
+  
   useEffect(() => {
     async function loadDeepDiveIndex() {
       setIsIndexLoading(true);
@@ -52,6 +63,29 @@ export default function DeepDivesPage() {
 
     loadDeepDiveIndex();
   }, []);
+
+  useEffect(() => {
+    async function loadProgress() {
+      if (!isLogged) return;
+      try {
+        const session = await fetchAuthSession();
+        const token = session.tokens?.accessToken?.toString();
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/me/progress`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!response.ok) return;
+        const data = await response.json();
+        const completed = Object.keys(data.timelineProgress || {}).filter(
+          (k) => data.timelineProgress[k]
+        );
+        setCompletedTimelines(new Set(completed));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    loadProgress();
+  }, [isLogged]);
 
   const divesById = useMemo(
     () => Object.fromEntries(deepDiveIndex.map((item) => [item.id, item])),
@@ -177,7 +211,7 @@ export default function DeepDivesPage() {
                       node.major ? "is-major" : ""
                     } ${isActive ? "is-active" : ""} ${
                       isConnected ? "is-connected" : "is-muted"
-                    }`}
+                    } ${completedTimelines.has(nodeId) ? "is-completed" : ""}`}
                     style={{ left: node.x, top: node.y }}
                     type="button"
                     onMouseEnter={() => setActiveId(nodeId)}
@@ -186,6 +220,9 @@ export default function DeepDivesPage() {
                   >
                     <img src={getDeepDiveImage(item)} alt="" />
                     <span className="conflict-node__shade" />
+                    {completedTimelines.has(nodeId) && (
+                      <span className="conflict-node__completed-badge" aria-label="Completed">✓</span>
+                    )}
                     <span className="conflict-node__copy">
                       <small>{node.years}</small>
                       <strong>{item.title}</strong>

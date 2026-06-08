@@ -63,6 +63,32 @@ export default function SuggestionPage() {
     }
   };
 
+  const handleStatusUpdate = async (userId, suggestionId, status) => {
+    try {
+      await updateSuggestionStatus(userId, suggestionId, status);
+      setSuggestions((current) =>
+        current.map((s) =>
+          s.suggestionId === suggestionId ? { ...s, status } : s
+        )
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  async function updateSuggestionStatus(userId, suggestionId, status) {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/suggestions/${userId}/${suggestionId}/status`,
+      {
+        method: "PATCH",
+        headers: await getAuthHeaders(),
+        body: JSON.stringify({ status }),
+      }
+    );
+    if (!response.ok) throw new Error("Could not update suggestion status.");
+    return response.json();
+  }
+
   if (!isAuthReady) return null;
   if (!isLogged) return <Navigate to="/login" replace />;
 
@@ -204,6 +230,23 @@ export default function SuggestionPage() {
                       : ""}
                     {new Date(suggestion.createdAt).toLocaleString()}
                   </small>
+
+                  {isDeveloper && suggestion.status === "pending" && (
+                    <div className="suggestion-history__actions">
+                      <button
+                        className="suggestion-page__submit suggestion-page__submit--accept"
+                        onClick={() => handleStatusUpdate(suggestion.userId, suggestion.suggestionId, "accepted")}
+                      >
+                        Accept
+                      </button>
+                      <button
+                        className="suggestion-page__submit suggestion-page__submit--decline"
+                        onClick={() => handleStatusUpdate(suggestion.userId, suggestion.suggestionId, "declined")}
+                      >
+                        Decline
+                      </button>
+                    </div>
+                  )}
                 </article>
               ))}
             </div>

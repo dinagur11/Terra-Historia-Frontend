@@ -21,11 +21,17 @@ export default function UserPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-
   const [savedBookmarks, setSavedBookmarks] = useState([]);
   const [savedBookmarksError, setSavedBookmarksError] = useState("");
-  const [showSavedBookmarks, setShowSavedBookmarks] = useState(false);
   const [isBookmarksLoading, setIsBookmarksLoading] = useState(false);
+  const [completedTimelines, setCompletedTimelines] = useState([]);
+  const [isProgressLoading, setIsProgressLoading] = useState(false);
+  const [progressError, setProgressError] = useState("");
+  const [activeProgressSection, setActiveProgressSection] = useState(null); 
+
+  function toggleSection(section) {
+    setActiveProgressSection((current) => (current === section ? null : section));
+  }
 
   useEffect(() => {
     if (!isLogged) return;
@@ -51,6 +57,26 @@ export default function UserPage() {
       })
       .finally(() => {
         setIsBookmarksLoading(false);
+      });
+  }, [isLogged]);
+
+  useEffect(() => {
+    if (!isLogged) return;
+
+    setIsProgressLoading(true);
+
+    fetchUserProgress()
+      .then((timelineProgress) => {
+        const completed = Object.keys(timelineProgress).filter(
+          (k) => timelineProgress[k]
+        );
+        setCompletedTimelines(completed);
+      })
+      .catch(() => {
+        setProgressError("Progress could not be loaded.");
+      })
+      .finally(() => {
+        setIsProgressLoading(false);
       });
   }, [isLogged]);
 
@@ -192,8 +218,7 @@ export default function UserPage() {
               <button
                 type="button"
                 className="user-page__stat-button"
-                onClick={() => setShowSavedBookmarks((current) => !current)}
-              >
+                onClick={() => toggleSection("bookmarks")}>              
                 <span className="user-page__stat-value">
                   {savedBookmarks.length}
                 </span>
@@ -202,19 +227,31 @@ export default function UserPage() {
             </div>
 
             <div className="user-page__stat">
-              <div className="user-page__stat-placeholder">
-                <span className="user-page__stat-value">0</span>
-                <span className="user-page__stat-label">Deep dives progress</span>
-              </div>
+              <button
+                type="button"
+                className="user-page__stat-button"
+                onClick={() => toggleSection("dives")}>
+                <span className="user-page__stat-value">
+                  {isProgressLoading ? "—" : completedTimelines.length}
+                </span>
+                <span className="user-page__stat-label">Deep dives completed</span>
+              </button>
             </div>
-          </div> 
+          </div>
+
           {savedBookmarksError && (
             <p className="user-page__message user-page__message--error">
               {savedBookmarksError}
             </p>
           )}
 
-          {showSavedBookmarks ? (
+          {progressError && (
+            <p className="user-page__message user-page__message--error">
+              {progressError}
+            </p>
+          )}
+
+          {activeProgressSection === "bookmarks" && (
             <div className="user-page__saved-dives">
               {isBookmarksLoading ? (
                 <div className="user-page__progress-empty">
@@ -255,9 +292,31 @@ export default function UserPage() {
                 </div>
               )}
             </div>
-          ) : (
-            <div className="user-page__progress-empty">
-              Click Saved bookmarks to view your bookmarks.
+          )}
+
+          {activeProgressSection === "dives" && (
+            <div className="user-page__saved-dives">
+              {isProgressLoading ? (
+                <div className="user-page__progress-empty">
+                  Loading progress...
+                </div>
+              ) : completedTimelines.length ? (
+                completedTimelines.map((timelineId) => (
+                  <div
+                    key={timelineId}
+                    className="user-page__saved-dive-card user-page__saved-dive-card--static"
+                  >
+                    <strong>{timelineId}</strong>
+                    <span className="user-page__saved-dive-meta">
+                      Completed
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="user-page__progress-empty">
+                  No deep dives completed yet.
+                </div>
+              )}
             </div>
           )}
         </section>
@@ -294,4 +353,20 @@ async function fetchUserBookmarks() {
 
   const data = await response.json();
   return data.deepDiveBookmarks || [];
+}
+
+async function fetchUserProgress() {
+  const headers = await getAuthHeaders();
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/me/progress`,
+    { headers }
+  );
+
+  if (!response.ok) {
+    throw new Error("Could not load progress");
+  }
+
+  const data = await response.json();
+  return data.timelineProgress || {};
 }

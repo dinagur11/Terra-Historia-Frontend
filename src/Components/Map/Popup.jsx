@@ -1,15 +1,12 @@
 import "./Popup.css";
-import { Star } from "lucide-react";
 import { useState } from "react";
 
 export default function Popup({
     eventName,
     eventDate,
     eventDescription,
-    isLogged,
     onClose
 }) {
-    const [isFavorite, setIsFavorite] = useState(false);
 
     const toggleFavorite = () => {
         setIsFavorite(prev => !prev);
@@ -25,16 +22,6 @@ export default function Popup({
                 <p className="date">{eventDate}</p>
                 <p className="description">{eventDescription}</p>
             </div>
-            {isLogged &&
-                (<button className="favorite-btn" title="Add to favorites" onClick={toggleFavorite}>
-                    <Star
-                        size={20}
-                        fill={isFavorite ? "gold" : "white"}   
-                        stroke="black"                        
-                        strokeWidth={1}
-                    />
-                </button>)
-            }
         </div>
     );
 }

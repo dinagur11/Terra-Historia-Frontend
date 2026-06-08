@@ -71,17 +71,13 @@ function getEventMarkers(timelineId, activeEvent) {
 
   if (eventMarkers.length > 0) return eventMarkers;
 
-  return (
-    FALLBACK_MARKERS_BY_TIMELINE[timelineId]?.[activeEvent.id] ||
-    []
-  );
+  return FALLBACK_MARKERS_BY_TIMELINE[timelineId]?.[activeEvent.id] || [];
 }
 
 function getEventView(timelineId, activeEvent) {
   return (
     OVERRIDE_VIEWS_BY_TIMELINE[timelineId]?.[activeEvent.id] ||
-    activeEvent.view ||
-    { center: [30, 20], zoom: 3 }
+    activeEvent.view || { center: [30, 20], zoom: 3 }
   );
 }
 
@@ -214,9 +210,7 @@ function placeOverlays(map, timelineId, activeEvent) {
   const regions = getEventRegions(timelineId, activeEvent);
   const divisionLines = getEventDivisionLines(timelineId, activeEvent);
 
-  if (!regions.length && !divisionLines.length) {
-    return;
-  }
+  if (!regions.length && !divisionLines.length) return;
 
   try {
     if (regions.length) {
@@ -226,14 +220,8 @@ function placeOverlays(map, timelineId, activeEvent) {
           type: "FeatureCollection",
           features: regions.map((r) => ({
             type: "Feature",
-            properties: {
-              color: r.color,
-              opacity: r.opacity ?? 0.25,
-            },
-            geometry: {
-              type: "Polygon",
-              coordinates: [r.coordinates],
-            },
+            properties: { color: r.color, opacity: r.opacity ?? 0.25 },
+            geometry: { type: "Polygon", coordinates: [r.coordinates] },
           })),
         },
       });
@@ -265,10 +253,7 @@ function placeOverlays(map, timelineId, activeEvent) {
           type: "FeatureCollection",
           features: regions.map((r) => ({
             type: "Feature",
-            properties: {
-              label: r.label,
-              color: r.color,
-            },
+            properties: { label: r.label, color: r.color },
             geometry: {
               type: "Point",
               coordinates: polygonCentroid(r.coordinates),
@@ -305,13 +290,8 @@ function placeOverlays(map, timelineId, activeEvent) {
           type: "FeatureCollection",
           features: divisionLines.map((line) => ({
             type: "Feature",
-            properties: {
-              color: line.color,
-            },
-            geometry: {
-              type: "LineString",
-              coordinates: line.coordinates,
-            },
+            properties: { color: line.color },
+            geometry: { type: "LineString", coordinates: line.coordinates },
           })),
         },
       });
@@ -334,10 +314,7 @@ function placeOverlays(map, timelineId, activeEvent) {
           type: "FeatureCollection",
           features: divisionLines.map((line) => ({
             type: "Feature",
-            properties: {
-              label: line.label,
-              color: line.color,
-            },
+            properties: { label: line.label, color: line.color },
             geometry: {
               type: "Point",
               coordinates:
@@ -413,15 +390,19 @@ export default function DeepDivesInfoPage() {
   const [activeEventIndex, setActiveEventIndex] = useState(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [bookmarks, setBookmarks] = useState([]);
+  const [completedTimelines, setCompletedTimelines] = useState(new Set());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   const activeEvent = events[activeEventIndex];
   const slides = activeEvent?.slides || [];
   const activeSlide = slides[activeSlideIndex];
-  // at the top of the component, restore this ref:
   const activeEventRef = useRef(null);
   activeEventRef.current = activeEvent ?? null;
+
+  const isLastSlide =
+    activeEventIndex === events.length - 1 &&
+    activeSlideIndex === slides.length - 1;
 
   const currentBookmark = useMemo(() => {
     if (!id || !activeEvent || !activeSlide) return null;
@@ -465,7 +446,6 @@ export default function DeepDivesInfoPage() {
         }
 
         const response = await fetchDeepDive(id);
-
         if (!response.ok) throw new Error("Could not load this deep dive.");
 
         const data = await response.json();
@@ -511,7 +491,6 @@ export default function DeepDivesInfoPage() {
           `${import.meta.env.VITE_API_URL}/users/me/bookmarks`,
           { headers }
         );
-
         if (!response.ok) throw new Error("Could not load bookmarks.");
 
         const data = await response.json();
@@ -524,6 +503,33 @@ export default function DeepDivesInfoPage() {
     loadBookmarks();
   }, [isLogged]);
 
+  // ── Load progress ──────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    async function loadProgress() {
+      if (!isLogged) return;
+
+      try {
+        const headers = await getAuthHeaders();
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/me/progress`,
+          { headers }
+        );
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const completed = Object.keys(data.timelineProgress || {}).filter(
+          (k) => data.timelineProgress[k]
+        );
+        setCompletedTimelines(new Set(completed));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    loadProgress();
+  }, [isLogged]);
+
   // ── Map effect ─────────────────────────────────────────────────────────────
 
   useEffect(() => {
@@ -534,7 +540,6 @@ export default function DeepDivesInfoPage() {
     const zoom = view.zoom;
 
     if (!mapRef.current) {
-      // ── First load ──────────────────────────────────────────────────────
       let disposed = false;
 
       (async () => {
@@ -552,7 +557,6 @@ export default function DeepDivesInfoPage() {
         mapRef.current = map;
         map.addControl(new maplibregl.NavigationControl(), "top-right");
 
-        // Keep OHM's vector layers constrained to the active event year.
         map.on("styledata", () => {
           const event = activeEventRef.current;
           if (!event) return;
@@ -574,7 +578,6 @@ export default function DeepDivesInfoPage() {
       return () => { disposed = true; };
 
     } else {
-      // ── Subsequent events ───────────────────────────────────────────────
       mapRef.current.flyTo({
         center: [center[1], center[0]],
         zoom,
@@ -583,7 +586,6 @@ export default function DeepDivesInfoPage() {
 
       placeMarkers(mapRef.current, id, activeEvent, markersRef);
 
-      // flyTo doesn't trigger styledata, so apply explicitly
       const applyUpdate = () => {
         if (!mapRef.current) return;
         forceEnglishLabels(mapRef.current);
@@ -623,7 +625,6 @@ export default function DeepDivesInfoPage() {
         body: JSON.stringify({ deepDiveBookmarks: nextBookmarks }),
       }
     );
-
     if (!response.ok) throw new Error("Could not update bookmarks.");
 
     const data = await response.json();
@@ -655,6 +656,29 @@ export default function DeepDivesInfoPage() {
       console.error(err);
       setBookmarks(bookmarks);
     }
+  }
+
+  // ── Progress ───────────────────────────────────────────────────────────────
+
+  async function markTimelineComplete() {
+    try {
+      const headers = await getAuthHeaders();
+      await fetch(`${import.meta.env.VITE_API_URL}/users/me/progress`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ timelineId: id }),
+      });
+    } catch (err) {
+      console.error("Could not save progress:", err);
+    }
+  }
+
+  function handleFinish() {
+    if (isLogged && !completedTimelines.has(id)) {
+      markTimelineComplete();
+      setCompletedTimelines((prev) => new Set([...prev, id]));
+    }
+    navigate("/deep-dives", { state: { justCompleted: id } });
   }
 
   // ── Navigation ─────────────────────────────────────────────────────────────
@@ -820,17 +844,21 @@ export default function DeepDivesInfoPage() {
                 Previous
               </button>
 
-              <button
-                type="button"
-                onClick={goToNextSlide}
-                disabled={
-                  activeEventIndex === events.length - 1 &&
-                  activeSlideIndex === slides.length - 1
-                }
-              >
-                Next
-                <ChevronRight size={20} />
-              </button>
+              {isLastSlide ? (
+                <button
+                  type="button"
+                  className="deepdive-controls__finish"
+                  onClick={handleFinish}
+                >
+                  Finish
+                  <ChevronRight size={20} />
+                </button>
+              ) : (
+                <button type="button" onClick={goToNextSlide}>
+                  Next
+                  <ChevronRight size={20} />
+                </button>
+              )}
             </div>
 
             <div className="deepdive-event-tabs">
