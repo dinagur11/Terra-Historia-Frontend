@@ -117,7 +117,7 @@ export default function DeepDivesPage() {
           <div>
             <p className="conflict-page__eyebrow">
               <GitBranch size={15} />
-              Explore the forces that shaped history
+              Explore the forces that shaped the history of Europe, Israel and the USA.
             </p>
             <h1>Dive into the wars that shaped our modern world.</h1>
             <p>

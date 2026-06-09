@@ -8,6 +8,22 @@ const PANEL_TABS = [
   { id: "funFacts", label: "Trivia" },
 ];
 
+const YEAR_RESOLVED_NAMES = {
+  "syrian republic": [
+    { file: "french-syria-and-lebanon", yearStart: 1914, yearEnd: 1946 },
+    { file: "syria", yearStart: 1946, yearEnd: 9999 }
+  ],
+  "german reich": [
+    { file: "german-empire", yearStart: 1918, yearEnd: 1933 },
+    { file: "weimar-republic", yearStart: 1918, yearEnd: 1933 },
+    { file: "nazi-germany", yearStart: 1933, yearEnd: 1937 },
+  ],
+  "federation of malaya": [
+    {file : "british-malaya-postwar", yearStart: 1914, yearEnd: 1956},
+    {file : "malaysia", yearStart: 1957, yearEnd: 1962}
+  ]
+}
+
 function formatLabel(key) {
   return key
     .replace(/([A-Z])/g, " $1")
@@ -64,8 +80,13 @@ async function getCountryIndex() {
   return countryIndexCache;
 }
 
-async function resolveFileName(clickedName) {
+async function resolveFileName(clickedName, yearProp) {
   const normalized = normalizeClickedName(clickedName)
+  const yearResolved = YEAR_RESOLVED_NAMES[normalized]
+  if (yearResolved) {
+    const match = yearResolved.find(e => yearProp >= e.yearStart && yearProp <= e.yearEnd)
+    if (match) return match.file
+  }
   const directFileName = normalized.replace(/\s+/g, "-")
 
   try {
@@ -171,7 +192,7 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
     setActiveTab("general");
     currentFileName.current = null;
 
-    resolveFileName(countryName)
+    resolveFileName(countryName, yearProp)
       .then(fileName => {
         if (!fileName) throw new Error("Country not found");
         currentFileName.current = fileName;

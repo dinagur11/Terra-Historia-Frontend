@@ -30,7 +30,7 @@ const CUSTOM_LABELS = [
   coordinates: [20.4568, 44.0165]
   },
   {
-    name: "Khedivate \nof Egypt",
+    name: "Sultanate \nof Egypt",
     yearStart: 1867,
     yearEnd: 1914,
     coordinates: [29.8, 26.8]
@@ -89,9 +89,39 @@ const CUSTOM_LABELS = [
     yearEnd: 1951,
     coordinates: [23.5, 48.5]
   },
+  {
+    name: "United Arab\nRepublic",
+    yearStart: 1958,
+    yearEnd: 1961,
+    coordinates: [38.5, 35.0]
+  },
+  {
+    name: "Kars\nOblast",
+    yearStart: 1914,
+    yearEnd: 1917,
+    coordinates: [42.5, 40.8]
+  },
+  {
+    name: "Grand National\nAssembly of\nTurkey",
+    yearStart: 1921,
+    yearEnd: 1923,
+    coordinates: [43.0, 40.0]
+  },
+  {
+    name: "British\nMalaya",
+    yearStart: 1941,
+    yearEnd: 1941,
+    coordinates: [102.5, 3.5]
+  },
+  {
+    name: "Japanese\nKorea",
+    yearStart: 1914,
+    yearEnd: 1945,
+    coordinates: [127.5, 37.5]
+  },
 ]
 
-  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands']; 
+  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar']; 
 
 
 
