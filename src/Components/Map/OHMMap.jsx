@@ -260,6 +260,12 @@ const CUSTOM_LABELS = [
     yearStart: 1918,
     yearEnd: 1919,
     coordinates: [24.0, 55.3]
+},
+{
+    name: "Mongolian\nPeople's Republic",
+    yearStart: 1924,
+    yearEnd: 1991,  
+    coordinates: [104.0, 46.0] 
 }
 ]
 
