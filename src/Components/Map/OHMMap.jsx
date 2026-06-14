@@ -137,6 +137,42 @@ const CUSTOM_LABELS = [
     yearEnd: 1943,
     coordinates: [19.3, 42.7]
   },
+  {
+      name: "Republic\nof\nPoland",
+      yearStart: 1918,
+      yearEnd: 1918,
+      coordinates: [19.1, 52.0]
+  },
+  {
+      name: "Kingdom of\nSerbs Croats \nand Slovenes",
+      yearStart: 1918,
+      yearEnd: 1919,
+      coordinates: [15.5, 45.3]
+  },
+  {
+    name: "Ober Ost",
+    yearStart: 1918,
+    yearEnd: 1918,
+    coordinates: [25.0, 51.5]
+  },
+  {
+    name: "Imamate of\nOman",
+    yearStart: 1932,
+    yearEnd: 1969,
+    coordinates: [55.8, 20.5]
+  },
+  {
+    name: "People's Republic\nof South Yemen",
+    yearStart: 1967,
+    yearEnd: 1970,
+    coordinates: [47.0, 14.5]
+  },
+  {
+    name: "Kingdom of\nYemen",
+    yearStart: 1932,
+    yearEnd: 1962,
+    coordinates: [44.5, 15.5]
+  }
 ]
 
   const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar', 'Democratic Federal Yugoslavia', 'Portuguese Goa', 'U.S. Naval Base Subic Bay']; 
