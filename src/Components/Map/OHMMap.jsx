@@ -467,6 +467,7 @@ function clearMarkers(markersRef) {
 export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
   onCountryOptionsChange,
 }) {
+  //we want to avoid disputed borders for 1918
   const effectiveYear = Math.max(Number(yearProp) || MIN_MAP_YEAR, MIN_MAP_YEAR);
   const mapEl = useRef(null);
   const mapRef = useRef(null);
@@ -475,9 +476,14 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
   const [eventsList, setEventsList] = useState([]);
   const [mapReady, setMapReady] = useState(false);
   const {isLogged} = useAuth();
-
   const applyDate = (map) => {
-    map.filterByDate(`${yearRef.current}-12-12`);
+  if (effectiveYear === 1918){
+      //avoiding disputed borders for 1918
+        map.filterByDate(`${yearRef.current+1}-12-12`);
+  }
+  else{
+    map.filterByDate(`${yearRef.current+1}-12-12`);
+  }
     const yearFilter = [
       "all",
       ["<=", ["get", "yearStart"], yearRef.current],
