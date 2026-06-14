@@ -16,6 +16,52 @@ const COUNTRY_SOURCE_LAYERS = [
   { sourceLayer: "place_points_centroids", matches: props => props.type === "country" },
 ];
 
+const customBorders = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: { name: 'Latvia-Lithuania border', yearStart: 1918, yearEnd: 1919 },
+      geometry: {
+        type: 'LineString',
+        coordinates: [
+          [21.07, 56.07],
+          [21.50, 56.20],
+          [22.20, 56.32],
+          [22.90, 56.40],
+          [23.55, 56.37],
+          [24.20, 56.40],
+          [24.80, 56.38],
+          [25.40, 56.27],
+          [25.85, 56.10],
+          [26.30, 55.95],
+          [26.62, 55.78],
+          [26.83, 55.67]   // tripoint with Belarus/Poland
+        ]
+      }
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Poland-Lithuania border', yearStart: 1918, yearEnd: 1919 },
+      geometry: {
+        type: 'LineString',
+        coordinates: [
+          [26.83, 55.67],  // tripoint with Latvia (matches above)
+          [26.50, 55.40],
+          [26.20, 55.10],
+          [25.80, 54.85],
+          [25.40, 54.70],
+          [25.10, 54.50],
+          [24.50, 54.30],
+          [23.80, 54.20],
+          [23.10, 54.30],
+          [22.80, 54.40]   // meets East Prussia border (~Suwałki area)
+        ]
+      }
+    }
+  ]
+};
+
 const CUSTOM_LABELS = [
   {
     name: "Third Reich",
@@ -172,7 +218,19 @@ const CUSTOM_LABELS = [
     yearStart: 1932,
     yearEnd: 1962,
     coordinates: [44.5, 15.5]
-  }
+  },
+  {
+    name: "Latvia",
+    yearStart: 1918,
+    yearEnd: 1919,
+    coordinates: [24.5, 57.0]
+},
+{
+    name: "Lithuania",
+    yearStart: 1918,
+    yearEnd: 1919,
+    coordinates: [24.0, 55.3]
+}
 ]
 
   const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar', 'Democratic Federal Yugoslavia', 'Portuguese Goa', 'U.S. Naval Base Subic Bay']; 
@@ -384,14 +442,19 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
 
   const applyDate = (map) => {
     map.filterByDate(`${yearRef.current}-12-12`);
+    const yearFilter = [
+      "all",
+      ["<=", ["get", "yearStart"], yearRef.current],
+      [">=", ["get", "yearEnd"], yearRef.current]
+    ];
+
     if (map.getLayer("custom-labels")) {
-      map.setFilter("custom-labels", [
-        "all",
-        ["<=", ["get", "yearStart"], yearRef.current],
-        [">=", ["get", "yearEnd"], yearRef.current]
-      ])
+      map.setFilter("custom-labels", yearFilter);
     }
-    map.triggerRepaint();
+    if (map.getLayer("custom-borders-line")) {
+      map.setFilter("custom-borders-line", yearFilter);
+    }
+    //map.triggerRepaint();
   };
 
   useEffect(() => {
@@ -454,10 +517,25 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
       };
 
       map.on("styledata", () => {
+        if (!map.getSource("custom-borders")) {
+          map.addSource("custom-borders", {
+            type: "geojson",
+            data: customBorders
+          });
+          map.addLayer({
+            id: "custom-borders-line",
+            type: "line",
+            source: "custom-borders",
+            paint: {
+              "line-color": "#555",
+              "line-width": 0.8,
+              "line-opacity": 0.7
+            }
+          });
+        }
         applyDate(map);
         forceEnglishLabels();
       });
-
       map.on("click", (e) => {
         const features = map.queryRenderedFeatures(e.point, {
           layers: ["country_points_labels", "country_points_labels_cen"]
