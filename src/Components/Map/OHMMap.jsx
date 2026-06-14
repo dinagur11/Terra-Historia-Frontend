@@ -119,9 +119,27 @@ const CUSTOM_LABELS = [
     yearEnd: 1945,
     coordinates: [127.5, 37.5]
   },
+  {
+    name: "Siam",
+    yearStart: 1932,
+    yearEnd: 1938,
+    coordinates: [100.5, 15.0]
+  },
+  {
+    name: "Democratic\nFederal\nYugoslavia",
+    yearStart: 1944,
+    yearEnd: 1944,
+    coordinates: [20.0, 44.0]
+  },
+  {
+    name: "Governorate\nof\nMontenegro",
+    yearStart: 1943,
+    yearEnd: 1943,
+    coordinates: [19.3, 42.7]
+  },
 ]
 
-  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar']; 
+  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar', 'Democratic Federal Yugoslavia', 'Portuguese Goa', 'U.S. Naval Base Subic Bay']; 
 
 
 
