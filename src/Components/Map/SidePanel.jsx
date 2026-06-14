@@ -14,8 +14,8 @@ const YEAR_RESOLVED_NAMES = {
     { file: "syria", yearStart: 1946, yearEnd: 9999 }
   ],
   "german reich": [
-    { file: "german-empire", yearStart: 1918, yearEnd: 1933 },
-    { file: "weimar-republic", yearStart: 1918, yearEnd: 1933 },
+    { file: "german-empire", yearStart: 1914, yearEnd: 1917 },
+    { file: "weimar-republic", yearStart: 1918, yearEnd: 1932 },
     { file: "nazi-germany", yearStart: 1933, yearEnd: 1937 },
   ],
   "federation of malaya": [
@@ -57,6 +57,8 @@ function formatYear(year) {
 function normalizeClickedName(name) {
   return name
     .replace(/\(.*?\)/g, "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") 
     .toLowerCase()
     .replace(/\s+/g, " ")
     .trim();

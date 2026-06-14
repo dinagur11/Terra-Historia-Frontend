@@ -204,7 +204,7 @@ const CUSTOM_LABELS = [
   {
     name: "Democratic\nFederal\nYugoslavia",
     yearStart: 1944,
-    yearEnd: 1944,
+    yearEnd: 1945,
     coordinates: [20.0, 44.0]
   },
   {
