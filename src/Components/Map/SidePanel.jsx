@@ -21,6 +21,10 @@ const YEAR_RESOLVED_NAMES = {
   "federation of malaya": [
     {file : "british-malaya-postwar", yearStart: 1914, yearEnd: 1956},
     {file : "malaysia", yearStart: 1957, yearEnd: 1962}
+  ],
+  "kars-oblast": [
+    {file : "russian-empire", yearStart: 1914, yearEnd: 1917},
+    {file : "armenia", yearStart: 1918, yearEnd: 1919}
   ]
 }
 
