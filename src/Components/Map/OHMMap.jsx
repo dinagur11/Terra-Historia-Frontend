@@ -58,7 +58,37 @@ const customBorders = {
           [22.80, 54.40]   // meets East Prussia border (~Suwałki area)
         ]
       }
+    },
+  {
+  type: 'Feature',
+  properties: { name: 'WUPR-Poland border', yearStart: 1918, yearEnd: 1918 },
+  geometry: {
+    type: 'LineString',
+    coordinates: [
+      [22.2, 49.2],
+      [22.4, 49.5],
+      [22.6, 49.8],
+      [22.8, 50.0],
+      [23.0, 50.2],
+      [23.2, 50.4]
+    ]
+  }
+  },
+  {
+    type: 'Feature',
+    properties: { name: 'WUPR-Romania border', yearStart: 1918, yearEnd: 1918 },
+    geometry: {
+      type: 'LineString',
+      coordinates: [
+        [24.6, 48.2],
+        [24.9, 48.3],
+        [25.2, 48.4],
+        [25.5, 48.5],
+        [25.8, 48.5],
+        [26.2, 48.6]
+      ]
     }
+  }
   ]
 };
 
@@ -190,7 +220,7 @@ const CUSTOM_LABELS = [
       coordinates: [19.1, 52.0]
   },
   {
-      name: "Kingdom of\nSerbs Croats \nand Slovenes",
+      name: "Kingdom of\nSerbs, Croats \nand Slovenes",
       yearStart: 1918,
       yearEnd: 1919,
       coordinates: [15.5, 45.3]
