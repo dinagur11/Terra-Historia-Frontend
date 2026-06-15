@@ -271,7 +271,7 @@ const CUSTOM_LABELS = [
     name: "Emirate of\nTrarza",
     yearStart: 1903,
     yearEnd: 1960,
-    coordinates: [-15.2, 17.0]
+    coordinates: [-15.6, 17.4]
 }
 ]
 
