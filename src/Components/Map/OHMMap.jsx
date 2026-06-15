@@ -238,12 +238,6 @@ const CUSTOM_LABELS = [
     coordinates: [55.8, 20.5]
   },
   {
-    name: "People's Republic\nof South Yemen",
-    yearStart: 1967,
-    yearEnd: 1970,
-    coordinates: [47.0, 14.5]
-  },
-  {
     name: "Kingdom of\nYemen",
     yearStart: 1932,
     yearEnd: 1962,
@@ -266,6 +260,18 @@ const CUSTOM_LABELS = [
     yearStart: 1924,
     yearEnd: 1991,  
     coordinates: [104.0, 46.0] 
+},
+{
+    name: "French Madagascar",
+    yearStart: 1924,
+    yearEnd: 1959,
+    coordinates: [47.0, -19.0]
+},
+{
+    name: "Emirate of\nTrarza",
+    yearStart: 1903,
+    yearEnd: 1960,
+    coordinates: [-15.2, 17.0]
 }
 ]
 
