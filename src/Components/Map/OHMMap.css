@@ -14,7 +14,7 @@
 }
 
 .ohm-map .maplibregl-canvas.country-label-clickable {
-  cursor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%3E%3Cpath%20d='M4%202L26%2017L16%2019L22%2028L16.5%2031L11%2021.5L4%2028Z'%20fill='%23d4af37'%20stroke='%2314110b'%20stroke-width='2'%20stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, pointer;
+  cursor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='36'%20height='36'%20viewBox='0%200%2036%2036'%20shape-rendering='crispEdges'%3E%3Cpath%20d='M8%201h5v12h2V8h5v5h2v-3h5v4h2v-2h4v13h-2v6H13v-2h-3v-3H7v-3H4v-6h4z'%20fill='%23d4af37'%20stroke='%23251c05'%20stroke-width='2'%20stroke-linejoin='miter'/%3E%3C/svg%3E") 10 2, pointer !important;
 }
 
 /* ── Events overlay ──────────────────────────────────────────────────────── */
