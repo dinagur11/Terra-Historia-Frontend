@@ -31,6 +31,11 @@ const YEAR_RESOLVED_NAMES = {
 
 const GERMAN_REICH_FLAG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Flag_of_Germany_%281935%E2%80%931945%29.svg/1920px-Flag_of_Germany_%281935%E2%80%931945%29.svg.png";
+const HISTORICAL_GERMANY_FILES = new Set([
+  "german-empire",
+  "nazi-germany",
+  "weimar-republic",
+]);
 
 function formatLabel(key) {
   return key
@@ -85,6 +90,7 @@ function isGermanStateName(name) {
   return [
     "german empire",
     "german reich",
+    "deutsches reich",
     "nazi germany",
     "third reich",
     "weimar germany",
@@ -92,13 +98,8 @@ function isGermanStateName(name) {
   ].includes(normalizeClickedName(name));
 }
 
-function resolveFlagUrl(countryData, clickedName, displayName, yearProp) {
-  const names = [clickedName, displayName, countryData?.name]
-    .filter(Boolean)
-    .map(normalizeClickedName);
-  const isGermanReich = names.some(isGermanStateName);
-
-  if (isGermanReich && yearProp >= 1934 && yearProp <= 1945) {
+function resolveFlagUrl(countryData, isHistoricalGermany, yearProp) {
+  if (isHistoricalGermany && yearProp >= 1934 && yearProp <= 1945) {
     return GERMAN_REICH_FLAG_URL;
   }
 
@@ -285,11 +286,15 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
     );
   }
 
-  const historicalGermanName = [countryName, countryData?.name].some(isGermanStateName)
+  const isHistoricalGermany =
+    Number(selectedCountry?.properties?.osm_id) === 2091139956 ||
+    HISTORICAL_GERMANY_FILES.has(currentFileName.current) ||
+    [countryName, countryData?.name].some(isGermanStateName);
+  const historicalGermanName = isHistoricalGermany
     ? getHistoricalGermanStateName(yearProp)
     : null;
   const displayName = historicalGermanName || resolveDisplayName(countryData, yearProp);
-  const flagUrl = resolveFlagUrl(countryData, countryName, displayName, yearProp);
+  const flagUrl = resolveFlagUrl(countryData, isHistoricalGermany, yearProp);
 
   return (
     <div className="country-panel">
