@@ -643,11 +643,11 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
           feature.layer?.id !== "custom-labels" || feature.properties?.clickable !== false
         );
 
-        map.getCanvas().style.cursor = isOverClickableCountry ? "pointer" : "";
+        map.getCanvas().classList.toggle("country-label-clickable", isOverClickableCountry);
       });
 
       map.on("mouseleave", () => {
-        map.getCanvas().style.cursor = "";
+        map.getCanvas().classList.remove("country-label-clickable");
       });
 
       map.on("click", "custom-labels", (e) => {
