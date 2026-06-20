@@ -16,6 +16,82 @@ const COUNTRY_SOURCE_LAYERS = [
   { sourceLayer: "place_points_centroids", matches: props => props.type === "country" },
 ];
 
+const customBorders = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: { name: 'Latvia-Lithuania border', yearStart: 1918, yearEnd: 1919 },
+      geometry: {
+        type: 'LineString',
+        coordinates: [
+          [21.07, 56.07],
+          [21.50, 56.20],
+          [22.20, 56.32],
+          [22.90, 56.40],
+          [23.55, 56.37],
+          [24.20, 56.40],
+          [24.80, 56.38],
+          [25.40, 56.27],
+          [25.85, 56.10],
+          [26.30, 55.95],
+          [26.62, 55.78],
+          [26.83, 55.67]   // tripoint with Belarus/Poland
+        ]
+      }
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Poland-Lithuania border', yearStart: 1918, yearEnd: 1919 },
+      geometry: {
+        type: 'LineString',
+        coordinates: [
+          [26.83, 55.67],  // tripoint with Latvia (matches above)
+          [26.50, 55.40],
+          [26.20, 55.10],
+          [25.80, 54.85],
+          [25.40, 54.70],
+          [25.10, 54.50],
+          [24.50, 54.30],
+          [23.80, 54.20],
+          [23.10, 54.30],
+          [22.80, 54.40]   // meets East Prussia border (~Suwałki area)
+        ]
+      }
+    },
+  {
+  type: 'Feature',
+  properties: { name: 'WUPR-Poland border', yearStart: 1918, yearEnd: 1918 },
+  geometry: {
+    type: 'LineString',
+    coordinates: [
+      [22.2, 49.2],
+      [22.4, 49.5],
+      [22.6, 49.8],
+      [22.8, 50.0],
+      [23.0, 50.2],
+      [23.2, 50.4]
+    ]
+  }
+  },
+  {
+    type: 'Feature',
+    properties: { name: 'WUPR-Romania border', yearStart: 1918, yearEnd: 1918 },
+    geometry: {
+      type: 'LineString',
+      coordinates: [
+        [24.6, 48.2],
+        [24.9, 48.3],
+        [25.2, 48.4],
+        [25.5, 48.5],
+        [25.8, 48.5],
+        [26.2, 48.6]
+      ]
+    }
+  }
+  ]
+};
+
 const CUSTOM_LABELS = [
   {
     name: "Third Reich",
@@ -98,7 +174,7 @@ const CUSTOM_LABELS = [
   {
     name: "Kars\nOblast",
     yearStart: 1914,
-    yearEnd: 1917,
+    yearEnd: 1919,
     coordinates: [42.5, 40.8]
   },
   {
@@ -119,9 +195,87 @@ const CUSTOM_LABELS = [
     yearEnd: 1945,
     coordinates: [127.5, 37.5]
   },
+  {
+    name: "Siam",
+    yearStart: 1932,
+    yearEnd: 1938,
+    coordinates: [100.5, 15.0]
+  },
+  {
+    name: "Democratic\nFederal\nYugoslavia",
+    yearStart: 1944,
+    yearEnd: 1945,
+    coordinates: [20.0, 44.0]
+  },
+  {
+    name: "Governorate\nof\nMontenegro",
+    yearStart: 1943,
+    yearEnd: 1943,
+    coordinates: [19.3, 42.7]
+  },
+  {
+      name: "Republic\nof\nPoland",
+      yearStart: 1918,
+      yearEnd: 1918,
+      coordinates: [19.1, 52.0]
+  },
+  {
+      name: "Kingdom of\nSerbs, Croats \nand Slovenes",
+      yearStart: 1918,
+      yearEnd: 1919,
+      coordinates: [15.5, 45.3]
+  },
+  {
+    name: "Ober Ost",
+    yearStart: 1918,
+    yearEnd: 1918,
+    coordinates: [25.0, 51.5]
+  },
+  {
+    name: "Imamate of\nOman",
+    yearStart: 1932,
+    yearEnd: 1969,
+    coordinates: [55.8, 20.5]
+  },
+  {
+    name: "Kingdom of\nYemen",
+    yearStart: 1932,
+    yearEnd: 1962,
+    coordinates: [44.5, 15.5]
+  },
+  {
+    name: "Latvia",
+    yearStart: 1918,
+    yearEnd: 1919,
+    coordinates: [24.5, 57.0]
+},
+{
+    name: "Lithuania",
+    yearStart: 1918,
+    yearEnd: 1919,
+    coordinates: [24.0, 55.3]
+},
+{
+    name: "Mongolian\nPeople's Republic",
+    yearStart: 1924,
+    yearEnd: 1991,  
+    coordinates: [104.0, 46.0] 
+},
+{
+    name: "French Madagascar",
+    yearStart: 1924,
+    yearEnd: 1959,
+    coordinates: [47.0, -19.0]
+},
+{
+    name: "Emirate of\nTrarza",
+    yearStart: 1903,
+    yearEnd: 1960,
+    coordinates: [-15.6, 17.4]
+}
 ]
 
-  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar']; 
+  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar', 'Democratic Federal Yugoslavia', 'Portuguese Goa', 'U.S. Naval Base Subic Bay']; 
 
 
 
@@ -330,14 +484,19 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
 
   const applyDate = (map) => {
     map.filterByDate(`${yearRef.current}-12-12`);
+    const yearFilter = [
+      "all",
+      ["<=", ["get", "yearStart"], yearRef.current],
+      [">=", ["get", "yearEnd"], yearRef.current]
+    ];
+
     if (map.getLayer("custom-labels")) {
-      map.setFilter("custom-labels", [
-        "all",
-        ["<=", ["get", "yearStart"], yearRef.current],
-        [">=", ["get", "yearEnd"], yearRef.current]
-      ])
+      map.setFilter("custom-labels", yearFilter);
     }
-    map.triggerRepaint();
+    if (map.getLayer("custom-borders-line")) {
+      map.setFilter("custom-borders-line", yearFilter);
+    }
+    //map.triggerRepaint();
   };
 
   useEffect(() => {
@@ -410,11 +569,26 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
       };
 
       map.on("styledata", () => {
+        if (!map.getSource("custom-borders")) {
+          map.addSource("custom-borders", {
+            type: "geojson",
+            data: customBorders
+          });
+          map.addLayer({
+            id: "custom-borders-line",
+            type: "line",
+            source: "custom-borders",
+            paint: {
+              "line-color": "#555",
+              "line-width": 0.8,
+              "line-opacity": 0.7
+            }
+          });
+        }
         applyDate(map);
         forceEnglishLabels();
         removeUnwantedLabels();
       });
-
       map.on("click", (e) => {
         const features = map.queryRenderedFeatures(e.point, {
           layers: ["country_points_labels", "country_points_labels_cen"]
