@@ -8,16 +8,25 @@ function SearchBar({ onSearch, year, countryOptions = [] }) {
     const [isFocused, setIsFocused] = useState(false);
     const [activeSuggestion, setActiveSuggestion] = useState(-1);
     const suggestions = useMemo(() => {
-        const normalizedQuery = query.trim().toLowerCase();
-        if (!normalizedQuery) return [];
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) return [];
 
-        const ohmSuggestions = countryOptions
-            .filter(option => option.name.toLowerCase().startsWith(normalizedQuery))
-            .map(option => option.name);
+    const ohmSuggestions = countryOptions
+        .filter(option => option.name.toLowerCase().startsWith(normalizedQuery))
+        .map(option => option.name);
 
-        if (countryOptions.length > 0) return ohmSuggestions.slice(0, 8);
+    const staticSuggestions = getCountrySearchSuggestions(query, year);
 
-        return getCountrySearchSuggestions(query, year);
+    const seen = new Set();
+    const merged = [];
+    for (const name of [...ohmSuggestions, ...staticSuggestions]) {
+        const key = name.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        merged.push(name);
+    }
+
+    return merged.sort((a, b) => a.localeCompare(b)).slice(0, 8);
     }, [countryOptions, query, year]);
     const showSuggestions = isFocused && suggestions.length > 0;
 
