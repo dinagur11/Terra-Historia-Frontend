@@ -651,10 +651,11 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
       });
 
       map.on("click", "custom-labels", (e) => {
-        const name = e.features[0]?.properties?.name;
+        const props = e.features[0]?.properties;
         if (!props || props.clickable === false) return;
+        const name = props.name;
         if (!name) return;
-        if (onCountrySelect) onCountrySelect({ name, properties: props }); 
+        if (onCountrySelect) onCountrySelect({ name, properties: props });
       });
       
 
