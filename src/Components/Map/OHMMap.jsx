@@ -97,7 +97,10 @@ const customBorders = {
 };
 
 const CUSTOM_LABELS = [
-  ...HISTORICAL_MAP_CUSTOM_LABELS,
+  ...HISTORICAL_MAP_CUSTOM_LABELS.map((label) => ({
+    ...label,
+    yearStart: Math.max(label.yearStart, 1939),
+  })),
   {
   name: "Kingdom of Yugoslavia",
   yearStart: 1939,

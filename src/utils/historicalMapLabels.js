@@ -11,7 +11,7 @@ const GERMANY_LABEL_ALIASES = [
 export const HISTORICAL_MAP_CUSTOM_LABELS = [
   {
     name: "German Reich",
-    yearStart: 1939,
+    yearStart: 1935,
     yearEnd: 1945,
     coordinates: [10.45, 51.1],
   },

@@ -14,9 +14,9 @@ const YEAR_RESOLVED_NAMES = {
     { file: "syria", yearStart: 1946, yearEnd: 9999 }
   ],
   "german reich": [
-    { file: "german-empire", yearStart: 1914, yearEnd: 1917 },
-    { file: "weimar-republic", yearStart: 1918, yearEnd: 1932 },
-    { file: "nazi-germany", yearStart: 1933, yearEnd: 1937 },
+    { file: "german-empire", yearStart: 1914, yearEnd: 1918 },
+    { file: "weimar-republic", yearStart: 1919, yearEnd: 1933 },
+    { file: "nazi-germany", yearStart: 1934, yearEnd: 1945 },
   ],
   "federation of malaya": [
     {file : "british-malaya-postwar", yearStart: 1914, yearEnd: 1956},
@@ -27,6 +27,9 @@ const YEAR_RESOLVED_NAMES = {
     {file : "armenia", yearStart: 1918, yearEnd: 1919}
   ]
 }
+
+const GERMAN_REICH_FLAG_URL =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Flag_of_Germany_%281935%E2%80%931945%29.svg/250px-Flag_of_Germany_%281935%E2%80%931945%29.svg.png";
 
 function formatLabel(key) {
   return key
@@ -74,6 +77,23 @@ function resolveDisplayName(countryData, yearProp) {
     n => yearProp >= n.yearStart && yearProp <= n.yearEnd
   );
   return match?.name || countryData.name;
+}
+
+function resolveFlagUrl(countryData, clickedName, displayName, yearProp) {
+  const names = [clickedName, displayName, countryData?.name]
+    .filter(Boolean)
+    .map(normalizeClickedName);
+  const isGermanReich = names.some((name) =>
+    ["german reich", "nazi germany", "third reich"].includes(name)
+  );
+
+  if (isGermanReich && yearProp >= 1935 && yearProp <= 1945) {
+    return GERMAN_REICH_FLAG_URL;
+  }
+
+  return countryData?.countryCode
+    ? `https://flagcdn.com/w320/${countryData.countryCode}.png`
+    : null;
 }
 
 let countryIndexCache = null;
@@ -255,6 +275,7 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
   }
 
   const displayName = resolveDisplayName(countryData, yearProp);
+  const flagUrl = resolveFlagUrl(countryData, countryName, displayName, yearProp);
 
   return (
     <div className="country-panel">
@@ -267,11 +288,16 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
           ← Back
         </button>
 
-        {countryData?.countryCode && (
+        {flagUrl && (
           <img
             className="country-panel__flag"
-            src={`https://flagcdn.com/w320/${countryData.countryCode}.png`}
+            src={flagUrl}
+            alt=""
             onError={(e) => {
+              if (flagUrl === GERMAN_REICH_FLAG_URL) {
+                e.target.style.display = "none";
+                return;
+              }
               e.target.onerror = null;
               e.target.src = `${import.meta.env.VITE_S3_HISTORIC_FLAGS_URL}/${countryData.countryCode}.png`;
               e.target.onerror = () => { e.target.style.display = 'none' };
