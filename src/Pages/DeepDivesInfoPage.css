@@ -198,12 +198,24 @@
 .deepdive-map-marker--minor {
   width: 18px;
   height: 24px;
-  background: var(--txt-link);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: #17120b;
+  border-color: #f1ce68;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.58),
+    0 0 0 2px rgba(241, 206, 104, 0.38),
+    0 0 12px rgba(241, 206, 104, 0.34);
+}
+
+.deepdive-map-marker--minor::after {
+  background: #f1ce68;
 }
 
 .deepdive-map-marker--minor:hover {
   transform: rotate(-45deg) scale(1.15);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.65),
+    0 0 0 2px rgba(241, 206, 104, 0.62),
+    0 0 18px rgba(241, 206, 104, 0.48);
 }
 
 .deepdive-map-popup--photo .maplibregl-popup-content {
@@ -259,6 +271,43 @@
   font-weight: 500;
   line-height: 1.45;
   text-shadow: 0 1px 2px #000;
+}
+
+.deepdive-map-popup--text .maplibregl-popup-content {
+  max-width: 240px;
+  padding: 10px 12px;
+  border: 1px solid rgba(104, 78, 33, 0.42);
+  border-radius: 4px;
+  background: #f4ecd9;
+  color: #241f18;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+}
+
+.deepdive-map-popup--text .maplibregl-popup-tip {
+  border-top-color: #f4ecd9;
+  border-bottom-color: #f4ecd9;
+}
+
+.deepdive-map-text-popup {
+  display: grid;
+  gap: 5px;
+}
+
+.deepdive-map-text-popup strong {
+  color: #684b19;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.deepdive-map-text-popup span {
+  color: #241f18;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
 /* MapLibre zoom controls */
@@ -317,7 +366,7 @@
 
 .deepdive-event-meta span {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: var(--txt-muted);
   letter-spacing: 0.18em;
@@ -345,7 +394,7 @@
   flex-shrink: 0;
   padding: 4px 22px 12px;
   font-family: 'Raleway', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   font-weight: 300;
   color: var(--txt-link);
   letter-spacing: 0.2em;
@@ -394,7 +443,7 @@
 .deepdive-slide-image-wrap {
   position: relative;
   width: 100%;
-  height: 250px;
+  height: clamp(310px, 34vh, 430px);
   overflow: hidden;
   border: 1px solid var(--border);
   border-bottom: 1px solid var(--border-gold);
@@ -426,7 +475,7 @@
 
 .deepdive-slide-caption {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-weight: 400;
   color: rgba(232, 224, 208, 0.52);
   letter-spacing: 0.04em;
@@ -451,7 +500,7 @@
 
 .deepdive-slide-header h2 {
   font-family: 'Cinzel', serif;
-  font-size: 1.16rem;
+  font-size: 1.32rem;
   font-weight: 600;
   color: var(--txt);
   letter-spacing: 0.04em;
@@ -502,9 +551,9 @@
 
 .deepdive-slide-body {
   font-family: 'Raleway', sans-serif;
-  font-size: 1rem;
+  font-size: 1.14rem;
   font-weight: 400;
-  line-height: 1.78;
+  line-height: 1.82;
   color: var(--txt-link);
   margin-bottom: 18px;
 }
@@ -519,7 +568,7 @@
 }
 
 .deepdive-stat {
-  padding: 9px 12px;
+  padding: 11px 13px;
   border-left: 2px solid var(--gold);
   background: rgba(201, 162, 39, 0.05);
   display: flex;
@@ -533,19 +582,20 @@
 
 .deepdive-stat strong {
   font-family: 'Cinzel', serif;
-  font-size: 0.92rem;
+  font-size: 1.04rem;
   font-weight: 600;
   color: var(--gold);
   letter-spacing: 0.02em;
-  line-height: 1;
+  line-height: 1.15;
 }
 
 .deepdive-stat span {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   font-weight: 500;
   color: var(--txt-muted);
-  letter-spacing: 0.07em;
+  letter-spacing: 0.055em;
+  line-height: 1.4;
   text-transform: uppercase;
 }
 

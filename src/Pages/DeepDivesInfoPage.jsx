@@ -25,6 +25,23 @@ import "./DeepDivesInfoPage.css";
 
 window.maplibregl = maplibregl;
 
+const CUSTOM_SYMBOL_LAYER_IDS = new Set([
+  "arrow-heads",
+  "division-line-labels",
+  "regions-labels",
+]);
+
+const HIDDEN_MAP_LABELS = new Set(["Palestine"]);
+
+const HIDDEN_MAP_LABELS_BY_TIMELINE = {
+  "iran-israel-proxy-conflict": new Set(["Palestine"]),
+  "operation-litani": new Set(["Palestine"]),
+  "1982-lebanon-war": new Set(["Palestine"]),
+  "south-lebanon-conflict": new Set(["Palestine"]),
+  "lebanese-civil-war": new Set(["Palestine"]),
+  "second-intifada": new Set(["Palestine"]),
+};
+
 async function fetchDeepDive(id) {
   const baseUrl = `${import.meta.env.VITE_API_URL}/deepdives`;
   const response = await fetch(`${baseUrl}/${encodeURIComponent(id)}`);
@@ -36,24 +53,40 @@ async function fetchDeepDive(id) {
 
 // ── Map helpers ───────────────────────────────────────────────────────────────
 
-function forceEnglishLabels(map) {
+function forceEnglishLabels(map, timelineId) {
   const style = map.getStyle?.();
   if (!style?.layers) return;
+  const hiddenLabels = new Set([
+    ...HIDDEN_MAP_LABELS,
+    ...(HIDDEN_MAP_LABELS_BY_TIMELINE[timelineId] || []),
+  ]);
+  const labelExpression = [
+    "coalesce",
+    ["get", "name:en"],
+    ["get", "name_en"],
+    ["get", "official_name:en"],
+    ["get", "official_name_en"],
+    ["get", "short_name:en"],
+    ["get", "short_name_en"],
+    ["get", "int_name"],
+    ["get", "name:latin"],
+    ["get", "name"],
+  ];
+  const textFieldExpression =
+    hiddenLabels.size > 0
+      ? [
+          "case",
+          ["in", labelExpression, ["literal", [...hiddenLabels]]],
+          "",
+          labelExpression,
+        ]
+      : labelExpression;
+
   for (const layer of style.layers) {
     if (layer.type !== "symbol") continue;
+    if (CUSTOM_SYMBOL_LAYER_IDS.has(layer.id)) continue;
     try {
-      map.setLayoutProperty(layer.id, "text-field", [
-        "coalesce",
-        ["get", "name:en"],
-        ["get", "name_en"],
-        ["get", "official_name:en"],
-        ["get", "official_name_en"],
-        ["get", "short_name:en"],
-        ["get", "short_name_en"],
-        ["get", "int_name"],
-        ["get", "name:latin"],
-        ["get", "name"],
-      ]);
+      map.setLayoutProperty(layer.id, "text-field", textFieldExpression);
     } catch {
       // Some style layers do not allow this layout change.
     }
@@ -94,10 +127,28 @@ function getMarkerLngLat(markerData) {
 }
 
 function createMarkerPopup(markerData) {
+  if (!markerData.image && !markerData.description) {
+    return new maplibregl.Popup({ offset: 18 }).setText(markerData.label || "");
+  }
+
   if (!markerData.image) {
-    return new maplibregl.Popup({ offset: 18 }).setText(
-      markerData.label || ""
-    );
+    const content = document.createElement("div");
+    content.className = "deepdive-map-text-popup";
+
+    const title = document.createElement("strong");
+    title.textContent = markerData.label || "";
+
+    const description = document.createElement("span");
+    description.textContent = markerData.description || "";
+
+    content.append(title, description);
+
+    return new maplibregl.Popup({
+      offset: 18,
+      closeButton: false,
+      closeOnClick: false,
+      className: "deepdive-map-popup--text",
+    }).setDOMContent(content);
   }
 
   const content = document.createElement("div");
@@ -143,7 +194,7 @@ function placeMarkers(map, timelineId, activeEvent, markersRef) {
       .setPopup(popup)
       .addTo(map);
 
-    if (markerData.image) {
+    if (markerData.image || markerData.description) {
       el.addEventListener("mouseenter", () => {
         popup.setLngLat(lngLat).addTo(map);
       });
@@ -177,12 +228,54 @@ function getEventRegions(timelineId, activeEvent) {
 }
 
 function getEventDivisionLines(timelineId, activeEvent) {
-  return DIVISION_LINES_BY_TIMELINE[timelineId]?.[activeEvent.id] || [];
+  const eventLines = Array.isArray(activeEvent.divisionLines)
+    ? activeEvent.divisionLines
+    : [];
+  const overrideLines = DIVISION_LINES_BY_TIMELINE[timelineId]?.[activeEvent.id] || [];
+
+  return [...eventLines, ...overrideLines];
+}
+
+function getEventArrows(activeEvent) {
+  return Array.isArray(activeEvent.arrows) ? activeEvent.arrows : [];
+}
+
+function getLineBearing(from, to) {
+  const [fromLng, fromLat] = from.map((value) => (Number(value) * Math.PI) / 180);
+  const [toLng, toLat] = to.map((value) => (Number(value) * Math.PI) / 180);
+  const deltaLng = toLng - fromLng;
+  const y = Math.sin(deltaLng) * Math.cos(toLat);
+  const x =
+    Math.cos(fromLat) * Math.sin(toLat) -
+    Math.sin(fromLat) * Math.cos(toLat) * Math.cos(deltaLng);
+
+  return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+}
+
+function getArrowHeadFeature(arrow) {
+  const coordinates = Array.isArray(arrow.coordinates) ? arrow.coordinates : [];
+  if (coordinates.length < 2) return null;
+
+  const end = coordinates[coordinates.length - 1];
+  const previous = coordinates[coordinates.length - 2];
+  if (!Array.isArray(end) || !Array.isArray(previous)) return null;
+
+  return {
+    type: "Feature",
+    properties: {
+      color: arrow.color || "#e74c3c",
+      bearing: getLineBearing(previous, end),
+    },
+    geometry: { type: "Point", coordinates: end },
+  };
 }
 
 function placeOverlays(map, timelineId, activeEvent) {
   [
+    "arrow-heads",
+    "advance-arrows",
     "division-line-labels",
+    "division-lines-casing",
     "division-lines",
     "regions-labels",
     "regions-outline",
@@ -195,6 +288,8 @@ function placeOverlays(map, timelineId, activeEvent) {
     }
   });
   [
+    "arrow-heads",
+    "advance-arrows",
     "division-line-labels",
     "division-lines",
     "regions-labels",
@@ -209,8 +304,9 @@ function placeOverlays(map, timelineId, activeEvent) {
 
   const regions = getEventRegions(timelineId, activeEvent);
   const divisionLines = getEventDivisionLines(timelineId, activeEvent);
+  const arrows = getEventArrows(activeEvent);
 
-  if (!regions.length && !divisionLines.length) return;
+  if (!regions.length && !divisionLines.length && !arrows.length) return;
 
   try {
     if (regions.length) {
@@ -246,41 +342,6 @@ function placeOverlays(map, timelineId, activeEvent) {
           "line-opacity": 0.7,
         },
       });
-
-      map.addSource("regions-labels", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: regions.map((r) => ({
-            type: "Feature",
-            properties: { label: r.label, color: r.color },
-            geometry: {
-              type: "Point",
-              coordinates: polygonCentroid(r.coordinates),
-            },
-          })),
-        },
-      });
-
-      map.addLayer({
-        id: "regions-labels",
-        type: "symbol",
-        source: "regions-labels",
-        layout: {
-          "text-field": ["get", "label"],
-          "text-size": 12,
-          "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-          "text-anchor": "center",
-          "text-max-width": 8,
-          "text-allow-overlap": false,
-          "text-ignore-placement": false,
-        },
-        paint: {
-          "text-color": ["get", "color"],
-          "text-halo-color": "rgba(0, 0, 0, 0.7)",
-          "text-halo-width": 1.5,
-        },
-      });
     }
 
     if (divisionLines.length) {
@@ -293,6 +354,18 @@ function placeOverlays(map, timelineId, activeEvent) {
             properties: { color: line.color },
             geometry: { type: "LineString", coordinates: line.coordinates },
           })),
+        },
+      });
+
+      map.addLayer({
+        id: "division-lines-casing",
+        type: "line",
+        source: "division-lines",
+        paint: {
+          "line-color": "rgba(0, 0, 0, 0.72)",
+          "line-width": 8,
+          "line-dasharray": [1.2, 0.8],
+          "line-opacity": 0.9,
         },
       });
 
@@ -340,6 +413,63 @@ function placeOverlays(map, timelineId, activeEvent) {
         paint: {
           "text-color": ["get", "color"],
           "text-halo-color": "rgba(0, 0, 0, 0.78)",
+          "text-halo-width": 1.6,
+        },
+      });
+    }
+
+    if (arrows.length) {
+      const arrowHeadFeatures = arrows.map(getArrowHeadFeature).filter(Boolean);
+
+      map.addSource("advance-arrows", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: arrows.map((arrow) => ({
+            type: "Feature",
+            properties: {
+              color: arrow.color || "#e74c3c",
+              label: arrow.label || "",
+            },
+            geometry: { type: "LineString", coordinates: arrow.coordinates },
+          })),
+        },
+      });
+
+      map.addLayer({
+        id: "advance-arrows",
+        type: "line",
+        source: "advance-arrows",
+        paint: {
+          "line-color": ["get", "color"],
+          "line-width": 4,
+          "line-opacity": 0.9,
+        },
+      });
+
+      map.addSource("arrow-heads", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: arrowHeadFeatures,
+        },
+      });
+
+      map.addLayer({
+        id: "arrow-heads",
+        type: "symbol",
+        source: "arrow-heads",
+        layout: {
+          "text-field": "▲",
+          "text-size": 24,
+          "text-rotate": ["get", "bearing"],
+          "text-rotation-alignment": "map",
+          "text-allow-overlap": true,
+          "text-ignore-placement": true,
+        },
+        paint: {
+          "text-color": ["get", "color"],
+          "text-halo-color": "rgba(0, 0, 0, 0.75)",
           "text-halo-width": 1.6,
         },
       });
@@ -561,7 +691,7 @@ export default function DeepDivesInfoPage() {
           const event = activeEventRef.current;
           if (!event) return;
           applyEventYear(map, event);
-          forceEnglishLabels(map);
+          forceEnglishLabels(map, id);
         });
 
         map.on("load", () => {
@@ -571,7 +701,7 @@ export default function DeepDivesInfoPage() {
             applyDateAndOverlays(map, id, event);
             placeMarkers(map, id, event, markersRef);
           }
-          forceEnglishLabels(map);
+          forceEnglishLabels(map, id);
         });
       })();
 
@@ -588,7 +718,7 @@ export default function DeepDivesInfoPage() {
 
       const applyUpdate = () => {
         if (!mapRef.current) return;
-        forceEnglishLabels(mapRef.current);
+        forceEnglishLabels(mapRef.current, id);
         applyDateAndOverlays(mapRef.current, id, activeEvent);
       };
 

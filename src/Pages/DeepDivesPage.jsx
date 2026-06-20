@@ -32,7 +32,17 @@ export default function DeepDivesPage() {
   const [deepDiveIndex, setDeepDiveIndex] = useState([]);
   const [activeId, setActiveId] = useState("wwi-events");
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
+  const [isGraphPanning, setIsGraphPanning] = useState(false);
   const graphScrollRef = useRef(null);
+  const graphDragRef = useRef({
+    isDragging: false,
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    scrollLeft: 0,
+    scrollTop: 0,
+  });
+  const graphDidDragRef = useRef(false);
   const { isLogged } = useAuth();
   const [completedTimelines, setCompletedTimelines] = useState(new Set());
 
@@ -105,6 +115,61 @@ export default function DeepDivesPage() {
     ({ from, to }) => from === activeId || to === activeId
   );
 
+  function handleGraphPointerDown(event) {
+    if (event.button !== 0) return;
+    if (event.target.closest(".conflict-node")) return;
+
+    const target = event.currentTarget;
+    graphDragRef.current = {
+      isDragging: true,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      scrollLeft: target.scrollLeft,
+      scrollTop: target.scrollTop,
+    };
+    graphDidDragRef.current = false;
+    target.setPointerCapture(event.pointerId);
+    setIsGraphPanning(true);
+  }
+
+  function handleGraphPointerMove(event) {
+    const drag = graphDragRef.current;
+    if (!drag.isDragging || drag.pointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - drag.startX;
+    const deltaY = event.clientY - drag.startY;
+    if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+      graphDidDragRef.current = true;
+    }
+
+    event.currentTarget.scrollLeft = drag.scrollLeft - deltaX;
+    event.currentTarget.scrollTop = drag.scrollTop - deltaY;
+    event.preventDefault();
+  }
+
+  function stopGraphPanning(event) {
+    const drag = graphDragRef.current;
+    if (!drag.isDragging || drag.pointerId !== event.pointerId) return;
+
+    graphDragRef.current = { ...drag, isDragging: false, pointerId: null };
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    setIsGraphPanning(false);
+  }
+
+  function openDeepDive(event, nodeId) {
+    if (graphDidDragRef.current) {
+      event.preventDefault();
+      event.stopPropagation();
+      graphDidDragRef.current = false;
+      return;
+    }
+
+    navigate(`/deepdives/${nodeId}`);
+  }
+
   if (isIndexLoading) {
     return <p className="timeline-index__loading">Loading deep dives...</p>;
   }
@@ -139,12 +204,19 @@ export default function DeepDivesPage() {
 
         <section className="conflict-graph-shell">
           <div className="conflict-graph-hint">
-            Scroll sideways and down to explore
+            Drag or scroll to explore
           </div>
 
           <div
             ref={graphScrollRef}
-            className="conflict-graph-scroll"
+            className={`conflict-graph-scroll ${
+              isGraphPanning ? "is-panning" : ""
+            }`}
+            onPointerDown={handleGraphPointerDown}
+            onPointerMove={handleGraphPointerMove}
+            onPointerUp={stopGraphPanning}
+            onPointerCancel={stopGraphPanning}
+            onPointerLeave={stopGraphPanning}
             onScroll={(event) => {
               const shouldCompact = event.currentTarget.scrollTop > 70;
               setIsHeaderCompact((current) =>
@@ -214,9 +286,13 @@ export default function DeepDivesPage() {
                     } ${completedTimelines.has(nodeId) ? "is-completed" : ""}`}
                     style={{ left: node.x, top: node.y }}
                     type="button"
+                    onPointerDown={(event) => {
+                      graphDidDragRef.current = false;
+                      event.stopPropagation();
+                    }}
                     onMouseEnter={() => setActiveId(nodeId)}
                     onFocus={() => setActiveId(nodeId)}
-                    onClick={() => navigate(`/deepdives/${nodeId}`)}
+                    onClick={(event) => openDeepDive(event, nodeId)}
                   >
                     <img src={getDeepDiveImage(item)} alt="" />
                     <span className="conflict-node__shade" />

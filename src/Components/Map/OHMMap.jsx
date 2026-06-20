@@ -362,28 +362,38 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
         },
       });
       mapRef.current = map;
+      let hasForcedEnglishLabels = false;
       const forceEnglishLabels = () => {
+        if (hasForcedEnglishLabels) return;
         const style = map.getStyle?.();
         if (!style?.layers) return;
+        const labelExpression = [
+          "coalesce",
+          ["get", "name:en"],
+          ["get", "name_en"],
+          ["get", "official_name:en"],
+          ["get", "official_name_en"],
+          ["get", "short_name:en"],
+          ["get", "short_name_en"],
+          ["get", "int_name"],
+          ["get", "name:latin"],
+          ["get", "name"],
+        ];
+        const visibleLabelExpression = [
+          "case",
+          ["in", labelExpression, ["literal", unwantedLabels]],
+          "",
+          labelExpression,
+        ];
         for (const layer of style.layers) {
           if (layer.type !== "symbol") continue;
           try {
-            map.setLayoutProperty(layer.id, "text-field", [
-              "coalesce",
-              ["get", "name:en"],
-              ["get", "name_en"],
-              ["get", "official_name:en"],
-              ["get", "official_name_en"],
-              ["get", "short_name:en"],
-              ["get", "short_name_en"],
-              ["get", "int_name"],
-              ["get", "name:latin"],
-              ["get", "name"],
-            ]);
+            map.setLayoutProperty(layer.id, "text-field", visibleLabelExpression);
           } catch {
             // Some style layers do not allow changing this layout property.
           }
         }
+        hasForcedEnglishLabels = true;
       };
 
       const removeUnwantedLabels = () => {
@@ -402,25 +412,25 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
       map.on("styledata", () => {
         applyDate(map);
         forceEnglishLabels();
+        removeUnwantedLabels();
       });
 
       map.on("click", (e) => {
         const features = map.queryRenderedFeatures(e.point, {
           layers: ["country_points_labels", "country_points_labels_cen"]
         });
-        console.log(features.map(f => f.properties));
-
-      map.on("click", "custom-labels", (e) => {
-        const name = e.features[0]?.properties?.name;
-        if (!name) return;
-        if (onCountrySelect) onCountrySelect({ name, properties: e.features[0].properties });
-      });
 
         const feature = features[0];
         if (!feature) return;
         const name = getFeatureName(feature);
         if (!name) return;
         if (onCountrySelect) onCountrySelect({ name, properties: feature.properties });
+      });
+
+      map.on("click", "custom-labels", (e) => {
+        const name = e.features[0]?.properties?.name;
+        if (!name) return;
+        if (onCountrySelect) onCountrySelect({ name, properties: e.features[0].properties });
       });
       
 
