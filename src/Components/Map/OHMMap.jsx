@@ -272,6 +272,40 @@ const CUSTOM_LABELS = [
     yearStart: 1903,
     yearEnd: 1960,
     coordinates: [-15.6, 17.4]
+}, 
+{
+  name: "Bačka",
+  yearStart: 1941,
+  yearEnd: 1941,
+  coordinates: [19.5, 45.6]
+},
+{
+  name: "Bačka",
+  yearStart: 1943,
+  yearEnd: 1944,
+  coordinates: [19.5, 45.6],
+  clickable: false
+},
+{
+  name: "Operational\nZone of the\nAdriatic Littoral",
+  yearStart: 1943,
+  yearEnd: 1944,
+  coordinates: [14.0, 45.7],
+  clickable: false
+},
+{
+  name: "Kosovo\n(German Occupied\nAlbania)",
+  yearStart: 1943,
+  yearEnd: 1943,
+  coordinates: [20.7, 42.45],
+  clickable: false
+},
+{
+  name: "Bulgarian-\nannexed\nSerbia",
+  yearStart: 1943,
+  yearEnd: 1943,
+  coordinates: [22.0, 42.0],
+  clickable: false
 }
 ]
 
@@ -604,8 +638,9 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
 
       map.on("click", "custom-labels", (e) => {
         const name = e.features[0]?.properties?.name;
+        if (!props || props.clickable === false) return;
         if (!name) return;
-        if (onCountrySelect) onCountrySelect({ name, properties: e.features[0].properties });
+        if (onCountrySelect) onCountrySelect({ name, properties: props }); 
       });
       
 
@@ -623,7 +658,8 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
               properties: {
                 name: label.name,
                 yearStart: label.yearStart,
-                yearEnd: label.yearEnd
+                yearEnd: label.yearEnd,
+                clickable: label.clickable !== false
               },
               geometry: {
                 type: "Point",
@@ -640,15 +676,34 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
           layout: {
             "text-field": ["get", "name"],
             "text-size": 12,
-            "text-font": ["Open Sans Bold"],
+            "text-font": [
+              "case",
+              ["==", ["get", "clickable"], false],
+              ["literal", ["Open Sans Regular"]],
+              ["literal", ["Open Sans Bold"]]
+            ],
             "text-anchor": "center",
             "text-letter-spacing": 0.05
-
           },
           paint: {
-            "text-color": "#6E786E",
-            "text-halo-color": "rgba(34, 33, 33, 0.6)",
-            "text-halo-width": 0.2
+            "text-color": [
+              "case",
+              ["==", ["get", "clickable"], false],
+              "#9b9488",
+              "#6E786E"
+            ],
+            "text-halo-color": [
+              "case",
+              ["==", ["get", "clickable"], false],
+              "rgba(245, 242, 235, 0.7)",
+              "rgba(34, 33, 33, 0.6)"
+            ],
+            "text-halo-width": [
+              "case",
+              ["==", ["get", "clickable"], false],
+              1,
+              0.2
+            ]
           }
         })
       });
