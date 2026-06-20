@@ -414,8 +414,9 @@ function getFeatureName(feature) {
   );
 }
 
-async function getEvents(year, map, markersRef, isLogged) {
+async function getEvents(year, map, markersRef, isLogged, isCancelled) {
   const events = await fetchEvents(year)
+  if (isCancelled?.()) return []
   if (!Array.isArray(events)) {
     console.error("Events JSON is not an array:", events)
     return []
@@ -664,6 +665,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
   //add markers
   useEffect(() => {
     const map = mapRef.current;
+    let cancelled = false;
     if (!map || !mapReady) return;
     applyDate(map);
     const publishCountryOptions = () => {
@@ -673,12 +675,13 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
     map.once("idle", publishCountryOptions);
     clearMarkers(markersRef);
     const load = async () => {
-      const list = await getEvents(effectiveYear, mapRef.current, markersRef, isLogged)
-      setEventsList(list)
-    }
+      const list = await getEvents(effectiveYear, mapRef.current, markersRef, isLogged, () => cancelled)
+       if (cancelled) return;
+        setEventsList(list);
+     }
     load()
-  }, [effectiveYear, isLogged, mapReady, onCountryOptionsChange]);
-
+    return () => { cancelled = true; };
+    }, [effectiveYear, isLogged, mapReady, onCountryOptionsChange]);
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !countrySearch?.query) return;
