@@ -289,7 +289,12 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
       ) : countryData ? (
         <>
           <div className="country-panel__tabs">
-            {PANEL_TABS.map((tab) => (
+            {PANEL_TABS
+            .filter(tab =>
+              tab.id !== "funFacts" ||
+              countryData.funFacts?.map(formatFact).filter(Boolean).length
+            )
+            .map((tab) => (
               <button
                 key={tab.id}
                 type="button"
