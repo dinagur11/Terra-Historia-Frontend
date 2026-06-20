@@ -17,6 +17,15 @@ export const HISTORICAL_MAP_CUSTOM_LABELS = [
   },
 ];
 
+export function getHistoricalGermanStateName(year) {
+  const numericYear = Number.parseInt(year, 10);
+
+  if (numericYear >= 1914 && numericYear <= 1918) return "German Empire";
+  if (numericYear >= 1919 && numericYear <= 1933) return "Weimar Republic";
+  if (numericYear >= 1934 && numericYear <= 1945) return "German Reich";
+  return null;
+}
+
 export function getEnglishMapLabelExpression(year) {
   const englishName = [
     "coalesce",
@@ -30,16 +39,7 @@ export function getEnglishMapLabelExpression(year) {
     ["get", "name:latin"],
     ["get", "name"],
   ];
-  const numericYear = Number.parseInt(year, 10);
-  let germanStateName = null;
-
-  if (numericYear >= 1914 && numericYear <= 1918) {
-    germanStateName = "German Empire";
-  } else if (numericYear >= 1919 && numericYear <= 1933) {
-    germanStateName = "Weimar Republic";
-  } else if (numericYear >= 1934 && numericYear <= 1945) {
-    germanStateName = "German Reich";
-  }
+  const germanStateName = getHistoricalGermanStateName(year);
 
   if (!germanStateName) return englishName;
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./SidePanel.css";
+import { getHistoricalGermanStateName } from "../../utils/historicalMapLabels.js";
 
 const PANEL_TABS = [
   { id: "general", label: "General Info" },
@@ -29,7 +30,7 @@ const YEAR_RESOLVED_NAMES = {
 }
 
 const GERMAN_REICH_FLAG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Flag_of_Germany_%281935%E2%80%931945%29.svg/250px-Flag_of_Germany_%281935%E2%80%931945%29.svg.png";
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Flag_of_Germany_%281935%E2%80%931945%29.svg/1920px-Flag_of_Germany_%281935%E2%80%931945%29.svg.png";
 
 function formatLabel(key) {
   return key
@@ -79,15 +80,25 @@ function resolveDisplayName(countryData, yearProp) {
   return match?.name || countryData.name;
 }
 
+function isGermanStateName(name) {
+  if (!name) return false;
+  return [
+    "german empire",
+    "german reich",
+    "nazi germany",
+    "third reich",
+    "weimar germany",
+    "weimar republic",
+  ].includes(normalizeClickedName(name));
+}
+
 function resolveFlagUrl(countryData, clickedName, displayName, yearProp) {
   const names = [clickedName, displayName, countryData?.name]
     .filter(Boolean)
     .map(normalizeClickedName);
-  const isGermanReich = names.some((name) =>
-    ["german reich", "nazi germany", "third reich"].includes(name)
-  );
+  const isGermanReich = names.some(isGermanStateName);
 
-  if (isGermanReich && yearProp >= 1935 && yearProp <= 1945) {
+  if (isGermanReich && yearProp >= 1934 && yearProp <= 1945) {
     return GERMAN_REICH_FLAG_URL;
   }
 
@@ -274,7 +285,10 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
     );
   }
 
-  const displayName = resolveDisplayName(countryData, yearProp);
+  const historicalGermanName = [countryName, countryData?.name].some(isGermanStateName)
+    ? getHistoricalGermanStateName(yearProp)
+    : null;
+  const displayName = historicalGermanName || resolveDisplayName(countryData, yearProp);
   const flagUrl = resolveFlagUrl(countryData, countryName, displayName, yearProp);
 
   return (
