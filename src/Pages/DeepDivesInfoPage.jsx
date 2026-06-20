@@ -708,25 +708,31 @@ export default function DeepDivesInfoPage() {
       return () => { disposed = true; };
 
     } else {
-      mapRef.current.flyTo({
+      const map = mapRef.current;
+
+      map.flyTo({
         center: [center[1], center[0]],
         zoom,
         essential: true,
       });
 
-      placeMarkers(mapRef.current, id, activeEvent, markersRef);
+      placeMarkers(map, id, activeEvent, markersRef);
 
       const applyUpdate = () => {
-        if (!mapRef.current) return;
-        forceEnglishLabels(mapRef.current, id);
-        applyDateAndOverlays(mapRef.current, id, activeEvent);
+        if (mapRef.current !== map || activeEventRef.current !== activeEvent) return;
+        forceEnglishLabels(map, id);
+        applyDateAndOverlays(map, id, activeEvent);
       };
 
-      if (mapRef.current.isStyleLoaded()) {
+      if (map.isStyleLoaded()) {
         applyUpdate();
       } else {
-        mapRef.current.once("styledata", applyUpdate);
+        map.once("idle", applyUpdate);
       }
+
+      return () => {
+        map.off("idle", applyUpdate);
+      };
     }
   }, [activeEvent, id]);
 

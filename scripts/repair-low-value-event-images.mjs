@@ -14,7 +14,7 @@ const fixes = {
     "breaking-dawn": "https://commons.wikimedia.org/wiki/Special:FilePath/Gaza_conflict_map2.png",
   },
   "wwi-events.json": {
-    "verdun": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Battle_of_Verdun_map.png",
+    "verdun": "https://www.historyanswers.co.uk/wp-content/uploads/2014/02/French_87th_Regiment_Cote_34_Verdun_1916.jpg",
     "us-enters": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/President_Woodrow_Wilson_asking_Congress_to_declare_war_on_Germany%2C_2_April_1917.jpg/1280px-President_Woodrow_Wilson_asking_Congress_to_declare_war_on_Germany%2C_2_April_1917.jpg",
     "hundred-days": "https://upload.wikimedia.org/wikipedia/commons/4/42/Western_front_1918_german.jpg",
   },
