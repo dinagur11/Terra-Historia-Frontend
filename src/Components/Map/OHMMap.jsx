@@ -148,10 +148,11 @@ const CUSTOM_LABELS = [
     coordinates: [24.8, 49.3]
   },
   {
-    name: "Transnistria",
+    name: "Transnistria\n(Romania)",
     yearStart: 1941,
     yearEnd: 1943,
-    coordinates: [30.2, 47.5]
+    coordinates: [30.2, 47.5],
+    clickable: false
   },
   {
     name: "Nazi\nOccupied\nPoland",
@@ -160,10 +161,11 @@ const CUSTOM_LABELS = [
     coordinates: [23.5, 53.3]
   },
   {
-    name: "Transcarpathia",
+    name: "Transcarpathia\n(Soviet-Union)",
     yearStart: 1945,
     yearEnd: 1951,
-    coordinates: [23.5, 48.5]
+    coordinates: [23.5, 48.5],
+    clickable: false,
   },
   {
     name: "United Arab\nRepublic",
