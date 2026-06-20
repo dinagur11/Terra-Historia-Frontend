@@ -21,6 +21,7 @@ import {
   OVERRIDE_VIEWS_BY_TIMELINE,
 } from "../constants/deepDiveMapMarkers";
 import { useAuth } from "../Context/AuthContext";
+import { getEnglishMapLabelExpression } from "../utils/historicalMapLabels.js";
 import "./DeepDivesInfoPage.css";
 
 window.maplibregl = maplibregl;
@@ -53,25 +54,14 @@ async function fetchDeepDive(id) {
 
 // ── Map helpers ───────────────────────────────────────────────────────────────
 
-function forceEnglishLabels(map, timelineId) {
+function forceEnglishLabels(map, timelineId, year) {
   const style = map.getStyle?.();
   if (!style?.layers) return;
   const hiddenLabels = new Set([
     ...HIDDEN_MAP_LABELS,
     ...(HIDDEN_MAP_LABELS_BY_TIMELINE[timelineId] || []),
   ]);
-  const labelExpression = [
-    "coalesce",
-    ["get", "name:en"],
-    ["get", "name_en"],
-    ["get", "official_name:en"],
-    ["get", "official_name_en"],
-    ["get", "short_name:en"],
-    ["get", "short_name_en"],
-    ["get", "int_name"],
-    ["get", "name:latin"],
-    ["get", "name"],
-  ];
+  const labelExpression = getEnglishMapLabelExpression(year);
   const textFieldExpression =
     hiddenLabels.size > 0
       ? [
@@ -691,7 +681,7 @@ export default function DeepDivesInfoPage() {
           const event = activeEventRef.current;
           if (!event) return;
           applyEventYear(map, event);
-          forceEnglishLabels(map, id);
+          forceEnglishLabels(map, id, event.year);
         });
 
         map.on("load", () => {
@@ -701,7 +691,7 @@ export default function DeepDivesInfoPage() {
             applyDateAndOverlays(map, id, event);
             placeMarkers(map, id, event, markersRef);
           }
-          forceEnglishLabels(map, id);
+          forceEnglishLabels(map, id, event?.year);
         });
       })();
 
@@ -720,7 +710,7 @@ export default function DeepDivesInfoPage() {
 
       const applyUpdate = () => {
         if (mapRef.current !== map || activeEventRef.current !== activeEvent) return;
-        forceEnglishLabels(map, id);
+        forceEnglishLabels(map, id, activeEvent.year);
         applyDateAndOverlays(map, id, activeEvent);
       };
 

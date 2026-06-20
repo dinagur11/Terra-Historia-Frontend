@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
 import { useAuth } from '../../Context/AuthContext';
 import { normalizeCountrySearch, resolveCountrySearch } from "../../utils/countrySearch.js";
+import { getEnglishMapLabelExpression } from "../../utils/historicalMapLabels.js";
 import { MIN_MAP_YEAR } from "../../constants/mapYears";
 
 window.mapboxgl = maplibregl;
@@ -515,6 +516,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
   const mapRef = useRef(null);
   const yearRef = useRef(effectiveYear);
   const markersRef = useRef([]);
+  const forceLabelsRef = useRef(null);
   const [eventsList, setEventsList] = useState([]);
   const [mapReady, setMapReady] = useState(false);
   const {isLogged} = useAuth();
@@ -563,18 +565,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
         if (hasForcedEnglishLabels) return;
         const style = map.getStyle?.();
         if (!style?.layers) return;
-        const labelExpression = [
-          "coalesce",
-          ["get", "name:en"],
-          ["get", "name_en"],
-          ["get", "official_name:en"],
-          ["get", "official_name_en"],
-          ["get", "short_name:en"],
-          ["get", "short_name_en"],
-          ["get", "int_name"],
-          ["get", "name:latin"],
-          ["get", "name"],
-        ];
+        const labelExpression = getEnglishMapLabelExpression(yearRef.current);
         const visibleLabelExpression = [
           "case",
           ["in", labelExpression, ["literal", unwantedLabels]],
@@ -590,6 +581,10 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
           }
         }
         hasForcedEnglishLabels = true;
+      };
+      forceLabelsRef.current = () => {
+        hasForcedEnglishLabels = false;
+        forceEnglishLabels();
       };
 
       const removeUnwantedLabels = () => {
@@ -732,6 +727,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
       setMapReady(false);
       mapRef.current?.remove();
       mapRef.current = null;
+      forceLabelsRef.current = null;
     };
   }, [onCountrySelect]);
 
@@ -741,6 +737,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
     let cancelled = false;
     if (!map || !mapReady) return;
     applyDate(map);
+    forceLabelsRef.current?.();
     const publishCountryOptions = () => {
       onCountryOptionsChange?.(getOhmCountryOptions(map, effectiveYear));
     };
