@@ -102,7 +102,7 @@ function TodaySection({ events, status }) {
             )}
 
             {status === "error" && (
-                <p className="today-section__message">Today&apos;s history could not be loaded.</p>
+                <p className="today-section__message">Today's history could not be loaded.</p>
             )}
 
             {status === "ready" && (
