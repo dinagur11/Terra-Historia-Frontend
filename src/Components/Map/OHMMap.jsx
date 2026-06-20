@@ -638,6 +638,22 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
         if (onCountrySelect) onCountrySelect({ name, properties: feature.properties });
       });
 
+      map.on("mousemove", (e) => {
+        const layerIds = getAvailableLayerIds(map, [...COUNTRY_LABEL_LAYERS, "custom-labels"]);
+        const features = layerIds.length
+          ? map.queryRenderedFeatures(e.point, { layers: layerIds })
+          : [];
+        const isOverClickableCountry = features.some(feature =>
+          feature.layer?.id !== "custom-labels" || feature.properties?.clickable !== false
+        );
+
+        map.getCanvas().style.cursor = isOverClickableCountry ? "pointer" : "";
+      });
+
+      map.on("mouseleave", () => {
+        map.getCanvas().style.cursor = "";
+      });
+
       map.on("click", "custom-labels", (e) => {
         const name = e.features[0]?.properties?.name;
         if (!props || props.clickable === false) return;
