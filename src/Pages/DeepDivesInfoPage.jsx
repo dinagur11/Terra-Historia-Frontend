@@ -21,7 +21,10 @@ import {
   OVERRIDE_VIEWS_BY_TIMELINE,
 } from "../constants/deepDiveMapMarkers";
 import { useAuth } from "../Context/AuthContext";
-import { getEnglishMapLabelExpression } from "../utils/historicalMapLabels.js";
+import {
+  getEnglishMapLabelExpression,
+  HISTORICAL_MAP_CUSTOM_LABELS,
+} from "../utils/historicalMapLabels.js";
 import "./DeepDivesInfoPage.css";
 
 window.maplibregl = maplibregl;
@@ -29,6 +32,7 @@ window.maplibregl = maplibregl;
 const CUSTOM_SYMBOL_LAYER_IDS = new Set([
   "arrow-heads",
   "division-line-labels",
+  "historical-country-labels",
   "regions-labels",
 ]);
 
@@ -228,6 +232,47 @@ function getEventDivisionLines(timelineId, activeEvent) {
 
 function getEventArrows(activeEvent) {
   return Array.isArray(activeEvent.arrows) ? activeEvent.arrows : [];
+}
+
+function placeHistoricalCountryLabels(map, year) {
+  const numericYear = Number.parseInt(year, 10);
+  const labels = HISTORICAL_MAP_CUSTOM_LABELS.filter(
+    (label) => numericYear >= label.yearStart && numericYear <= label.yearEnd
+  );
+  const data = {
+    type: "FeatureCollection",
+    features: labels.map((label) => ({
+      type: "Feature",
+      properties: { name: label.name },
+      geometry: { type: "Point", coordinates: label.coordinates },
+    })),
+  };
+
+  const source = map.getSource("historical-country-labels");
+  if (source) {
+    source.setData(data);
+  } else {
+    map.addSource("historical-country-labels", { type: "geojson", data });
+  }
+
+  if (map.getLayer("historical-country-labels")) return;
+  map.addLayer({
+    id: "historical-country-labels",
+    type: "symbol",
+    source: "historical-country-labels",
+    layout: {
+      "text-field": ["get", "name"],
+      "text-size": 12,
+      "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+      "text-anchor": "center",
+      "text-letter-spacing": 0.05,
+    },
+    paint: {
+      "text-color": "#6E786E",
+      "text-halo-color": "rgba(34, 33, 33, 0.6)",
+      "text-halo-width": 0.2,
+    },
+  });
 }
 
 function getLineBearing(from, to) {
@@ -491,6 +536,7 @@ function applyEventYear(map, event) {
 
 function applyDateAndOverlays(map, timelineId, event) {
   applyEventYear(map, event);
+  placeHistoricalCountryLabels(map, event?.year);
   placeOverlays(map, timelineId, event);
 }
 

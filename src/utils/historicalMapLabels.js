@@ -8,6 +8,15 @@ const GERMANY_LABEL_ALIASES = [
   "Third Reich",
 ];
 
+export const HISTORICAL_MAP_CUSTOM_LABELS = [
+  {
+    name: "German Reich",
+    yearStart: 1939,
+    yearEnd: 1945,
+    coordinates: [10.45, 51.1],
+  },
+];
+
 export function getEnglishMapLabelExpression(year) {
   const englishName = [
     "coalesce",
@@ -36,7 +45,11 @@ export function getEnglishMapLabelExpression(year) {
 
   return [
     "case",
-    ["in", englishName, ["literal", GERMANY_LABEL_ALIASES]],
+    [
+      "any",
+      ["==", ["get", "osm_id"], 2091139956],
+      ["in", englishName, ["literal", GERMANY_LABEL_ALIASES]],
+    ],
     germanStateName,
     englishName,
   ];

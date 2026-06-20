@@ -6,7 +6,10 @@ import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
 import { useAuth } from '../../Context/AuthContext';
 import { normalizeCountrySearch, resolveCountrySearch } from "../../utils/countrySearch.js";
-import { getEnglishMapLabelExpression } from "../../utils/historicalMapLabels.js";
+import {
+  getEnglishMapLabelExpression,
+  HISTORICAL_MAP_CUSTOM_LABELS,
+} from "../../utils/historicalMapLabels.js";
 import { MIN_MAP_YEAR } from "../../constants/mapYears";
 
 window.mapboxgl = maplibregl;
@@ -94,12 +97,7 @@ const customBorders = {
 };
 
 const CUSTOM_LABELS = [
-  {
-    name: "Third Reich",
-    yearStart: 1938,
-    yearEnd: 1944,
-    coordinates: [13.4050, 51.1657]
-  },
+  ...HISTORICAL_MAP_CUSTOM_LABELS,
   {
   name: "Kingdom of Yugoslavia",
   yearStart: 1939,
