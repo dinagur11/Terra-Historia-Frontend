@@ -305,9 +305,15 @@ const CUSTOM_LABELS = [
   coordinates: [22.0, 42.0],
   clickable: false
 },
+{
+  name: "Territory\nof Ifni",
+  yearStart: 1934,
+  yearEnd: 1968,
+  coordinates: [-10.0, 29.4],
+}
 ]
 
-  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar', 'Democratic Federal Yugoslavia', 'Portuguese Goa', 'U.S. Naval Base Subic Bay']; 
+  const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar', 'Democratic Federal Yugoslavia', 'Portuguese Goa', 'U.S. Naval Base Subic Bay', 'Allied Military Government of Occupied Territories', 'Territory of Ifni']; 
 
 
 
