@@ -310,7 +310,13 @@ const CUSTOM_LABELS = [
   yearEnd: 1943,
   coordinates: [22.0, 42.0],
   clickable: false
-}
+},
+{
+    name: "German Reich",
+    yearStart: 1938,
+    yearEnd: 1944,
+    coordinates: [10.45, 51.1],
+},
 ]
 
   const unwantedLabels = ['Akrotiri and Dhekelia', 'Palestine', 'Goseria', 'Pulerid', 'Kongroneria', 'Inuit Nunangat', 'Guernsey', 'Jersey', 'Wallis and Futuna', 'Pitcairn Islands', 'Levant States', 'Gibraltar', 'Democratic Federal Yugoslavia', 'Portuguese Goa', 'U.S. Naval Base Subic Bay']; 
