@@ -6,11 +6,8 @@ import { createRoot } from "react-dom/client";
 import Popup from "./Popup.jsx";
 import { useAuth } from '../../Context/AuthContext';
 import { normalizeCountrySearch, resolveCountrySearch } from "../../utils/countrySearch.js";
-import {
-  getEnglishMapLabelExpression,
-  HISTORICAL_MAP_CUSTOM_LABELS,
-} from "../../utils/historicalMapLabels.js";
 import { MIN_MAP_YEAR } from "../../constants/mapYears";
+import { getEnglishMapLabelExpression, HISTORICAL_MAP_CUSTOM_LABELS } from "../../utils/historicalMapLabels.js";
 
 window.mapboxgl = maplibregl;
 
@@ -97,10 +94,7 @@ const customBorders = {
 };
 
 const CUSTOM_LABELS = [
-  ...HISTORICAL_MAP_CUSTOM_LABELS.map((label) => ({
-    ...label,
-    yearStart: Math.max(label.yearStart, 1939),
-  })),
+  ...HISTORICAL_MAP_CUSTOM_LABELS,
   {
   name: "Kingdom of Yugoslavia",
   yearStart: 1939,
@@ -310,12 +304,6 @@ const CUSTOM_LABELS = [
   yearEnd: 1943,
   coordinates: [22.0, 42.0],
   clickable: false
-},
-{
-    name: "German Reich",
-    yearStart: 1938,
-    yearEnd: 1944,
-    coordinates: [10.45, 51.1],
 },
 ]
 
@@ -572,7 +560,7 @@ export default function OHMMap({yearProp = 2026, onCountrySelect, countrySearch,
         if (hasForcedEnglishLabels) return;
         const style = map.getStyle?.();
         if (!style?.layers) return;
-        const labelExpression = getEnglishMapLabelExpression(yearRef.current);
+        const labelExpression = getEnglishMapLabelExpression();;
         const visibleLabelExpression = [
           "case",
           ["in", labelExpression, ["literal", unwantedLabels]],

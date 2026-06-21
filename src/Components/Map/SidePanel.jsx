@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import "./SidePanel.css";
-import { getHistoricalGermanStateName } from "../../utils/historicalMapLabels.js";
 
 const PANEL_TABS = [
   { id: "general", label: "General Info" },
@@ -85,24 +84,7 @@ function resolveDisplayName(countryData, yearProp) {
   return match?.name || countryData.name;
 }
 
-function isGermanStateName(name) {
-  if (!name) return false;
-  return [
-    "german empire",
-    "german reich",
-    "deutsches reich",
-    "nazi germany",
-    "third reich",
-    "weimar germany",
-    "weimar republic",
-  ].includes(normalizeClickedName(name));
-}
-
-function resolveFlagUrl(countryData, isHistoricalGermany, yearProp) {
-  if (isHistoricalGermany && yearProp >= 1934 && yearProp <= 1945) {
-    return GERMAN_REICH_FLAG_URL;
-  }
-
+function resolveFlagUrl(countryData, yearProp) {
   return countryData?.countryCode
     ? `https://flagcdn.com/w320/${countryData.countryCode}.png`
     : null;
@@ -286,15 +268,9 @@ export default function SidePanel({ yearProp, selectedCountry, onCountryClose })
     );
   }
 
-  const isHistoricalGermany =
-    Number(selectedCountry?.properties?.osm_id) === 2091139956 ||
-    HISTORICAL_GERMANY_FILES.has(currentFileName.current) ||
-    [countryName, countryData?.name].some(isGermanStateName);
-  const historicalGermanName = isHistoricalGermany
-    ? getHistoricalGermanStateName(yearProp)
-    : null;
-  const displayName = historicalGermanName || resolveDisplayName(countryData, yearProp);
-  const flagUrl = resolveFlagUrl(countryData, isHistoricalGermany, yearProp);
+
+  const displayName = resolveDisplayName(countryData, yearProp);
+  const flagUrl = resolveFlagUrl(countryData, yearProp);
 
   return (
     <div className="country-panel">
